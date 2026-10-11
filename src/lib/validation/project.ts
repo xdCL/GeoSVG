@@ -16,6 +16,7 @@ export const projectSchema = z.object({
     internalWidth: z.number().min(0).max(10), externalWidth: z.number().min(0).max(15),
     lineStyle: z.enum(['solid', 'dashed', 'dotted']), showInternal: z.boolean(), margin: z.number().min(0).max(200),
     labels: z.enum(['none', 'selected', 'all']), labelSize: z.number().min(6).max(40),
+    labelFont: z.enum(['arial', 'inter', 'fraunces']).default('arial'),
     hideCollisions: z.boolean(), legend: z.boolean(),
   }).strict(),
   groups: z.array(z.object({ id: z.string().min(1).max(80), name: z.string().min(1).max(80), color: hex, cuts }).strict()).max(30)

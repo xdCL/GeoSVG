@@ -54,6 +54,16 @@ describe('Paletas, grupos y portabilidad', () => {
     p.selected = []; p.scope = { region: '07', province: '131' }; expect(() => validate(p)).toThrow();
     expect(() => validate({ ...freshProject(), script: 'alert(1)' })).toThrow(); expect(readStorage({ getItem: () => '{bad}' }).project).toEqual(freshProject());
   });
+  it('mantiene la tipografía de proyectos anteriores y valida las nuevas fuentes', () => {
+    const previous = freshProject(); previous.map.labels = 'selected';
+    const { labelFont: _font, ...oldMap } = previous.map;
+    const legacy = { ...previous, map: oldMap };
+    expect(validate(legacy).map).toEqual({ ...oldMap, labelFont: 'arial' });
+    expect(validate({ ...previous, map: { ...previous.map, labelFont: 'fraunces' } }).map.labelFont).toBe('fraunces');
+    expect(() => validate({ ...previous, map: { ...previous.map, labelFont: 'url(https://example.com/font)' } })).toThrow();
+    const restored = readStorage({ getItem: () => JSON.stringify({ project: legacy, library: { palettes: [], presets: [{ ...slepPreset, project: legacy }] } }) });
+    expect(restored.project.map.labelFont).toBe('arial'); expect(restored.library.presets[0].project.map.labelFont).toBe('arial');
+  });
   it('reasigna comunas sin duplicar pertenencia y permite quitar y ordenar grupos', () => {
     const s = useEditor.getState(); s.addGroup('A', '#0066CC'); s.addGroup('B', '#FFCC00');
     const [a, b] = useEditor.getState().project.groups; s.toggle('07401'); s.assignGroup(a.id); s.assignGroup(b.id);

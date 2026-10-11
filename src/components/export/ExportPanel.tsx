@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useEditor } from '../../store/editor';
 import { sceneFor } from '../../lib/geo/service';
-import { downloadBlob, filename, rasterizeSvg, svgString } from '../../lib/svg/export';
+import { downloadBlob, filename, rasterizeSvg, svgForDownload } from '../../lib/svg/export';
 import { NumberField } from '../controls/Fields';
 import type { Notify } from '../controls/Fields';
 import type { ExportOptions, MapScene, Navigation } from '../../types';
+import { mapFont } from '../../lib/fonts/catalog';
 
 export function ExportPanel({ scene, navigation, notify, close }: { scene?: MapScene; navigation: Navigation; notify: Notify; close: () => void }) {
   const { project, exporting } = useEditor();
@@ -13,7 +14,7 @@ export function ExportPanel({ scene, navigation, notify, close }: { scene?: MapS
     setBusy(true);
     try {
       const output = await sceneFor(project);
-      const svg = svgString(output, project, project.export.frame === 'viewport' ? navigation : undefined);
+      const svg = await svgForDownload(output, project, project.export.frame === 'viewport' ? navigation : undefined);
       const blob = format === 'svg' ? new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }) : await rasterizeSvg(svg, output.width, output.height, project.export.scale);
       downloadBlob(blob, filename(project, format));
       notify(`${format.toUpperCase()} exportado: ${filename(project, format)}.`);
@@ -27,11 +28,12 @@ export function ExportPanel({ scene, navigation, notify, close }: { scene?: MapS
     <p className="source-note">El zoom de navegación solo se exporta si eliges el encuadre actual. Los formatos ajustan el mapa sin deformarlo.</p>
     <label className="field">Nombre del archivo<input maxLength={100} value={project.export.filename} onChange={e => { if (e.target.value) exporting({ filename: e.target.value }); }} /></label>
     <div className="export-preview"><span className="file-icon">SVG</span><div><strong>Gráficos vectoriales</strong><small>{scene ? `${scene.width} × ${scene.height} px` : 'Calculando dimensiones…'} · fondo {project.map.transparent ? 'transparente' : 'sólido'}</small></div></div>
+    <p className="source-note">{project.map.labels === 'none' ? 'Sin nombres de comunas' : `${project.map.labels === 'selected' ? 'Nombres de seleccionadas' : 'Nombres de comunas visibles'} · ${mapFont(project.map.labelFont).name}`}{project.map.legend && project.map.labels === 'none' ? ` · leyenda en ${mapFont(project.map.labelFont).name}` : ''}.</p>
     <button className="primary full download" onClick={() => void download('svg')} disabled={busy || !scene?.paths.length}>{busy ? 'Preparando…' : '↓ Descargar SVG'}</button>
     <div className="export-divider" />
     <label className="field">Resolución PNG<select aria-label="Resolución PNG" value={project.export.scale} onChange={e => exporting({ scale: Number(e.target.value) as 1 | 2 | 4 })}><option value={1}>1× · tamaño original</option><option value={2}>2× · alta resolución</option><option value={4}>4× · máxima resolución</option></select></label>
     <button className="full" onClick={() => void download('png')} disabled={busy || !scene?.paths.length}>↓ Descargar PNG</button>
     {scene && <p className="source-note">PNG: {scene.width * project.export.scale} × {scene.height * project.export.scale} px.</p>}
-    <p className="export-credit">Los SVG incluyen atribución a BCN, nombres y códigos CUT. Editables en Inkscape e Illustrator.</p>
+    <p className="export-credit">Los SVG incluyen atribución a BCN y códigos CUT. Los nombres visibles dependen de tu configuración.</p>
   </aside>;
 }

@@ -5,7 +5,8 @@ import { ColorField, NumberField, Toggle } from '../controls/Fields';
 import type { Notify } from '../controls/Fields';
 import { downloadJson } from '../../lib/svg/export';
 import { palettesFileSchema, readJsonFile } from '../../lib/validation/project';
-import type { ColorKey, Palette } from '../../types';
+import type { ColorKey, LabelFont, Palette } from '../../types';
+import { mapFont, mapFonts } from '../../lib/fonts/catalog';
 
 export function DesignPanel({ notify }: { notify: Notify }) {
   const { project, library, map, palette, savePalette, deletePalette } = useEditor();
@@ -27,7 +28,9 @@ export function DesignPanel({ notify }: { notify: Notify }) {
       <label className="field">Estilo de línea<select value={project.map.lineStyle} onChange={e => map({ lineStyle: e.target.value as 'solid' | 'dashed' | 'dotted' })}><option value="solid">Continua</option><option value="dashed">Discontinua</option><option value="dotted">Punteada</option></select></label>
       <NumberField label="Margen exterior" unit="px SVG" value={project.map.margin} min={0} max={200} onChange={margin => map({ margin })} />
     </details>
-    <details><summary>Etiquetas y leyenda</summary><label className="field">Nombres de comunas<select value={project.map.labels} onChange={e => map({ labels: e.target.value as 'none' | 'selected' | 'all' })}><option value="none">Sin nombres</option><option value="selected">Solo seleccionadas</option><option value="all">Todas las visibles</option></select></label>
+    <details><summary>Nombres y tipografía</summary><label className="field">Nombres de comunas<select aria-label="Nombres de comunas" value={project.map.labels} onChange={e => map({ labels: e.target.value as 'none' | 'selected' | 'all' })}><option value="none">Sin nombres</option><option value="selected">Solo seleccionadas</option><option value="all">Todas las visibles</option></select></label>
+      <label className="field">Fuente de nombres y leyenda<select aria-label="Fuente de nombres y leyenda" value={project.map.labelFont} onChange={e => map({ labelFont: e.target.value as LabelFont })}>{mapFonts.map(font => <option key={font.id} value={font.id}>{font.description}</option>)}</select></label>
+      <p className="font-sample" style={{ fontFamily: mapFont(project.map.labelFont).family }}>Linares · Yerbas Buenas</p>
       <NumberField label="Tamaño de etiqueta" unit="px SVG" value={project.map.labelSize} min={6} max={40} onChange={labelSize => map({ labelSize })} />
       <Toggle label="Ocultar nombres superpuestos" checked={project.map.hideCollisions} onChange={hideCollisions => map({ hideCollisions })} />
       <Toggle label="Incluir leyenda" checked={project.map.legend} onChange={legend => map({ legend })} />

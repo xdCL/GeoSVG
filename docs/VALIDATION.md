@@ -10,8 +10,9 @@ Fecha: 10 de octubre de 2026. Entorno: Windows, Node.js 24.14.1, Chrome; móvil 
 | Geometrías | CUT únicos, jerarquía, anillos cerrados, coordenadas finitas en WGS84 y validez OGC JSTS |
 | Archivos regionales | 16 existentes; correspondencia exacta entre geometrías y comunas disponibles del catálogo |
 | Unión | Uniones de las 16 regiones y del preset SLEP válidas; normalización de anillos que se tocan en un vértice |
-| Vitest | **30 pruebas aprobadas**: selección, búsqueda, HEX, persistencia y recuperación de datos anteriores a GeoSVG, JSON, grupos, preset, provincias, encuadres, etiquetas, unión y SVG |
-| Playwright | **10 pruebas aprobadas**: cinco flujos en escritorio y los mismos cinco en móvil emulado; incluye crear, duplicar, renombrar y eliminar paletas, asignar grupos y reutilizar proyectos JSON |
+| Vitest | **34 pruebas aprobadas**: selección, búsqueda, HEX, persistencia y recuperación de datos anteriores a GeoSVG, JSON, fuentes y compatibilidad de proyectos, grupos, preset, provincias, encuadres, etiquetas, unión y SVG |
+| Playwright | **12 pruebas aprobadas**: seis flujos en escritorio y los mismos seis en móvil emulado; incluye crear, duplicar, renombrar y eliminar paletas, asignar grupos, reutilizar proyectos JSON y tipografías opcionales |
+| Tipografías | Inter y Fraunces cargadas desde el WOFF2 incluido en el SVG sin conexión; diferencias de píxeles verificadas frente a la fuente de sustitución y al mapa sin nombres; siete nombres, treinta nombres y ausencia de nombres comprobados |
 | Flujo obligatorio | Preset SLEP de siete comunas → HEX `#E45D47` → SVG XML válido con colores y metadatos verificados |
 | PNG | Archivo PNG válido de 2000 × 2000 px para SVG de 1000 × 1000 a 2×; esquina con alfa 0 |
 | Navegación | Clic, activación por teclado, conservación del foco, zoom y exportación independiente de navegación |

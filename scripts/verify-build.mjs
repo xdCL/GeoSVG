@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
+import { readFile } from 'node:fs/promises';
 const url = process.argv[2] || 'http://127.0.0.1:4173/GeoSVG/';
 const browser = await chromium.launch({ channel: process.env.CI ? undefined : 'chrome', headless: true });
 try {
@@ -17,6 +18,20 @@ try {
   assert.equal(await page.locator('.map-svg path[role="button"]').count(), 30);
   assert(dataRequests.some(u => u.endsWith('/GeoSVG/data/regions/07.topo.json')));
   assert(!dataRequests.some(u => u.endsWith('/chile.topo.json')), 'La carga regional no debe descargar el país.');
+  await page.getByRole('button', { name: 'Diseño', exact: true }).click();
+  await page.getByText('Nombres y tipografía', { exact: true }).click();
+  await page.getByLabel('Nombres de comunas', { exact: true }).selectOption('selected');
+  await page.getByLabel('Ocultar nombres superpuestos').uncheck();
+  await page.getByLabel('Fuente de nombres y leyenda').selectOption('fraunces');
+  await page.waitForFunction(() => document.querySelectorAll('.map-labels text').length === 7);
+  await page.getByRole('button', { name: 'Exportar mapa' }).click();
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Descargar SVG' }).click();
+  const download = await downloadPromise;
+  const svg = await readFile(await download.path(), 'utf8');
+  assert(svg.includes("font-family:'Fraunces'"));
+  assert(svg.includes('data:font/woff2;base64,'));
+  assert(svg.includes('SIL OPEN FONT LICENSE'));
   assert.deepEqual(errors, []);
-  console.log('Build bajo /GeoSVG/ válido: assets, Worker, cartografía regional y preset. Sin carga nacional inicial ni errores HTTP/JavaScript.');
+  console.log('Build bajo /GeoSVG/ válido: assets, Worker, cartografía regional, preset y siete nombres con Fraunces incluida en el SVG. Sin carga nacional inicial ni errores HTTP/JavaScript.');
 } finally { await browser.close(); }

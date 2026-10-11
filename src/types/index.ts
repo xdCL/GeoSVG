@@ -9,6 +9,7 @@ export interface Catalog { regions: Region[]; provinces: Province[]; communes: C
 export type CommuneFeature = Feature<AreaGeometry, { cut: string }>;
 export type CommuneTopology = Topology<{ communes: GeometryCollection<{ cut: string }> }>;
 export type MapMode = 'context' | 'selected' | 'silhouette';
+export type LabelFont = 'arial' | 'inter' | 'fraunces';
 export type ColorKey = 'selected' | 'unselected' | 'internal' | 'external' | 'background' | 'labels' | 'secondary';
 export type Colors = Record<ColorKey, string>;
 export interface Palette { id: string; name: string; colors: Colors; transparent: boolean }
@@ -18,7 +19,7 @@ export interface MapOptions {
   mode: MapMode; colors: Colors; transparent: boolean; opacity: number; backgroundOpacity: number;
   internalWidth: number; externalWidth: number; lineStyle: 'solid' | 'dashed' | 'dotted';
   showInternal: boolean; margin: number; labels: 'none' | 'selected' | 'all';
-  labelSize: number; hideCollisions: boolean; legend: boolean;
+  labelSize: number; labelFont: LabelFont; hideCollisions: boolean; legend: boolean;
 }
 export interface ExportOptions {
   width: number; height: number; aspect: 'auto' | 'square' | 'portrait' | 'wide' | 'a4p' | 'a4l' | 'custom';

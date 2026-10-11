@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useEditor } from '../../store/editor';
+import { mapFont } from '../../lib/fonts/catalog';
 import { dashArray } from '../../lib/svg/export';
 import type { MapScene, Navigation } from '../../types';
 
@@ -80,9 +81,9 @@ export function MapCanvas({ scene, loading, error, retry, navigation, setNavigat
               <path d={scene.internal} fill="none" stroke={map.colors.internal} strokeWidth={map.internalWidth} strokeDasharray={dash} strokeLinejoin="round" strokeLinecap="round" pointerEvents="none" />
               <path d={scene.external} fill="none" stroke={map.colors.external} strokeWidth={map.externalWidth} strokeDasharray={dash} strokeLinejoin="round" strokeLinecap="round" pointerEvents="none" />
             </g>
-            <g pointerEvents="none" fill={map.colors.labels} fontFamily="Arial, sans-serif" fontSize={map.labelSize} textAnchor="middle" dominantBaseline="central">{scene.labels.map(l => <text key={l.cut} x={l.x} y={l.y}>{l.name}</text>)}</g>
+            <g className="map-labels" pointerEvents="none" fill={map.colors.labels} fontFamily={mapFont(map.labelFont).family} fontWeight={400} fontSize={map.labelSize} textAnchor="middle" dominantBaseline="central">{scene.labels.map(l => <text key={l.cut} data-label-cut={l.cut} x={l.x} y={l.y}>{l.name}</text>)}</g>
           </g></g>
-          {map.legend && <g fontFamily="Arial, sans-serif" fontSize={12} fill={map.colors.labels}>{[...project.groups.filter(g => scene.paths.some(p => g.cuts.includes(p.cut))).map(g => ({ name: g.name, color: g.color })), { name: 'Comunas destacadas', color: map.colors.selected }, ...(map.mode === 'context' ? [{ name: 'Resto del territorio', color: map.colors.unselected }] : [])].map((e, i) => <g key={i}><rect x={map.margin} y={scene.height - 22 - i * 18} width={10} height={10} fill={e.color} /><text x={map.margin + 17} y={scene.height - 13 - i * 18}>{e.name}</text></g>)}</g>}
+          {map.legend && <g fontFamily={mapFont(map.labelFont).family} fontWeight={400} fontSize={12} fill={map.colors.labels}>{[...project.groups.filter(g => scene.paths.some(p => g.cuts.includes(p.cut))).map(g => ({ name: g.name, color: g.color })), { name: 'Comunas destacadas', color: map.colors.selected }, ...(map.mode === 'context' ? [{ name: 'Resto del territorio', color: map.colors.unselected }] : [])].map((e, i) => <g key={i}><rect x={map.margin} y={scene.height - 22 - i * 18} width={10} height={10} fill={e.color} /><text x={map.margin + 17} y={scene.height - 13 - i * 18}>{e.name}</text></g>)}</g>}
         </svg>
       </div>}
       <div className="map-compass" aria-hidden="true">N<span>↑</span></div>

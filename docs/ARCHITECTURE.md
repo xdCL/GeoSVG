@@ -22,6 +22,8 @@ Las geometrías se reproyectan desde EPSG:3857 a EPSG:4326. La representación u
 
 Los puntos de etiquetas se calculan con Polylabel dentro del mayor polígono de cada comuna. No son centroides externos. En pantalla se resuelven colisiones por cajas de texto aproximadas, priorizando las comunas seleccionadas; el usuario puede desactivar el ocultamiento. No constituye un sistema tipográfico automático avanzado.
 
+El Worker carga Inter o Fraunces mediante FontFace y mide los avances reales de los nombres con OffscreenCanvas para calcular las cajas de colisión. Si esas APIs no están disponibles, utiliza la estimación de ancho anterior; la altura de caja sigue siendo aproximada. La clave de caché incluye la fuente. El exportador carga el mismo WOFF2 local, lo convierte en una URL de datos y lo incluye con `@font-face` dentro del SVG, junto con su licencia completa en los metadatos. Las cargas se cachean y las fallidas se pueden reintentar. No se consulta la API de Google Fonts. El SVG conserva elementos `text` editables y Canvas rasteriza ese mismo documento para PNG.
+
 ## Rendimiento
 
 Un Worker procesa proyección, fronteras, unión y etiquetas sin bloquear la interfaz principal. La carga por región se almacena en caché durante la sesión. La caché contiene promesas y descarta las cargas fallidas para permitir reintentos. Se aplica un debounce de 40 ms a cambios del proyecto y se descartan respuestas obsoletas. La topología original queda fuera del estado editable y de los JSON personales.
@@ -35,6 +37,8 @@ Clave local: `geosvg:v1`. Si todavía no existe, recupera los datos guardados co
 Los esquemas son estrictos: se rechazan claves desconocidas, HEX inválidos, CUT inexistentes, provincias de otra región y pertenencia duplicada a grupos. Los JSON importados tienen un máximo de 2 MB. No se usa `eval`, HTML importado ni ejecución de contenidos. Los textos del SVG se escapan como XML.
 
 `migrateProject` es el punto único de migración. Como solo existe la versión 1, valida esa versión y rechaza versiones futuras. Al introducir una versión nueva debe añadirse una migración explícita y pruebas de fixtures antiguos, sin eliminar la posibilidad de importarlos.
+
+El campo opcional de entrada `map.labelFont` admite `inter`, `fraunces` y `arial`. Al leer proyectos de versión 1 que no lo contienen se asigna Arial, incluyendo los presets personales de la biblioteca; los proyectos nuevos declaran Inter explícitamente.
 
 ## Accesibilidad
 

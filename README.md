@@ -55,12 +55,16 @@ En **Proyecto**, aplica los presets SLEP, Mapa vacío o Territorio completo; gua
 
 El tema puede ser claro, oscuro o automático. Las fuentes Fraunces e Inter se distribuyen localmente con sus licencias; no se requieren fuentes de servicios externos.
 
+En **Diseño → Nombres y tipografía**, elige **Sin nombres**, **Solo seleccionadas** o **Todas las visibles**. Puedes usar [Inter](https://fonts.google.com/specimen/Inter) o [Fraunces](https://fonts.google.com/specimen/Fraunces), ambas del catálogo Google Fonts; también se conserva Arial para proyectos anteriores. La fuente se aplica a los nombres y a la leyenda, y se guarda en proyectos y presets. Puedes cambiar tamaño, color y ocultamiento de nombres superpuestos. Los proyectos nuevos usan Inter; los archivos antiguos conservan Arial.
+
 ## Exportación
 
 Pulsa **Exportar mapa**. Configura ancho, proporción automática, 1:1, 4:5, 16:9, A4 o dimensiones personalizadas. Los formatos ajustan el territorio dentro de márgenes sin estirarlo.
 
 - **SVG:** paths vectoriales independientes identificados por CUT, elementos `title`, metadatos de fuente, colores exactos, fondo opcional, nombres y leyenda. No incluye scripts, imágenes raster sustitutivas ni CSS externo. Editable en Inkscape o Illustrator. En Silueta se exporta una unión topológica real.
 - **PNG:** rasteriza ese mismo SVG en Canvas a 1×, 2× o 4×, conservando transparencia, colores y proporción. Existe un límite visible de 64 megapíxeles y 16.000 px por lado.
+
+Cuando hay nombres o leyenda, el SVG incluye el archivo WOFF2 de Inter o Fraunces y su licencia SIL OFL. El texto sigue siendo editable y el navegador puede representarlo sin conexión; el PNG usa la misma fuente. Si un editor vectorial sustituye la tipografía, instala Inter o Fraunces en ese equipo. La opción **Sin nombres** elimina las etiquetas visibles y conserva los territorios, CUT y títulos de accesibilidad. Hay un ejemplo con siete nombres en Fraunces en [SVG](docs/examples/sleplosalamos-maule-fraunces.svg) y [PNG](docs/examples/sleplosalamos-maule-fraunces.png).
 
 El zoom interactivo no modifica la exportación habitual. Para exportar ese zoom y desplazamiento, elige **Usar zoom y desplazamiento actuales**. **Ajustar a comunas seleccionadas** cambia el encuadre de salida y puede recortar el contexto; es una elección explícita.
 

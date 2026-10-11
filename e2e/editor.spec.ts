@@ -3,6 +3,86 @@ import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
 
 async function revealPanel(page: import('@playwright/test').Page, mobile: boolean) { if (mobile) await page.getByRole('button', { name: 'Editar mapa', exact: true }).click(); }
+
+async function verifyEmbeddedTypeface(page: import('@playwright/test').Page, svg: string, family: string) {
+  const result = await page.evaluate(async ({ svg, family }) => {
+    const xml = new DOMParser().parseFromString(svg, 'image/svg+xml');
+    const style = xml.querySelector('#map-font');
+    const css = style?.textContent ?? '';
+    const dataUrl = css.match(/data:font\/woff2;base64,[A-Za-z0-9+/=]+/)?.[0];
+    if (!style || !dataUrl) throw new Error('El SVG no contiene su fuente.');
+    const face = await new FontFace('GeoSVGFontProof', `url(${dataUrl})`).load();
+    const metadata = JSON.parse(xml.querySelector('metadata')!.textContent!);
+    // An isolated family prevents an installed or page font from hiding a missing SVG font.
+    style.textContent = css.replace(`font-family:'${family}'`, "font-family:'GeoSVGRasterProof'");
+    xml.querySelectorAll('[font-family]').forEach(element => element.setAttribute('font-family', 'GeoSVGRasterProof, sans-serif'));
+    const serializer = new XMLSerializer();
+    const withFont = serializer.serializeToString(xml);
+    const withoutLabels = xml.cloneNode(true) as Document;
+    withoutLabels.querySelector('#etiquetas')!.replaceChildren();
+    style.remove();
+    const fallback = serializer.serializeToString(xml);
+    async function pixels(text: string) {
+      const url = URL.createObjectURL(new Blob([text], { type: 'image/svg+xml' }));
+      try {
+        const image = new Image(); image.src = url; await image.decode();
+        const canvas = document.createElement('canvas'); canvas.width = image.width; canvas.height = image.height;
+        const context = canvas.getContext('2d')!; context.drawImage(image, 0, 0);
+        return context.getImageData(0, 0, canvas.width, canvas.height).data;
+      } finally { URL.revokeObjectURL(url); }
+    }
+    const [actual, system, empty] = await Promise.all([pixels(withFont), pixels(fallback), pixels(serializer.serializeToString(withoutLabels))]);
+    const differences = (other: Uint8ClampedArray) => actual.reduce((count, value, i) => count + Number(value !== other[i]), 0);
+    return { status: face.status, typography: metadata.typography, fontDifference: differences(system), labelDifference: differences(empty) };
+  }, { svg, family });
+  expect(result.status).toBe('loaded'); expect(result.typography).toMatchObject({ family, embedded: true, labels: 'selected' });
+  expect(result.typography.license).toContain('SIL OPEN FONT LICENSE');
+  expect(result.fontDifference).toBeGreaterThan(100); expect(result.labelDifference).toBeGreaterThan(100);
+}
+
+test('Google Fonts en nombres opcionales, SVG autónomo, PNG y proyecto persistente', async ({ page, isMobile }, info) => {
+  await page.goto('/'); await page.getByRole('button', { name: 'Preset SLEP Los Álamos' }).click();
+  await expect(page.locator('.map-svg [data-selected="true"]')).toHaveCount(7);
+  await revealPanel(page, isMobile); await page.getByRole('button', { name: 'Diseño', exact: true }).click();
+  await page.getByText('Nombres y tipografía', { exact: true }).click();
+  await page.getByLabel('Nombres de comunas', { exact: true }).selectOption('selected');
+  await page.getByLabel('Ocultar nombres superpuestos').uncheck();
+  await page.getByLabel('Tamaño de etiqueta').fill('18');
+  for (const font of [{ id: 'inter', family: 'Inter' }, { id: 'fraunces', family: 'Fraunces' }]) {
+    await page.getByLabel('Fuente de nombres y leyenda').selectOption(font.id);
+    await expect(page.locator('.map-labels')).toHaveAttribute('font-family', new RegExp(`^${font.family},`));
+    await expect(page.locator('.map-labels text')).toHaveCount(7);
+    if (isMobile) await page.keyboard.press('Escape');
+    await page.getByRole('button', { name: 'Exportar mapa' }).click();
+    const promise = page.waitForEvent('download'); await page.getByRole('button', { name: 'Descargar SVG' }).click(); const downloaded = await promise;
+    const svg = await readFile((await downloaded.path())!, 'utf8');
+    await page.context().setOffline(true);
+    try { await verifyEmbeddedTypeface(page, svg, font.family); } finally { await page.context().setOffline(false); }
+    if (font.id === 'fraunces') {
+      if (!isMobile) await downloaded.saveAs('docs/examples/sleplosalamos-maule-fraunces.svg');
+      const pngPromise = page.waitForEvent('download'); await page.getByRole('button', { name: 'Descargar PNG' }).click(); const pngDownload = await pngPromise;
+      const png = await readFile((await pngDownload.path())!); expect(png.subarray(1, 4).toString()).toBe('PNG');
+      if (!isMobile) await pngDownload.saveAs('docs/examples/sleplosalamos-maule-fraunces.png');
+    }
+    await page.getByRole('button', { name: 'Cerrar exportación' }).click();
+    await revealPanel(page, isMobile);
+  }
+  await page.reload(); await expect(page.locator('.map-labels text')).toHaveCount(7);
+  await revealPanel(page, isMobile); await page.getByRole('button', { name: 'Diseño', exact: true }).click();
+  await page.getByText('Nombres y tipografía', { exact: true }).click();
+  await expect(page.getByLabel('Fuente de nombres y leyenda')).toHaveValue('fraunces');
+  await page.getByLabel('Nombres de comunas', { exact: true }).selectOption('all'); await expect(page.locator('.map-labels text')).toHaveCount(30);
+  await page.getByLabel('Nombres de comunas', { exact: true }).selectOption('selected'); await expect(page.locator('.map-labels text')).toHaveCount(7);
+  await page.locator('.font-sample').scrollIntoViewIfNeeded();
+  await page.screenshot({ path: `docs/screenshots/${info.project.name}-typeface.png`, fullPage: true });
+  await page.getByLabel('Nombres de comunas', { exact: true }).selectOption('none'); await expect(page.locator('.map-labels text')).toHaveCount(0);
+  if (isMobile) await page.keyboard.press('Escape'); await page.getByRole('button', { name: 'Exportar mapa' }).click();
+  const promise = page.waitForEvent('download'); await page.getByRole('button', { name: 'Descargar SVG' }).click(); const download = await promise;
+  const svg = await readFile((await download.path())!, 'utf8');
+  const result = await page.evaluate(text => { const xml = new DOMParser().parseFromString(text, 'image/svg+xml'); return { labels: xml.querySelectorAll('#etiquetas text').length, paths: xml.querySelectorAll('[id^="comuna-"]').length, font: !!xml.querySelector('#map-font') }; }, svg);
+  expect(result).toEqual({ labels: 0, paths: 30, font: false });
+});
+
 test('preset SLEP → HEX → SVG editable → PNG con dimensiones exactas', async ({ page, isMobile }) => {
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto('/');

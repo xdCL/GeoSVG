@@ -4,6 +4,7 @@ import { geoContains, geoPath, geoMercator } from 'd3-geo';
 import { feature, mesh } from 'topojson-client';
 import { JSDOM } from 'jsdom';
 import type { CommuneTopology } from '../types';
+import type { LabelFont } from '../types';
 import { buildScene, colorFor, d3Geometry, unionCommunes, validateUnion } from '../lib/geo/scene';
 import { svgString } from '../lib/svg/export';
 import { slepPreset } from '../data/presets';
@@ -44,6 +45,20 @@ describe('Cartografía auténtica y encuadre', () => {
   it('rechaza una leyenda que no cabe y un encuadre vacío', () => { const p = project(); p.export.aspect = 'custom'; p.export.height = 100; p.map.legend = true; expect(() => buildScene(topology, p)).toThrow(); p.map.legend = false; p.selected = []; p.export.frame = 'selection'; expect(() => buildScene(topology, p)).toThrow(); });
 });
 describe('Exportación SVG', () => {
+  it.each([['inter', 'Inter, sans-serif'], ['fraunces', 'Fraunces, serif']])('conserva %s en los nombres y la leyenda como texto editable', (id, family) => {
+    const p = project(); p.map.labels = 'selected'; p.map.hideCollisions = false; p.map.legend = true; p.map.labelFont = id as LabelFont;
+    const xml = new JSDOM(svgString(buildScene(topology, p), p), { contentType: 'image/svg+xml' }).window.document;
+    expect(xml.querySelectorAll('#etiquetas text')).toHaveLength(7);
+    expect(xml.querySelector('#etiqueta-07402')?.textContent).toBe('Colbún');
+    expect(xml.querySelector('#etiqueta-07401')?.getAttribute('font-family')).toBe(family);
+    expect(xml.querySelector('#leyenda')?.getAttribute('font-family')).toBe(family);
+  });
+  it('omite los nombres visibles y conserva los territorios y sus CUT', () => {
+    const p = project(); p.map.labels = 'none';
+    const xml = new JSDOM(svgString(buildScene(topology, p), p), { contentType: 'image/svg+xml' }).window.document;
+    expect(xml.querySelectorAll('#etiquetas text')).toHaveLength(0); expect(xml.querySelectorAll('[id^="comuna-"]')).toHaveLength(30);
+    expect(xml.querySelector('#comuna-07401')?.getAttribute('data-cut')).toBe('07401');
+  });
   it('produce XML válido, paths editables, metadatos e identificadores estables sin raster', () => {
     const p = project(); p.map.labels = 'selected'; p.map.legend = true; const s = buildScene(topology, p); const svg = svgString(s, p);
     const xml = new JSDOM(svg, { contentType: 'image/svg+xml' }).window.document;

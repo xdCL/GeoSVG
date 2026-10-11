@@ -48,7 +48,7 @@ export function exportDimensions(project: Project, features: CommuneFeature[]): 
   const ratio = Math.max(0.1, Math.min(10, (bounds[1][0] - bounds[0][0]) / (bounds[1][1] - bounds[0][1])));
   return [width, Math.min(6000, Math.max(100, Math.round(width / ratio)))];
 }
-export function buildScene(topology: CommuneTopology, project: Project, fixedDimensions?: [number, number]): MapScene {
+export function buildScene(topology: CommuneTopology, project: Project, fixedDimensions?: [number, number], labelWidths?: Record<string, number>): MapScene {
   const scoped = scopedFeatures(topology, project);
   const selected = new Set(project.selected);
   const displayed = project.map.mode === 'context' ? scoped : scoped.filter(f => selected.has(String(f.id)));
@@ -82,7 +82,7 @@ export function buildScene(topology: CommuneTopology, project: Project, fixedDim
     if (!p.label || project.map.labels === 'none' || (project.map.labels === 'selected' && !p.selected)) continue;
     const [x, y] = p.label;
     if (x < margin || y < margin || x > width - margin || y > height - margin) continue;
-    const w = p.name.length * project.map.labelSize * 0.56;
+    const w = labelWidths?.[p.cut] ?? p.name.length * project.map.labelSize * 0.56;
     const h = project.map.labelSize * 1.2;
     const box: [number, number, number, number] = [x - w / 2 - 2, y - h / 2 - 2, x + w / 2 + 2, y + h / 2 + 2];
     if (project.map.hideCollisions && boxes.some(b => box[0] < b[2] && box[2] > b[0] && box[1] < b[3] && box[3] > b[1])) continue;

@@ -14,7 +14,7 @@ El registro de Antártica, CUT 12202, sin geometría, se verificó en el [catál
 
 ## Tipografías
 
-Fraunces e Inter se sirven desde los paquetes locales `@fontsource/fraunces` y `@fontsource/inter`; no se contacta a Google Fonts ni a un CDN. Ambas usan SIL Open Font License 1.1. Las licencias completas están en `docs/licenses/`. Se incluyen alternativas Georgia y system-ui. Los SVG usan Arial/sans-serif como familia editable y no incrustan archivos de fuentes.
+[Fraunces](https://fonts.google.com/specimen/Fraunces) e [Inter](https://fonts.google.com/specimen/Inter), disponibles en Google Fonts, se sirven desde los paquetes locales `@fontsource/fraunces` y `@fontsource/inter`; no se contacta a Google Fonts ni a un CDN. Ambas usan SIL Open Font License 1.1. Las licencias completas están en `docs/licenses/`. La interfaz incluye alternativas Georgia y system-ui. Los nombres y leyendas pueden usar Inter, Fraunces o Arial; cuando se elige una fuente de Google y hay texto visible, el SVG incrusta su WOFF2, atribución y licencia completa. Arial conserva la representación de proyectos anteriores y depende de las fuentes del sistema.
 
 ## Bibliotecas
 
