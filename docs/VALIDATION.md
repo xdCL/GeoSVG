@@ -10,10 +10,11 @@ Fecha: 10 de octubre de 2026. Entorno: Windows, Node.js 24.14.1, Chrome; móvil 
 | Geometrías | CUT únicos, jerarquía, anillos cerrados, coordenadas finitas en WGS84 y validez OGC JSTS |
 | Archivos regionales | 16 existentes; correspondencia exacta entre geometrías y comunas disponibles del catálogo |
 | Unión | Uniones de las 16 regiones y del preset SLEP válidas; normalización de anillos que se tocan en un vértice |
-| Vitest | **40 pruebas aprobadas**: selección, búsqueda, HEX, persistencia y recuperación de datos anteriores a GeoSVG, JSON, fuentes y compatibilidad de proyectos, grupos, preset, provincias, encuadres, etiquetas, unión, bordes de selección y SVG |
-| Playwright | **14 pruebas aprobadas**: siete flujos en escritorio y los mismos siete en móvil emulado; incluye crear, duplicar, renombrar y eliminar paletas, asignar grupos, reutilizar proyectos JSON, tipografías opcionales y bordes configurables |
+| Vitest | **43 pruebas aprobadas**: selección, búsqueda, HEX, persistencia y recuperación de datos anteriores a GeoSVG, JSON, fuentes y compatibilidad de proyectos, grupos, preset, provincias, encuadres, etiquetas, unión, bordes de selección, estilos tipográficos y SVG |
+| Playwright | **16 pruebas aprobadas**: ocho flujos en escritorio y los mismos ocho en móvil emulado; incluye crear, duplicar, renombrar y eliminar paletas, asignar grupos, reutilizar proyectos JSON, tipografías opcionales, estilos completos de texto y bordes configurables |
 | Bordes de selección | Perímetro territorial unido o siete contornos comunales; color HEX y grosor de 12,5 px comprobados en vista previa y SVG, píxeles del color elegido en PNG, persistencia e importación JSON; archivos antiguos conservan el borde desactivado |
 | Tipografías | Inter y Fraunces cargadas desde el WOFF2 incluido en el SVG sin conexión; diferencias de píxeles verificadas frente a la fuente de sustitución y al mapa sin nombres; siete nombres, treinta nombres y ausencia de nombres comprobados |
+| Estilo de nombres | Las doce combinaciones de familia, peso 400/500/700 y cursiva comprobadas sin conexión; diez variantes adicionales usan WOFF2 distintos; color violeta, subrayado, mayúsculas, espaciado y contorno blanco conservados en SVG, color presente en PNG, opacidad y estilo recuperados desde JSON y al recargar |
 | Flujo obligatorio | Preset SLEP de siete comunas → HEX `#E45D47` → SVG XML válido con colores y metadatos verificados |
 | PNG | Archivo PNG válido de 2000 × 2000 px para SVG de 1000 × 1000 a 2×; esquina con alfa 0 |
 | Navegación | Clic, activación por teclado, conservación del foco, zoom y exportación independiente de navegación |
@@ -22,9 +23,9 @@ Fecha: 10 de octubre de 2026. Entorno: Windows, Node.js 24.14.1, Chrome; móvil 
 | TypeScript y Vite | Compilación correcta, modo estricto |
 | npm audit | 0 vulnerabilidades después de actualizar dependencias |
 
-Los resultados de navegador se regeneran con `npm run test:e2e`. Las capturas comprobadas están en `docs/screenshots/`. Los ejemplos reales descargados durante la prueba integral están en `docs/examples/`: SVG editable y PNG transparente con la selección SLEP en terracota, nombres en Fraunces y borde territorial magenta.
+Los resultados de navegador se regeneran con `npm run test:e2e`. Las capturas comprobadas están en `docs/screenshots/`. Los ejemplos reales descargados durante la prueba integral están en `docs/examples/`: SVG editable y PNG transparente con la selección SLEP en terracota, nombres en Fraunces, borde territorial magenta y nombres violetas en negrita cursiva con contorno blanco.
 
-Se verificó también el build bajo la ruta de repositorio `/GeoSVG/`, mediante `scripts/verify-build.mjs`: assets, fuentes, Web Worker, capa regional, preset y borde territorial exportado, sin solicitar el archivo nacional en la carga inicial. Para repetirlo en PowerShell:
+Se verificó también el build bajo la ruta de repositorio `/GeoSVG/`, mediante `scripts/verify-build.mjs`: assets, fuentes, Web Worker, capa regional, preset, borde territorial y nombres violetas en Fraunces negrita cursiva incrustada con contorno, sin solicitar el archivo nacional en la carga inicial. Para repetirlo en PowerShell:
 
 ```powershell
 $env:VITE_BASE_PATH = '/GeoSVG/'

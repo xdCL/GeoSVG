@@ -46,6 +46,15 @@ describe('Cartografía auténtica y encuadre', () => {
   it('rechaza una leyenda que no cabe y un encuadre vacío', () => { const p = project(); p.export.aspect = 'custom'; p.export.height = 100; p.map.legend = true; expect(() => buildScene(topology, p)).toThrow(); p.map.legend = false; p.selected = []; p.export.frame = 'selection'; expect(() => buildScene(topology, p)).toThrow(); });
 });
 describe('Exportación SVG', () => {
+  it('conserva color, negrita, cursiva, subrayado, espaciado, opacidad y contorno en nombres editables', () => {
+    const p = project(); p.map.labels = 'selected'; p.map.hideCollisions = false; p.map.colors.labels = '#FF00FF'; p.map.labelSize = 28;
+    p.map.labelStyle = { weight: 700, italic: true, underline: true, uppercase: true, letterSpacing: 1.5, opacity: 0.65, haloEnabled: true, haloColor: '#FFFFFF', haloWidth: 3 };
+    const xml = new JSDOM(svgString(buildScene(topology, p), p), { contentType: 'image/svg+xml' }).window.document;
+    const text = xml.querySelector('#etiqueta-07402')!;
+    expect(text.textContent).toBe('COLBÚN'); expect(xml.querySelectorAll('#etiquetas text')).toHaveLength(7);
+    for (const [attribute, value] of Object.entries({ fill: '#FF00FF', 'font-weight': '700', 'font-style': 'italic', 'font-size': '28', 'text-decoration': 'underline', 'letter-spacing': '1.5', opacity: '0.65', stroke: '#FFFFFF', 'stroke-width': '3', 'paint-order': 'stroke fill' })) expect(text.getAttribute(attribute)).toBe(value);
+    expect(xml.querySelector('#comuna-07402 title')?.textContent).toContain('Colbún'); expect(xml.querySelector('#comuna-07401')?.getAttribute('fill')).toBe('#0066CC');
+  });
   it('el borde territorial une solo las comunas seleccionadas sin remarcar límites compartidos', () => {
     const p = project(); p.map.selectionBorder = { enabled: true, color: '#FF00FF', width: 12.5, target: 'territory' }; p.export.frame = 'selection';
     const scene = buildScene(topology, p, [1000, 800]);

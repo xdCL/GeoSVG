@@ -5,6 +5,7 @@ import type { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
 import type { GeometryCollection, MultiPolygon as TopoMultiPolygon, Polygon as TopoPolygon } from 'topojson-specification';
 import { communeByCut } from '../../data/catalog';
 import type { AreaGeometry, CommuneFeature, CommuneTopology, MapScene, Project } from '../../types';
+import { labelText } from '../fonts/style';
 
 export function d3Geometry(geometry: AreaGeometry): AreaGeometry {
   if (geoArea(geometry) <= 2 * Math.PI) return geometry;
@@ -86,9 +87,12 @@ export function buildScene(topology: CommuneTopology, project: Project, fixedDim
     if (!p.label || project.map.labels === 'none' || (project.map.labels === 'selected' && !p.selected)) continue;
     const [x, y] = p.label;
     if (x < margin || y < margin || x > width - margin || y > height - margin) continue;
-    const w = labelWidths?.[p.cut] ?? p.name.length * project.map.labelSize * 0.56;
-    const h = project.map.labelSize * 1.2;
-    const box: [number, number, number, number] = [x - w / 2 - 2, y - h / 2 - 2, x + w / 2 + 2, y + h / 2 + 2];
+    const style = project.map.labelStyle;
+    const length = [...labelText(p.name, style)].length;
+    const w = labelWidths?.[p.cut] ?? length * project.map.labelSize * 0.56 + Math.max(0, length - 1) * style.letterSpacing;
+    const h = project.map.labelSize * (style.underline ? 1.4 : 1.2);
+    const padding = 2 + (style.haloEnabled ? style.haloWidth / 2 : 0);
+    const box: [number, number, number, number] = [x - w / 2 - padding, y - h / 2 - padding, x + w / 2 + padding, y + h / 2 + padding];
     if (project.map.hideCollisions && boxes.some(b => box[0] < b[2] && box[2] > b[0] && box[1] < b[3] && box[3] > b[1])) continue;
     boxes.push(box);
     labels.push({ cut: p.cut, name: p.name, x, y });

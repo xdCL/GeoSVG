@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import type { Library, Project } from '../../types';
 import { defaultSelectionBorder } from '../geo/borders';
+import { defaultLabelStyle } from '../fonts/style';
 
 const cut = z.string().regex(/^\d{5}$/);
 const hex = z.string().regex(/^#[\da-f]{6}$/i).transform(v => v.toUpperCase());
@@ -16,10 +17,15 @@ export const projectSchema = z.object({
     opacity: z.number().min(0).max(1), backgroundOpacity: z.number().min(0).max(1),
     internalWidth: z.number().min(0).max(10), externalWidth: z.number().min(0).max(15),
     lineStyle: z.enum(['solid', 'dashed', 'dotted']), showInternal: z.boolean(), margin: z.number().min(0).max(200),
-    labels: z.enum(['none', 'selected', 'all']), labelSize: z.number().min(6).max(40),
+    labels: z.enum(['none', 'selected', 'all']), labelSize: z.number().min(6).max(80),
     labelFont: z.enum(['arial', 'inter', 'fraunces']).default('arial'),
     hideCollisions: z.boolean(), legend: z.boolean(),
     selectionBorder: z.object({ enabled: z.boolean(), color: hex, width: z.number().min(0).max(30), target: z.enum(['territory', 'communes']) }).strict().default(() => ({ ...defaultSelectionBorder })),
+    labelStyle: z.object({
+      weight: z.union([z.literal(400), z.literal(500), z.literal(700)]), italic: z.boolean(), underline: z.boolean(), uppercase: z.boolean(),
+      letterSpacing: z.number().min(0).max(8), opacity: z.number().min(0).max(1),
+      haloEnabled: z.boolean(), haloColor: hex, haloWidth: z.number().min(0).max(6),
+    }).strict().default(() => ({ ...defaultLabelStyle })),
   }).strict(),
   groups: z.array(z.object({ id: z.string().min(1).max(80), name: z.string().min(1).max(80), color: hex, cuts }).strict()).max(30)
     .refine(groups => unique(groups.map(g => g.id)), 'Los grupos deben tener identificadores únicos.')

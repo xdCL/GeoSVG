@@ -5,8 +5,9 @@ import { ColorField, NumberField, Toggle } from '../controls/Fields';
 import type { Notify } from '../controls/Fields';
 import { downloadJson } from '../../lib/svg/export';
 import { palettesFileSchema, readJsonFile } from '../../lib/validation/project';
-import type { ColorKey, LabelFont, Palette, SelectionBorder } from '../../types';
+import type { ColorKey, LabelFont, LabelStyle, Palette, SelectionBorder } from '../../types';
 import { mapFont, mapFonts } from '../../lib/fonts/catalog';
+import { labelText } from '../../lib/fonts/style';
 
 export function DesignPanel({ notify }: { notify: Notify }) {
   const { project, library, map, palette, savePalette, deletePalette } = useEditor();
@@ -16,11 +17,13 @@ export function DesignPanel({ notify }: { notify: Notify }) {
   const chosen = library.palettes.find(p => p.id === active);
   const border = project.map.selectionBorder;
   const updateBorder = (patch: Partial<SelectionBorder>) => map({ selectionBorder: { ...border, ...patch } });
+  const textStyle = project.map.labelStyle;
+  const updateText = (patch: Partial<LabelStyle>) => map({ labelStyle: { ...textStyle, ...patch } });
   const create = (id?: string) => { if (!name.trim()) { notify('Escribe un nombre para la paleta.', true); return; } const p: Palette = { id: id || crypto.randomUUID(), name: name.trim(), colors: { ...project.map.colors }, transparent: project.map.transparent }; savePalette(p); setActive(p.id); notify('Paleta guardada en este navegador.'); };
   return <>
     <div className="panel-heading"><span className="eyebrow">02 / DISEÑO</span><h2>Color y detalle</h2><p>Colores exactos. Un mapa a tu manera.</p></div>
     <div className="palette-grid">{builtInPalettes.map(p => <button key={p.id} onClick={() => { palette(p); setActive(''); }}><span className="swatches">{Object.values(p.colors).slice(0, 4).map((c, i) => <i key={i} style={{ background: c }} />)}</span>{p.name}</button>)}</div>
-    {(Object.keys(colorLabels) as ColorKey[]).map(key => <ColorField key={key} label={colorLabels[key]} value={project.map.colors[key]} onChange={value => map({ colors: { ...project.map.colors, [key]: value } })} />)}
+    {(Object.keys(colorLabels) as ColorKey[]).filter(key => key !== 'labels').map(key => <ColorField key={key} label={colorLabels[key]} value={project.map.colors[key]} onChange={value => map({ colors: { ...project.map.colors, [key]: value } })} />)}
     <Toggle label="Fondo transparente" checked={project.map.transparent} onChange={transparent => map({ transparent })} />
     <NumberField label="Opacidad del territorio" value={Math.round(project.map.opacity * 100)} unit="%" onChange={v => map({ opacity: v / 100 })} />
     {!project.map.transparent && <NumberField label="Opacidad del fondo" value={Math.round(project.map.backgroundOpacity * 100)} unit="%" onChange={v => map({ backgroundOpacity: v / 100 })} />}
@@ -41,8 +44,15 @@ export function DesignPanel({ notify }: { notify: Notify }) {
     </details>
     <details><summary>Nombres y tipografía</summary><label className="field">Nombres de comunas<select aria-label="Nombres de comunas" value={project.map.labels} onChange={e => map({ labels: e.target.value as 'none' | 'selected' | 'all' })}><option value="none">Sin nombres</option><option value="selected">Solo seleccionadas</option><option value="all">Todas las visibles</option></select></label>
       <label className="field">Fuente de nombres y leyenda<select aria-label="Fuente de nombres y leyenda" value={project.map.labelFont} onChange={e => map({ labelFont: e.target.value as LabelFont })}>{mapFonts.map(font => <option key={font.id} value={font.id}>{font.description}</option>)}</select></label>
-      <p className="font-sample" style={{ fontFamily: mapFont(project.map.labelFont).family }}>Linares · Yerbas Buenas</p>
-      <NumberField label="Tamaño de etiqueta" unit="px SVG" value={project.map.labelSize} min={6} max={40} onChange={labelSize => map({ labelSize })} />
+      <ColorField label="Color de nombres y leyenda" value={project.map.colors.labels} onChange={labels => map({ colors: { ...project.map.colors, labels } })} />
+      <label className="field">Peso tipográfico<select aria-label="Peso tipográfico" value={textStyle.weight} onChange={e => updateText({ weight: Number(e.target.value) as LabelStyle['weight'] })}><option value={400}>Regular</option><option value={500}>Medio</option><option value={700}>Negrita</option></select></label>
+      <div className="text-style-toggles"><Toggle label="Cursiva" checked={textStyle.italic} onChange={italic => updateText({ italic })} /><Toggle label="Subrayado" checked={textStyle.underline} onChange={underline => updateText({ underline })} /><Toggle label="Mayúsculas" checked={textStyle.uppercase} onChange={uppercase => updateText({ uppercase })} /></div>
+      <p className="font-sample" style={{ fontFamily: mapFont(project.map.labelFont).family, fontWeight: textStyle.weight, fontStyle: textStyle.italic ? 'italic' : 'normal', textDecoration: textStyle.underline ? 'underline' : 'none', letterSpacing: textStyle.letterSpacing, color: project.map.colors.labels }}>{labelText('Linares · Yerbas Buenas', textStyle)}</p>
+      <NumberField label="Tamaño de etiqueta" unit="px SVG" value={project.map.labelSize} min={6} max={80} onChange={labelSize => map({ labelSize })} />
+      <NumberField label="Separación entre letras" unit="px SVG" value={textStyle.letterSpacing} min={0} max={8} step={0.25} onChange={letterSpacing => updateText({ letterSpacing })} />
+      <NumberField label="Opacidad de los nombres" unit="%" value={Math.round(textStyle.opacity * 100)} onChange={value => updateText({ opacity: value / 100 })} />
+      <Toggle label="Añadir contorno a los nombres" checked={textStyle.haloEnabled} onChange={haloEnabled => updateText({ haloEnabled })} />
+      {textStyle.haloEnabled && <><ColorField label="Contorno de los nombres" value={textStyle.haloColor} onChange={haloColor => updateText({ haloColor })} /><NumberField label="Grosor del contorno de los nombres" unit="px SVG" value={textStyle.haloWidth} min={0} max={6} step={0.25} onChange={haloWidth => updateText({ haloWidth })} /></>}
       <Toggle label="Ocultar nombres superpuestos" checked={project.map.hideCollisions} onChange={hideCollisions => map({ hideCollisions })} />
       <Toggle label="Incluir leyenda" checked={project.map.legend} onChange={legend => map({ legend })} />
     </details>

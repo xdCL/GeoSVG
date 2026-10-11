@@ -26,6 +26,10 @@ Los puntos de etiquetas se calculan con Polylabel dentro del mayor polígono de 
 
 El Worker carga Inter o Fraunces mediante FontFace y mide los avances reales de los nombres con OffscreenCanvas para calcular las cajas de colisión. Si esas APIs no están disponibles, utiliza la estimación de ancho anterior; la altura de caja sigue siendo aproximada. La clave de caché incluye la fuente. El exportador carga el mismo WOFF2 local, lo convierte en una URL de datos y lo incluye con `@font-face` dentro del SVG, junto con su licencia completa en los metadatos. Las cargas se cachean y las fallidas se pueden reintentar. No se consulta la API de Google Fonts. El SVG conserva elementos `text` editables y Canvas rasteriza ese mismo documento para PNG.
 
+`labelAppearance` comparte los atributos de texto entre la vista previa y el SVG: color, tamaño, peso, cursiva, subrayado, separación entre letras, opacidad y contorno. El contorno usa `paint-order="stroke fill"` para mantener el relleno legible; mayúsculas transforma solo el texto visible, conservando nombres originales y CUT de los polígonos. La leyenda comparte fuente, peso, cursiva y color; mantiene su tamaño y disposición propios. Cada familia tiene variantes locales de peso 400/500/700 normales y cursivas. La caché de WOFF2 y FontFace usa familia, peso y estilo; el SVG incluye únicamente la variante elegida.
+
+Las mediciones del Worker usan el peso y la cursiva efectivos, el texto en mayúsculas cuando corresponde y el espaciado elegido. La resolución de colisiones añade espacio para el contorno y el subrayado. La clave de escena contiene esos ajustes métricos; cambios de color u opacidad no recalculan la geometría.
+
 ## Rendimiento
 
 Un Worker procesa proyección, fronteras, unión y etiquetas sin bloquear la interfaz principal. La carga por región se almacena en caché durante la sesión. La caché contiene promesas y descarta las cargas fallidas para permitir reintentos. Se aplica un debounce de 40 ms a cambios del proyecto y se descartan respuestas obsoletas. La topología original queda fuera del estado editable y de los JSON personales.
@@ -43,6 +47,8 @@ Los esquemas son estrictos: se rechazan claves desconocidas, HEX inválidos, CUT
 El campo opcional de entrada `map.labelFont` admite `inter`, `fraunces` y `arial`. Al leer proyectos de versión 1 que no lo contienen se asigna Arial, incluyendo los presets personales de la biblioteca; los proyectos nuevos declaran Inter explícitamente.
 
 `map.selectionBorder` contiene activación, HEX, grosor de 0 a 30 y destino `territory` o `communes`. Los archivos de versión 1 sin este campo reciben un borde desactivado, conservando su apariencia y selección; también se recuperan los presets antiguos de la biblioteca.
+
+`map.labelStyle` contiene los ajustes tipográficos adicionales. La validación limita pesos a 400/500/700, espaciado a 0–8 px, opacidad a 0–1 y contorno a 0–6 px con HEX válido. Si falta, se aplica el estilo regular original: sin cursiva, subrayado, mayúsculas ni contorno, espaciado cero y opacidad completa. El color existente `map.colors.labels` se conserva y sigue formando parte de las paletas.
 
 ## Accesibilidad
 

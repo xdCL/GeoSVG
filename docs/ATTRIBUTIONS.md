@@ -16,6 +16,8 @@ El registro de Antártica, CUT 12202, sin geometría, se verificó en el [catál
 
 [Fraunces](https://fonts.google.com/specimen/Fraunces) e [Inter](https://fonts.google.com/specimen/Inter), disponibles en Google Fonts, se sirven desde los paquetes locales `@fontsource/fraunces` y `@fontsource/inter`; no se contacta a Google Fonts ni a un CDN. Ambas usan SIL Open Font License 1.1. Las licencias completas están en `docs/licenses/`. La interfaz incluye alternativas Georgia y system-ui. Los nombres y leyendas pueden usar Inter, Fraunces o Arial; cuando se elige una fuente de Google y hay texto visible, el SVG incrusta su WOFF2, atribución y licencia completa. Arial conserva la representación de proyectos anteriores y depende de las fuentes del sistema.
 
+Se incluyen variantes reales de Inter y Fraunces de pesos 400, 500 y 700, normales y cursivas. Los SVG incrustan la variante seleccionada con su peso y estilo correctos; las variantes comparten las mismas licencias SIL OFL de su familia.
+
 ## Bibliotecas
 
 React, Vite, TypeScript, Zustand, Zod, D3-geo, TopoJSON-client, Polygon-clipping, Polylabel, Vitest, Playwright, axe-core, Mapshaper y JSTS conservan sus respectivas licencias. `package-lock.json` fija las versiones instaladas. Mapshaper y JSTS solo participan en el procesamiento y la validación de datos; no forman parte de la aplicación publicada.

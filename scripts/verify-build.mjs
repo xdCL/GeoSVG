@@ -27,6 +27,10 @@ try {
   await page.getByLabel('Nombres de comunas', { exact: true }).selectOption('selected');
   await page.getByLabel('Ocultar nombres superpuestos').uncheck();
   await page.getByLabel('Fuente de nombres y leyenda').selectOption('fraunces');
+  await page.getByRole('textbox', { name: 'HEX Color de nombres y leyenda', exact: true }).fill('#800080');
+  await page.getByLabel('Peso tipográfico').selectOption('700');
+  await page.getByLabel('Cursiva', { exact: true }).check();
+  await page.getByLabel('Añadir contorno a los nombres').check();
   await page.waitForFunction(() => document.querySelectorAll('.map-labels text').length === 7);
   await page.getByRole('button', { name: 'Exportar mapa' }).click();
   const downloadPromise = page.waitForEvent('download');
@@ -36,7 +40,9 @@ try {
   assert(svg.includes("font-family:'Fraunces'"));
   assert(svg.includes('data:font/woff2;base64,'));
   assert(svg.includes('SIL OPEN FONT LICENSE'));
+  assert(svg.includes('font-weight:700;font-style:italic;'));
+  assert(/id="etiqueta-07402"[^>]*fill="#800080"[^>]*font-weight="700"[^>]*font-style="italic"/.test(svg));
   assert(/id="borde-seleccion-territorial"[^>]*stroke="#FF00FF"[^>]*stroke-width="12.5"/.test(svg));
   assert.deepEqual(errors, []);
-  console.log('Build bajo /GeoSVG/ válido: assets, Worker, cartografía regional, preset, siete nombres con Fraunces incluida y borde territorial de color y grosor propios en el SVG. Sin carga nacional inicial ni errores HTTP/JavaScript.');
+  console.log('Build bajo /GeoSVG/ válido: assets, Worker, cartografía regional, preset, nombres de color violeta en Fraunces negrita cursiva incrustada, contorno de texto y borde territorial en SVG. Sin errores HTTP/JavaScript.');
 } finally { await browser.close(); }

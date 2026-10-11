@@ -47,8 +47,8 @@ async function verifyEmbeddedTypeface(page: import('@playwright/test').Page, svg
     const css = style?.textContent ?? '';
     const dataUrl = css.match(/data:font\/woff2;base64,[A-Za-z0-9+/=]+/)?.[0];
     if (!style || !dataUrl) throw new Error('El SVG no contiene su fuente.');
-    const face = await new FontFace('GeoSVGFontProof', `url(${dataUrl})`).load();
     const metadata = JSON.parse(xml.querySelector('metadata')!.textContent!);
+    const face = await new FontFace('GeoSVGFontProof', `url(${dataUrl})`, { weight: String(metadata.typography.weight), style: metadata.typography.italic ? 'italic' : 'normal' }).load();
     // An isolated family prevents an installed or page font from hiding a missing SVG font.
     style.textContent = css.replace(`font-family:'${family}'`, "font-family:'GeoSVGRasterProof'");
     xml.querySelectorAll('[font-family]').forEach(element => element.setAttribute('font-family', 'GeoSVGRasterProof, sans-serif'));
@@ -75,6 +75,51 @@ async function verifyEmbeddedTypeface(page: import('@playwright/test').Page, svg
   expect(result.typography.license).toContain('SIL OPEN FONT LICENSE');
   expect(result.fontDifference).toBeGreaterThan(100); expect(result.labelDifference).toBeGreaterThan(100);
 }
+
+test('estilo completo de los nombres y variantes reales de Google Fonts en SVG y PNG', async ({ page, isMobile }, info) => {
+  test.setTimeout(120000);
+  page.setDefaultTimeout(15000);
+  await page.goto('/'); await page.getByRole('button', { name: 'Preset SLEP Los Álamos' }).click();
+  await expect(page.locator('.map-svg [data-selected="true"]')).toHaveCount(7);
+  await revealPanel(page, isMobile); await page.getByRole('button', { name: 'Diseño', exact: true }).click(); await page.getByText('Nombres y tipografía', { exact: true }).click();
+  await page.getByLabel('Nombres de comunas', { exact: true }).selectOption('selected'); await page.getByLabel('Ocultar nombres superpuestos').uncheck(); await page.getByLabel('Tamaño de etiqueta').fill('24');
+  const color = page.getByRole('textbox', { name: 'HEX Color de nombres y leyenda', exact: true });
+  await color.fill('#800080'); await expect(page.locator('.map-labels text').first()).toHaveAttribute('fill', '#800080');
+  await color.fill('#ZZZZZZ'); await expect(color).toHaveAttribute('aria-invalid', 'true'); await expect(page.locator('.map-labels text').first()).toHaveAttribute('fill', '#800080'); await color.fill('#800080');
+  await page.getByLabel('Subrayado', { exact: true }).check(); await page.getByLabel('Mayúsculas', { exact: true }).check();
+  await page.getByLabel('Separación entre letras').fill('0.75'); await page.getByLabel('Opacidad de los nombres').fill('65'); await expect(page.locator('.map-labels text').first()).toHaveAttribute('opacity', '0.65'); await page.getByLabel('Opacidad de los nombres').fill('100');
+  await page.getByLabel('Añadir contorno a los nombres').check(); await page.getByRole('textbox', { name: 'HEX Contorno de los nombres', exact: true }).fill('#FFFFFF'); await page.getByLabel('Grosor del contorno de los nombres').fill('3');
+  await expect(page.locator('.map-labels text[data-label-cut="07402"]')).toHaveText('COLBÚN');
+  const fontFiles = new Set<string>();
+  for (const font of [{ id: 'inter', family: 'Inter' }, { id: 'fraunces', family: 'Fraunces' }]) {
+    for (const [weight, italic] of [[400, true], [500, false], [500, true], [700, false], [700, true]] as const) {
+      await page.getByLabel('Fuente de nombres y leyenda').selectOption(font.id); await page.getByLabel('Peso tipográfico').selectOption(String(weight)); await page.getByLabel('Cursiva', { exact: true }).setChecked(italic);
+      await expect(page.locator('.map-labels text')).toHaveCount(7);
+      if (isMobile) await page.keyboard.press('Escape'); await page.getByRole('button', { name: 'Exportar mapa' }).click();
+      const promise = page.waitForEvent('download'); await page.getByRole('button', { name: 'Descargar SVG' }).click(); const download = await promise; const svg = await readFile((await download.path())!, 'utf8');
+      expect(svg).toContain(`font-weight:${weight};font-style:${italic ? 'italic' : 'normal'}`); fontFiles.add(svg.match(/data:font\/woff2;base64,[A-Za-z0-9+/=]+/)![0]);
+      await page.context().setOffline(true); try { await verifyEmbeddedTypeface(page, svg, font.family); } finally { await page.context().setOffline(false); }
+      const attributes = await page.evaluate(text => { const xml = new DOMParser().parseFromString(text, 'image/svg+xml'); const label = xml.querySelector('#etiqueta-07402')!; return Object.fromEntries(['fill', 'font-weight', 'font-style', 'text-decoration', 'letter-spacing', 'stroke', 'stroke-width', 'paint-order'].map(attribute => [attribute, label.getAttribute(attribute)])); }, svg);
+      expect(attributes).toEqual({ fill: '#800080', 'font-weight': String(weight), 'font-style': italic ? 'italic' : 'normal', 'text-decoration': 'underline', 'letter-spacing': '0.75', stroke: '#FFFFFF', 'stroke-width': '3', 'paint-order': 'stroke fill' });
+      if (font.id === 'fraunces' && weight === 700 && italic) {
+        const pngPromise = page.waitForEvent('download'); await page.getByRole('button', { name: 'Descargar PNG' }).click(); const pngDownload = await pngPromise; const png = await readFile((await pngDownload.path())!);
+        const count = await page.evaluate(async data => { const image = new Image(); image.src = `data:image/png;base64,${data}`; await image.decode(); const canvas = document.createElement('canvas'); canvas.width = image.width; canvas.height = image.height; const ctx = canvas.getContext('2d')!; ctx.drawImage(image, 0, 0); const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data; let n = 0; for (let i = 0; i < pixels.length; i += 4) if (pixels[i] === 128 && pixels[i + 1] === 0 && pixels[i + 2] === 128 && pixels[i + 3] === 255) n++; return n; }, png.toString('base64'));
+        expect(count).toBeGreaterThan(100);
+        if (!isMobile) { await download.saveAs('docs/examples/sleplosalamos-maule-tipografia.svg'); await pngDownload.saveAs('docs/examples/sleplosalamos-maule-tipografia.png'); }
+      }
+      await page.getByRole('button', { name: 'Cerrar exportación' }).click(); await revealPanel(page, isMobile);
+    }
+  }
+  expect(fontFiles.size).toBe(10);
+  await page.locator('.font-sample').scrollIntoViewIfNeeded(); await page.screenshot({ path: `docs/screenshots/${info.project.name}-text-style.png`, fullPage: true });
+  const accessibility = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze(); expect(accessibility.violations).toEqual([]);
+  await page.getByLabel('Opacidad de los nombres').fill('65'); await page.getByRole('button', { name: 'Proyecto', exact: true }).click();
+  const jsonPromise = page.waitForEvent('download'); await page.getByRole('button', { name: 'Exportar proyecto', exact: true }).click(); const jsonDownload = await jsonPromise; const json = await readFile((await jsonDownload.path())!, 'utf8');
+  expect(JSON.parse(json).map.labelStyle).toMatchObject({ weight: 700, italic: true, underline: true, uppercase: true, opacity: 0.65, letterSpacing: 0.75, haloWidth: 3 });
+  await page.getByRole('button', { name: /^Territorio SLEP Los Álamos/ }).click(); await expect(page.locator('.map-labels text')).toHaveCount(0);
+  await page.locator('#editor-panel input[type="file"]').setInputFiles({ name: 'tipografia.json', mimeType: 'application/json', buffer: Buffer.from(json) }); await expect(page.locator('.map-labels text')).toHaveCount(7);
+  await page.reload(); const text = page.locator('.map-labels text[data-label-cut="07402"]'); await expect(text).toHaveText('COLBÚN'); await expect(text).toHaveAttribute('fill', '#800080'); await expect(text).toHaveAttribute('font-weight', '700'); await expect(text).toHaveAttribute('opacity', '0.65');
+});
 
 test('Google Fonts en nombres opcionales, SVG autónomo, PNG y proyecto persistente', async ({ page, isMobile }, info) => {
   await page.goto('/'); await page.getByRole('button', { name: 'Preset SLEP Los Álamos' }).click();

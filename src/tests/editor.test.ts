@@ -77,6 +77,20 @@ describe('Paletas, grupos y portabilidad', () => {
     expect(validate(p).map.selectionBorder).toEqual({ ...p.map.selectionBorder, color: '#AABBCC' });
     for (const patch of [{ width: -1 }, { width: 31 }, { color: 'red' }, { target: 'all' }]) expect(() => validate({ ...p, map: { ...p.map, selectionBorder: { ...p.map.selectionBorder, ...patch } } })).toThrow();
   });
+  it('recupera proyectos y presets anteriores conservando el color del texto y su estilo regular', () => {
+    const p = freshProject(); p.map.colors.labels = '#123456'; p.map.labels = 'selected';
+    const { labelStyle: _style, ...oldMap } = p.map;
+    const legacy = { ...p, map: oldMap };
+    expect(validate(legacy)).toEqual(p);
+    const saved = readStorage({ getItem: key => key === STORAGE_KEY ? JSON.stringify({ project: legacy, library: { palettes: [], presets: [{ id: 'old', name: 'Anterior', description: '', project: legacy }] } }) : null });
+    expect(saved.project).toEqual(p); expect(saved.library.presets[0].project.map.labelStyle).toEqual(p.map.labelStyle);
+  });
+  it('valida todos los estilos del texto y sus límites sin aceptar CSS externo', () => {
+    const p = freshProject(); p.map.labelSize = 80;
+    p.map.labelStyle = { weight: 700, italic: true, underline: true, uppercase: true, letterSpacing: 8, opacity: 0.5, haloEnabled: true, haloColor: '#aabbcc', haloWidth: 6 };
+    expect(validate(p).map.labelStyle).toEqual({ ...p.map.labelStyle, haloColor: '#AABBCC' });
+    for (const patch of [{ weight: 900 }, { letterSpacing: -1 }, { letterSpacing: 9 }, { opacity: 1.1 }, { haloWidth: 7 }, { haloColor: 'url(https://example.com)' }, { italic: 'true' }]) expect(() => validate({ ...p, map: { ...p.map, labelStyle: { ...p.map.labelStyle, ...patch } } })).toThrow();
+  });
   it('reasigna comunas sin duplicar pertenencia y permite quitar y ordenar grupos', () => {
     const s = useEditor.getState(); s.addGroup('A', '#0066CC'); s.addGroup('B', '#FFCC00');
     const [a, b] = useEditor.getState().project.groups; s.toggle('07401'); s.assignGroup(a.id); s.assignGroup(b.id);
