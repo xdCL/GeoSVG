@@ -1,0 +1,4187 @@
+{
+  "regions": [
+    {
+      "code": "15",
+      "name": "Región de Arica y Parinacota",
+      "shortName": "Arica y Parinacota",
+      "count": 4
+    },
+    {
+      "code": "01",
+      "name": "Región de Tarapacá",
+      "shortName": "Tarapacá",
+      "count": 7
+    },
+    {
+      "code": "02",
+      "name": "Región de Antofagasta",
+      "shortName": "Antofagasta",
+      "count": 9
+    },
+    {
+      "code": "03",
+      "name": "Región de Atacama",
+      "shortName": "Atacama",
+      "count": 9
+    },
+    {
+      "code": "04",
+      "name": "Región de Coquimbo",
+      "shortName": "Coquimbo",
+      "count": 15
+    },
+    {
+      "code": "05",
+      "name": "Región de Valparaíso",
+      "shortName": "Valparaíso",
+      "count": 38
+    },
+    {
+      "code": "13",
+      "name": "Región Metropolitana de Santiago",
+      "shortName": "Metropolitana",
+      "count": 52
+    },
+    {
+      "code": "06",
+      "name": "Región del Libertador Bernardo O'Higgins",
+      "shortName": "O’Higgins",
+      "count": 33
+    },
+    {
+      "code": "07",
+      "name": "Región del Maule",
+      "shortName": "Maule",
+      "count": 30
+    },
+    {
+      "code": "16",
+      "name": "Región de Ñuble",
+      "shortName": "Ñuble",
+      "count": 21
+    },
+    {
+      "code": "08",
+      "name": "Región del Bío-Bío",
+      "shortName": "Biobío",
+      "count": 33
+    },
+    {
+      "code": "09",
+      "name": "Región de La Araucanía",
+      "shortName": "La Araucanía",
+      "count": 32
+    },
+    {
+      "code": "14",
+      "name": "Región de Los Ríos",
+      "shortName": "Los Ríos",
+      "count": 12
+    },
+    {
+      "code": "10",
+      "name": "Región de Los Lagos",
+      "shortName": "Los Lagos",
+      "count": 30
+    },
+    {
+      "code": "11",
+      "name": "Región de Aysén del Gral.Ibañez del Campo",
+      "shortName": "Aysén",
+      "count": 10
+    },
+    {
+      "code": "12",
+      "name": "Región de Magallanes y Antártica Chilena",
+      "shortName": "Magallanes",
+      "count": 11
+    }
+  ],
+  "provinces": [
+    {
+      "code": "011",
+      "name": "Iquique",
+      "region": "01"
+    },
+    {
+      "code": "014",
+      "name": "Iquique",
+      "region": "01"
+    },
+    {
+      "code": "021",
+      "name": "Antofagasta",
+      "region": "02"
+    },
+    {
+      "code": "022",
+      "name": "El Loa",
+      "region": "02"
+    },
+    {
+      "code": "023",
+      "name": "Tocopilla",
+      "region": "02"
+    },
+    {
+      "code": "031",
+      "name": "Copiapó",
+      "region": "03"
+    },
+    {
+      "code": "032",
+      "name": "Chañaral",
+      "region": "03"
+    },
+    {
+      "code": "033",
+      "name": "Huasco",
+      "region": "03"
+    },
+    {
+      "code": "041",
+      "name": "Elqui",
+      "region": "04"
+    },
+    {
+      "code": "042",
+      "name": "Choapa",
+      "region": "04"
+    },
+    {
+      "code": "043",
+      "name": "Limarí",
+      "region": "04"
+    },
+    {
+      "code": "051",
+      "name": "Valparaíso",
+      "region": "05"
+    },
+    {
+      "code": "052",
+      "name": "Isla de Pascua",
+      "region": "05"
+    },
+    {
+      "code": "053",
+      "name": "Los Andes",
+      "region": "05"
+    },
+    {
+      "code": "054",
+      "name": "Petorca",
+      "region": "05"
+    },
+    {
+      "code": "055",
+      "name": "Quillota",
+      "region": "05"
+    },
+    {
+      "code": "056",
+      "name": "San Antonio",
+      "region": "05"
+    },
+    {
+      "code": "057",
+      "name": "San Felipe",
+      "region": "05"
+    },
+    {
+      "code": "058",
+      "name": "Marga Marga",
+      "region": "05"
+    },
+    {
+      "code": "061",
+      "name": "Cachapoal",
+      "region": "06"
+    },
+    {
+      "code": "062",
+      "name": "Cardenal Caro",
+      "region": "06"
+    },
+    {
+      "code": "063",
+      "name": "Colchagua",
+      "region": "06"
+    },
+    {
+      "code": "071",
+      "name": "Talca",
+      "region": "07"
+    },
+    {
+      "code": "072",
+      "name": "Cauquenes",
+      "region": "07"
+    },
+    {
+      "code": "073",
+      "name": "Curicó",
+      "region": "07"
+    },
+    {
+      "code": "074",
+      "name": "Linares",
+      "region": "07"
+    },
+    {
+      "code": "081",
+      "name": "Concepción",
+      "region": "08"
+    },
+    {
+      "code": "082",
+      "name": "Arauco",
+      "region": "08"
+    },
+    {
+      "code": "083",
+      "name": "Bío-Bío",
+      "region": "08"
+    },
+    {
+      "code": "091",
+      "name": "Cautín",
+      "region": "09"
+    },
+    {
+      "code": "092",
+      "name": "Malleco",
+      "region": "09"
+    },
+    {
+      "code": "101",
+      "name": "Llanquihue",
+      "region": "10"
+    },
+    {
+      "code": "102",
+      "name": "Chiloe",
+      "region": "10"
+    },
+    {
+      "code": "103",
+      "name": "Osorno",
+      "region": "10"
+    },
+    {
+      "code": "104",
+      "name": "Palena",
+      "region": "10"
+    },
+    {
+      "code": "111",
+      "name": "Coyhaique",
+      "region": "11"
+    },
+    {
+      "code": "112",
+      "name": "Aysén",
+      "region": "11"
+    },
+    {
+      "code": "113",
+      "name": "Capitán Prat",
+      "region": "11"
+    },
+    {
+      "code": "114",
+      "name": "General Carrera",
+      "region": "11"
+    },
+    {
+      "code": "121",
+      "name": "Magallanes",
+      "region": "12"
+    },
+    {
+      "code": "122",
+      "name": "Antártica Chilena",
+      "region": "12"
+    },
+    {
+      "code": "123",
+      "name": "Tierra del Fuego",
+      "region": "12"
+    },
+    {
+      "code": "124",
+      "name": "Ultima Esperanza",
+      "region": "12"
+    },
+    {
+      "code": "131",
+      "name": "Santiago",
+      "region": "13"
+    },
+    {
+      "code": "132",
+      "name": "Cordillera",
+      "region": "13"
+    },
+    {
+      "code": "133",
+      "name": "Chacabuco",
+      "region": "13"
+    },
+    {
+      "code": "134",
+      "name": "Maipo",
+      "region": "13"
+    },
+    {
+      "code": "135",
+      "name": "Melipilla",
+      "region": "13"
+    },
+    {
+      "code": "136",
+      "name": "Talagante",
+      "region": "13"
+    },
+    {
+      "code": "141",
+      "name": "Valdivia",
+      "region": "14"
+    },
+    {
+      "code": "142",
+      "name": "Ranco",
+      "region": "14"
+    },
+    {
+      "code": "151",
+      "name": "Arica",
+      "region": "15"
+    },
+    {
+      "code": "152",
+      "name": "Parinacota",
+      "region": "15"
+    },
+    {
+      "code": "161",
+      "name": "Ñuble",
+      "region": "16"
+    },
+    {
+      "code": "162",
+      "name": "Itata",
+      "region": "16"
+    },
+    {
+      "code": "163",
+      "name": "Punilla",
+      "region": "16"
+    }
+  ],
+  "communes": [
+    {
+      "cut": "01101",
+      "name": "Iquique",
+      "province": "011",
+      "region": "01",
+      "label": [
+        -70.00378695009162,
+        -21.057902464881614
+      ],
+      "available": true
+    },
+    {
+      "cut": "01107",
+      "name": "Alto Hospicio",
+      "province": "011",
+      "region": "01",
+      "label": [
+        -70.00689017059834,
+        -20.173490646856383
+      ],
+      "available": true
+    },
+    {
+      "cut": "01401",
+      "name": "Pozo Almonte",
+      "province": "014",
+      "region": "01",
+      "label": [
+        -69.46932935030779,
+        -21.08273065280663
+      ],
+      "available": true
+    },
+    {
+      "cut": "01402",
+      "name": "Camiña",
+      "province": "014",
+      "region": "01",
+      "label": [
+        -69.51457913546864,
+        -19.3830988184075
+      ],
+      "available": true
+    },
+    {
+      "cut": "01403",
+      "name": "Colchane",
+      "province": "014",
+      "region": "01",
+      "label": [
+        -68.80491153386794,
+        -19.400290568706637
+      ],
+      "available": true
+    },
+    {
+      "cut": "01404",
+      "name": "Huara",
+      "province": "014",
+      "region": "01",
+      "label": [
+        -69.2546941223168,
+        -19.730080965341152
+      ],
+      "available": true
+    },
+    {
+      "cut": "01405",
+      "name": "Pica",
+      "province": "014",
+      "region": "01",
+      "label": [
+        -69.24652824893343,
+        -20.48092401978068
+      ],
+      "available": true
+    },
+    {
+      "cut": "02101",
+      "name": "Antofagasta",
+      "province": "021",
+      "region": "02",
+      "label": [
+        -69.54076484223863,
+        -24.14485359400043
+      ],
+      "available": true
+    },
+    {
+      "cut": "02102",
+      "name": "Mejillones",
+      "province": "021",
+      "region": "02",
+      "label": [
+        -70.12591499378763,
+        -22.795950151170427
+      ],
+      "available": true
+    },
+    {
+      "cut": "02103",
+      "name": "Sierra Gorda",
+      "province": "021",
+      "region": "02",
+      "label": [
+        -69.26214777956456,
+        -23.211714475063904
+      ],
+      "available": true
+    },
+    {
+      "cut": "02104",
+      "name": "Taltal",
+      "province": "021",
+      "region": "02",
+      "label": [
+        -69.83475915335885,
+        -25.297837356291367
+      ],
+      "available": true
+    },
+    {
+      "cut": "02201",
+      "name": "Calama",
+      "province": "022",
+      "region": "02",
+      "label": [
+        -68.67220810198889,
+        -22.31117601367589
+      ],
+      "available": true
+    },
+    {
+      "cut": "02202",
+      "name": "Ollagüe",
+      "province": "022",
+      "region": "02",
+      "label": [
+        -68.34621092591541,
+        -21.47448194112864
+      ],
+      "available": true
+    },
+    {
+      "cut": "02203",
+      "name": "San Pedro de Atacama",
+      "province": "022",
+      "region": "02",
+      "label": [
+        -67.86964572616426,
+        -23.53868659776176
+      ],
+      "available": true
+    },
+    {
+      "cut": "02301",
+      "name": "Tocopilla",
+      "province": "023",
+      "region": "02",
+      "label": [
+        -69.9871657557878,
+        -22.055849488436113
+      ],
+      "available": true
+    },
+    {
+      "cut": "02302",
+      "name": "María Elena",
+      "province": "023",
+      "region": "02",
+      "label": [
+        -69.40674273435711,
+        -21.94440754531254
+      ],
+      "available": true
+    },
+    {
+      "cut": "03101",
+      "name": "Copiapó",
+      "province": "031",
+      "region": "03",
+      "label": [
+        -69.79865419649707,
+        -27.227870586643704
+      ],
+      "available": true
+    },
+    {
+      "cut": "03102",
+      "name": "Caldera",
+      "province": "031",
+      "region": "03",
+      "label": [
+        -70.58806579200402,
+        -26.930983715183537
+      ],
+      "available": true
+    },
+    {
+      "cut": "03103",
+      "name": "Tierra Amarilla",
+      "province": "031",
+      "region": "03",
+      "label": [
+        -69.72988255990185,
+        -27.977184637101665
+      ],
+      "available": true
+    },
+    {
+      "cut": "03201",
+      "name": "Chañaral",
+      "province": "032",
+      "region": "03",
+      "label": [
+        -70.43710022690708,
+        -26.49799892331497
+      ],
+      "available": true
+    },
+    {
+      "cut": "03202",
+      "name": "Diego de Almagro",
+      "province": "032",
+      "region": "03",
+      "label": [
+        -69.02893471540487,
+        -26.271532639816254
+      ],
+      "available": true
+    },
+    {
+      "cut": "03301",
+      "name": "Vallenar",
+      "province": "033",
+      "region": "03",
+      "label": [
+        -70.32799766922456,
+        -28.399131797453055
+      ],
+      "available": true
+    },
+    {
+      "cut": "03302",
+      "name": "Alto del Carmen",
+      "province": "033",
+      "region": "03",
+      "label": [
+        -70.190553188478,
+        -28.992997850904345
+      ],
+      "available": true
+    },
+    {
+      "cut": "03303",
+      "name": "Freirina",
+      "province": "033",
+      "region": "03",
+      "label": [
+        -71.26241478242116,
+        -28.960993748602686
+      ],
+      "available": true
+    },
+    {
+      "cut": "03304",
+      "name": "Huasco",
+      "province": "033",
+      "region": "03",
+      "label": [
+        -71.0347709193502,
+        -28.17151326652649
+      ],
+      "available": true
+    },
+    {
+      "cut": "04101",
+      "name": "La Serena",
+      "province": "041",
+      "region": "04",
+      "label": [
+        -71.12887655707809,
+        -29.79929968640889
+      ],
+      "available": true
+    },
+    {
+      "cut": "04102",
+      "name": "Coquimbo",
+      "province": "041",
+      "region": "04",
+      "label": [
+        -71.40698533645842,
+        -30.334310337877113
+      ],
+      "available": true
+    },
+    {
+      "cut": "04103",
+      "name": "Andacollo",
+      "province": "041",
+      "region": "04",
+      "label": [
+        -71.10157839316527,
+        -30.268556534197767
+      ],
+      "available": true
+    },
+    {
+      "cut": "04104",
+      "name": "La Higuera",
+      "province": "041",
+      "region": "04",
+      "label": [
+        -70.76047453294984,
+        -29.354181492601665
+      ],
+      "available": true
+    },
+    {
+      "cut": "04105",
+      "name": "Paihuano",
+      "province": "041",
+      "region": "04",
+      "label": [
+        -70.39899119537877,
+        -30.243319576396303
+      ],
+      "available": true
+    },
+    {
+      "cut": "04106",
+      "name": "Vicuña",
+      "province": "041",
+      "region": "04",
+      "label": [
+        -70.1675870874729,
+        -29.783655173693454
+      ],
+      "available": true
+    },
+    {
+      "cut": "04201",
+      "name": "Illapel",
+      "province": "042",
+      "region": "04",
+      "label": [
+        -70.97760850220914,
+        -31.516669953485522
+      ],
+      "available": true
+    },
+    {
+      "cut": "04202",
+      "name": "Canela",
+      "province": "042",
+      "region": "04",
+      "label": [
+        -71.43080594846913,
+        -31.358159229300615
+      ],
+      "available": true
+    },
+    {
+      "cut": "04203",
+      "name": "Los Vilos",
+      "province": "042",
+      "region": "04",
+      "label": [
+        -71.322930174413,
+        -31.99131731106761
+      ],
+      "available": true
+    },
+    {
+      "cut": "04204",
+      "name": "Salamanca",
+      "province": "042",
+      "region": "04",
+      "label": [
+        -70.66246537980304,
+        -31.83389966779121
+      ],
+      "available": true
+    },
+    {
+      "cut": "04301",
+      "name": "Ovalle",
+      "province": "043",
+      "region": "04",
+      "label": [
+        -71.5271737956436,
+        -30.65052152420463
+      ],
+      "available": true
+    },
+    {
+      "cut": "04302",
+      "name": "Combarbalá",
+      "province": "043",
+      "region": "04",
+      "label": [
+        -70.96888232612552,
+        -31.151659948477146
+      ],
+      "available": true
+    },
+    {
+      "cut": "04303",
+      "name": "Monte Patria",
+      "province": "043",
+      "region": "04",
+      "label": [
+        -70.59081443324041,
+        -30.845972876493693
+      ],
+      "available": true
+    },
+    {
+      "cut": "04304",
+      "name": "Punitaqui",
+      "province": "043",
+      "region": "04",
+      "label": [
+        -71.39424813660676,
+        -31.0164274197492
+      ],
+      "available": true
+    },
+    {
+      "cut": "04305",
+      "name": "Río Hurtado",
+      "province": "043",
+      "region": "04",
+      "label": [
+        -70.78153862287438,
+        -30.38446908523247
+      ],
+      "available": true
+    },
+    {
+      "cut": "05101",
+      "name": "Valparaíso",
+      "province": "051",
+      "region": "05",
+      "label": [
+        -71.60472806386976,
+        -33.1028700361544
+      ],
+      "available": true
+    },
+    {
+      "cut": "05102",
+      "name": "Casablanca",
+      "province": "051",
+      "region": "05",
+      "label": [
+        -71.41047975516933,
+        -33.32435923928289
+      ],
+      "available": true
+    },
+    {
+      "cut": "05103",
+      "name": "Concón",
+      "province": "051",
+      "region": "05",
+      "label": [
+        -71.45822266856932,
+        -32.956325223588344
+      ],
+      "available": true
+    },
+    {
+      "cut": "05104",
+      "name": "Juan Fernández",
+      "province": "051",
+      "region": "05",
+      "label": [
+        -80.79419860963365,
+        -33.763946062137734
+      ],
+      "available": true
+    },
+    {
+      "cut": "05105",
+      "name": "Puchuncaví",
+      "province": "051",
+      "region": "05",
+      "label": [
+        -71.3757074530773,
+        -32.73926267728159
+      ],
+      "available": true
+    },
+    {
+      "cut": "05107",
+      "name": "Quintero",
+      "province": "051",
+      "region": "05",
+      "label": [
+        -71.46864880079626,
+        -32.84729992349782
+      ],
+      "available": true
+    },
+    {
+      "cut": "05109",
+      "name": "Viña del Mar",
+      "province": "051",
+      "region": "05",
+      "label": [
+        -71.51091043272223,
+        -33.006324215035164
+      ],
+      "available": true
+    },
+    {
+      "cut": "05201",
+      "name": "Isla de Pascua",
+      "province": "052",
+      "region": "05",
+      "label": [
+        -109.36285980577338,
+        -27.107910222910114
+      ],
+      "available": true
+    },
+    {
+      "cut": "05301",
+      "name": "Los Andes",
+      "province": "053",
+      "region": "05",
+      "label": [
+        -70.2091854930411,
+        -32.96424057099353
+      ],
+      "available": true
+    },
+    {
+      "cut": "05302",
+      "name": "Calle Larga",
+      "province": "053",
+      "region": "05",
+      "label": [
+        -70.49348241126468,
+        -33.00379501387655
+      ],
+      "available": true
+    },
+    {
+      "cut": "05303",
+      "name": "Rinconada",
+      "province": "053",
+      "region": "05",
+      "label": [
+        -70.7114427000477,
+        -32.8570838533119
+      ],
+      "available": true
+    },
+    {
+      "cut": "05304",
+      "name": "San Esteban",
+      "province": "053",
+      "region": "05",
+      "label": [
+        -70.37434339306546,
+        -32.737583436893665
+      ],
+      "available": true
+    },
+    {
+      "cut": "05401",
+      "name": "La Ligua",
+      "province": "054",
+      "region": "05",
+      "label": [
+        -71.2761902010743,
+        -32.302873215791735
+      ],
+      "available": true
+    },
+    {
+      "cut": "05402",
+      "name": "Cabildo",
+      "province": "054",
+      "region": "05",
+      "label": [
+        -70.95897739406719,
+        -32.46667683909351
+      ],
+      "available": true
+    },
+    {
+      "cut": "05403",
+      "name": "Papudo",
+      "province": "054",
+      "region": "05",
+      "label": [
+        -71.376811738561,
+        -32.46718056414072
+      ],
+      "available": true
+    },
+    {
+      "cut": "05404",
+      "name": "Petorca",
+      "province": "054",
+      "region": "05",
+      "label": [
+        -70.98734514295533,
+        -32.19370404709002
+      ],
+      "available": true
+    },
+    {
+      "cut": "05405",
+      "name": "Zapallar",
+      "province": "054",
+      "region": "05",
+      "label": [
+        -71.31384693472528,
+        -32.578047306139204
+      ],
+      "available": true
+    },
+    {
+      "cut": "05501",
+      "name": "Quillota",
+      "province": "055",
+      "region": "05",
+      "label": [
+        -71.27966409237327,
+        -32.89967997729189
+      ],
+      "available": true
+    },
+    {
+      "cut": "05502",
+      "name": "Calera",
+      "province": "055",
+      "region": "05",
+      "label": [
+        -71.11144492417816,
+        -32.77303269839486
+      ],
+      "available": true
+    },
+    {
+      "cut": "05503",
+      "name": "Hijuelas",
+      "province": "055",
+      "region": "05",
+      "label": [
+        -71.08860655697984,
+        -32.90487505679311
+      ],
+      "available": true
+    },
+    {
+      "cut": "05504",
+      "name": "La Cruz",
+      "province": "055",
+      "region": "05",
+      "label": [
+        -71.2148229280591,
+        -32.83350315073541
+      ],
+      "available": true
+    },
+    {
+      "cut": "05506",
+      "name": "Nogales",
+      "province": "055",
+      "region": "05",
+      "label": [
+        -71.1887348089354,
+        -32.68497846115476
+      ],
+      "available": true
+    },
+    {
+      "cut": "05601",
+      "name": "San Antonio",
+      "province": "056",
+      "region": "05",
+      "label": [
+        -71.50415017867338,
+        -33.650286159947846
+      ],
+      "available": true
+    },
+    {
+      "cut": "05602",
+      "name": "Algarrobo",
+      "province": "056",
+      "region": "05",
+      "label": [
+        -71.59055501558765,
+        -33.32563743885029
+      ],
+      "available": true
+    },
+    {
+      "cut": "05603",
+      "name": "Cartagena",
+      "province": "056",
+      "region": "05",
+      "label": [
+        -71.4135089460963,
+        -33.54231874266483
+      ],
+      "available": true
+    },
+    {
+      "cut": "05604",
+      "name": "El Quisco",
+      "province": "056",
+      "region": "05",
+      "label": [
+        -71.67558788513968,
+        -33.41789172153143
+      ],
+      "available": true
+    },
+    {
+      "cut": "05605",
+      "name": "El Tabo",
+      "province": "056",
+      "region": "05",
+      "label": [
+        -71.57225600269288,
+        -33.49229776223873
+      ],
+      "available": true
+    },
+    {
+      "cut": "05606",
+      "name": "Santo Domingo",
+      "province": "056",
+      "region": "05",
+      "label": [
+        -71.7031238124994,
+        -33.83942687363834
+      ],
+      "available": true
+    },
+    {
+      "cut": "05701",
+      "name": "San Felipe",
+      "province": "057",
+      "region": "05",
+      "label": [
+        -70.80489945064852,
+        -32.702649405177695
+      ],
+      "available": true
+    },
+    {
+      "cut": "05702",
+      "name": "Catemu",
+      "province": "057",
+      "region": "05",
+      "label": [
+        -70.95410367936239,
+        -32.71500496588138
+      ],
+      "available": true
+    },
+    {
+      "cut": "05703",
+      "name": "Llaillay",
+      "province": "057",
+      "region": "05",
+      "label": [
+        -70.96102191449486,
+        -32.893804586746036
+      ],
+      "available": true
+    },
+    {
+      "cut": "05704",
+      "name": "Panquehue",
+      "province": "057",
+      "region": "05",
+      "label": [
+        -70.80300009867138,
+        -32.79049252190711
+      ],
+      "available": true
+    },
+    {
+      "cut": "05705",
+      "name": "Putaendo",
+      "province": "057",
+      "region": "05",
+      "label": [
+        -70.46101683913584,
+        -32.4749858855551
+      ],
+      "available": true
+    },
+    {
+      "cut": "05706",
+      "name": "Santa María",
+      "province": "057",
+      "region": "05",
+      "label": [
+        -70.6443960978748,
+        -32.754381549186036
+      ],
+      "available": true
+    },
+    {
+      "cut": "05801",
+      "name": "Quilpué",
+      "province": "058",
+      "region": "05",
+      "label": [
+        -71.06664509086514,
+        -33.15340022457672
+      ],
+      "available": true
+    },
+    {
+      "cut": "05802",
+      "name": "Limache",
+      "province": "058",
+      "region": "05",
+      "label": [
+        -71.23176708014832,
+        -33.05898711934877
+      ],
+      "available": true
+    },
+    {
+      "cut": "05803",
+      "name": "Olmué",
+      "province": "058",
+      "region": "05",
+      "label": [
+        -71.1104037270507,
+        -33.04228286785407
+      ],
+      "available": true
+    },
+    {
+      "cut": "05804",
+      "name": "Villa Alemana",
+      "province": "058",
+      "region": "05",
+      "label": [
+        -71.32250353266541,
+        -33.07547992274446
+      ],
+      "available": true
+    },
+    {
+      "cut": "06101",
+      "name": "Rancagua",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -70.85298290753275,
+        -34.11400279738934
+      ],
+      "available": true
+    },
+    {
+      "cut": "06102",
+      "name": "Codegua",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -70.61798461291538,
+        -34.093403802352
+      ],
+      "available": true
+    },
+    {
+      "cut": "06103",
+      "name": "Coinco",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -70.97131140746968,
+        -34.28602735803436
+      ],
+      "available": true
+    },
+    {
+      "cut": "06104",
+      "name": "Coltauco",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -71.04404921482818,
+        -34.24323132886218
+      ],
+      "available": true
+    },
+    {
+      "cut": "06105",
+      "name": "Doñihue",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -70.91885520668491,
+        -34.18337045280185
+      ],
+      "available": true
+    },
+    {
+      "cut": "06106",
+      "name": "Graneros",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -70.76134766609633,
+        -34.06980113163716
+      ],
+      "available": true
+    },
+    {
+      "cut": "06107",
+      "name": "Las Cabras",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -71.33156399034911,
+        -34.17211854612194
+      ],
+      "available": true
+    },
+    {
+      "cut": "06108",
+      "name": "Machalí",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -70.25922192397091,
+        -34.33957896428728
+      ],
+      "available": true
+    },
+    {
+      "cut": "06109",
+      "name": "Malloa",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -70.93155728107986,
+        -34.451272627418106
+      ],
+      "available": true
+    },
+    {
+      "cut": "06110",
+      "name": "Mostazal",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -70.54044942963702,
+        -33.95922652952365
+      ],
+      "available": true
+    },
+    {
+      "cut": "06111",
+      "name": "Olivar",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -70.83564194317619,
+        -34.20856238001347
+      ],
+      "available": true
+    },
+    {
+      "cut": "06112",
+      "name": "Peumo",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -71.23715158320758,
+        -34.306823005526425
+      ],
+      "available": true
+    },
+    {
+      "cut": "06113",
+      "name": "Pichidegua",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -71.34863090924485,
+        -34.375090000837254
+      ],
+      "available": true
+    },
+    {
+      "cut": "06114",
+      "name": "Quinta de Tilcoco",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -70.98949077795668,
+        -34.36291728341264
+      ],
+      "available": true
+    },
+    {
+      "cut": "06115",
+      "name": "Rengo",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -70.74086009470238,
+        -34.447522196188324
+      ],
+      "available": true
+    },
+    {
+      "cut": "06116",
+      "name": "Requínoa",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -70.59071852199874,
+        -34.36355939464891
+      ],
+      "available": true
+    },
+    {
+      "cut": "06117",
+      "name": "San Vicente",
+      "province": "061",
+      "region": "06",
+      "label": [
+        -71.09273499257665,
+        -34.47685530427841
+      ],
+      "available": true
+    },
+    {
+      "cut": "06201",
+      "name": "Pichilemu",
+      "province": "062",
+      "region": "06",
+      "label": [
+        -71.91324836444593,
+        -34.42720894635507
+      ],
+      "available": true
+    },
+    {
+      "cut": "06202",
+      "name": "La Estrella",
+      "province": "062",
+      "region": "06",
+      "label": [
+        -71.59117707848209,
+        -34.21793709151044
+      ],
+      "available": true
+    },
+    {
+      "cut": "06203",
+      "name": "Litueche",
+      "province": "062",
+      "region": "06",
+      "label": [
+        -71.6728440376026,
+        -34.066060521205216
+      ],
+      "available": true
+    },
+    {
+      "cut": "06204",
+      "name": "Marchigüe",
+      "province": "062",
+      "region": "06",
+      "label": [
+        -71.66938576956713,
+        -34.401426042874554
+      ],
+      "available": true
+    },
+    {
+      "cut": "06205",
+      "name": "Navidad",
+      "province": "062",
+      "region": "06",
+      "label": [
+        -71.81424853529958,
+        -34.00210606217369
+      ],
+      "available": true
+    },
+    {
+      "cut": "06206",
+      "name": "Paredones",
+      "province": "062",
+      "region": "06",
+      "label": [
+        -71.91828514655377,
+        -34.665054981583516
+      ],
+      "available": true
+    },
+    {
+      "cut": "06301",
+      "name": "San Fernando",
+      "province": "063",
+      "region": "06",
+      "label": [
+        -70.6025674220464,
+        -34.76817654885419
+      ],
+      "available": true
+    },
+    {
+      "cut": "06302",
+      "name": "Chépica",
+      "province": "063",
+      "region": "06",
+      "label": [
+        -71.44259188175458,
+        -34.81722561276366
+      ],
+      "available": true
+    },
+    {
+      "cut": "06303",
+      "name": "Chimbarongo",
+      "province": "063",
+      "region": "06",
+      "label": [
+        -70.98320726483914,
+        -34.72754946093648
+      ],
+      "available": true
+    },
+    {
+      "cut": "06304",
+      "name": "Lolol",
+      "province": "063",
+      "region": "06",
+      "label": [
+        -71.63745318790413,
+        -34.76786983877404
+      ],
+      "available": true
+    },
+    {
+      "cut": "06305",
+      "name": "Nancagua",
+      "province": "063",
+      "region": "06",
+      "label": [
+        -71.18574513474522,
+        -34.663927681742294
+      ],
+      "available": true
+    },
+    {
+      "cut": "06306",
+      "name": "Palmilla",
+      "province": "063",
+      "region": "06",
+      "label": [
+        -71.36024899214213,
+        -34.543962243961275
+      ],
+      "available": true
+    },
+    {
+      "cut": "06307",
+      "name": "Peralillo",
+      "province": "063",
+      "region": "06",
+      "label": [
+        -71.53141089154354,
+        -34.48456712257741
+      ],
+      "available": true
+    },
+    {
+      "cut": "06308",
+      "name": "Placilla",
+      "province": "063",
+      "region": "06",
+      "label": [
+        -71.09192189265882,
+        -34.62215978474732
+      ],
+      "available": true
+    },
+    {
+      "cut": "06309",
+      "name": "Pumanque",
+      "province": "063",
+      "region": "06",
+      "label": [
+        -71.68024048965768,
+        -34.58793585230199
+      ],
+      "available": true
+    },
+    {
+      "cut": "06310",
+      "name": "Santa Cruz",
+      "province": "063",
+      "region": "06",
+      "label": [
+        -71.42599475350953,
+        -34.66560428765444
+      ],
+      "available": true
+    },
+    {
+      "cut": "07101",
+      "name": "Talca",
+      "province": "071",
+      "region": "07",
+      "label": [
+        -71.6112748657356,
+        -35.41266515168418
+      ],
+      "available": true
+    },
+    {
+      "cut": "07102",
+      "name": "Constitución",
+      "province": "071",
+      "region": "07",
+      "label": [
+        -72.25008474907405,
+        -35.32870780134752
+      ],
+      "available": true
+    },
+    {
+      "cut": "07103",
+      "name": "Curepto",
+      "province": "071",
+      "region": "07",
+      "label": [
+        -71.9890975391907,
+        -35.14493408207939
+      ],
+      "available": true
+    },
+    {
+      "cut": "07104",
+      "name": "Empedrado",
+      "province": "071",
+      "region": "07",
+      "label": [
+        -72.33565168513937,
+        -35.57863980155222
+      ],
+      "available": true
+    },
+    {
+      "cut": "07105",
+      "name": "Maule",
+      "province": "071",
+      "region": "07",
+      "label": [
+        -71.70595091178647,
+        -35.5012013306929
+      ],
+      "available": true
+    },
+    {
+      "cut": "07106",
+      "name": "Pelarco",
+      "province": "071",
+      "region": "07",
+      "label": [
+        -71.3447115251859,
+        -35.38055682671814
+      ],
+      "available": true
+    },
+    {
+      "cut": "07107",
+      "name": "Pencahue",
+      "province": "071",
+      "region": "07",
+      "label": [
+        -71.79427904762007,
+        -35.329744877848185
+      ],
+      "available": true
+    },
+    {
+      "cut": "07108",
+      "name": "Río Claro",
+      "province": "071",
+      "region": "07",
+      "label": [
+        -71.29626878384322,
+        -35.23543995683423
+      ],
+      "available": true
+    },
+    {
+      "cut": "07109",
+      "name": "San Clemente",
+      "province": "071",
+      "region": "07",
+      "label": [
+        -70.62356827619456,
+        -35.75939428595011
+      ],
+      "available": true
+    },
+    {
+      "cut": "07110",
+      "name": "San Rafael",
+      "province": "071",
+      "region": "07",
+      "label": [
+        -71.50069488835004,
+        -35.302933173187085
+      ],
+      "available": true
+    },
+    {
+      "cut": "07201",
+      "name": "Cauquenes",
+      "province": "072",
+      "region": "07",
+      "label": [
+        -72.2525870991089,
+        -35.96793870169142
+      ],
+      "available": true
+    },
+    {
+      "cut": "07202",
+      "name": "Chanco",
+      "province": "072",
+      "region": "07",
+      "label": [
+        -72.45218230434274,
+        -35.7487293892274
+      ],
+      "available": true
+    },
+    {
+      "cut": "07203",
+      "name": "Pelluhue",
+      "province": "072",
+      "region": "07",
+      "label": [
+        -72.5754049465001,
+        -35.881356110145155
+      ],
+      "available": true
+    },
+    {
+      "cut": "07301",
+      "name": "Curicó",
+      "province": "073",
+      "region": "07",
+      "label": [
+        -70.91690122218539,
+        -35.21447467980708
+      ],
+      "available": true
+    },
+    {
+      "cut": "07302",
+      "name": "Hualañé",
+      "province": "073",
+      "region": "07",
+      "label": [
+        -71.67095745846316,
+        -35.00722337806878
+      ],
+      "available": true
+    },
+    {
+      "cut": "07303",
+      "name": "Licantén",
+      "province": "073",
+      "region": "07",
+      "label": [
+        -72.12792062169444,
+        -34.980819447061315
+      ],
+      "available": true
+    },
+    {
+      "cut": "07304",
+      "name": "Molina",
+      "province": "073",
+      "region": "07",
+      "label": [
+        -70.72212911442992,
+        -35.424203272041716
+      ],
+      "available": true
+    },
+    {
+      "cut": "07305",
+      "name": "Rauco",
+      "province": "073",
+      "region": "07",
+      "label": [
+        -71.32255086422869,
+        -34.90966505721015
+      ],
+      "available": true
+    },
+    {
+      "cut": "07306",
+      "name": "Romeral",
+      "province": "073",
+      "region": "07",
+      "label": [
+        -70.63058578333964,
+        -35.112718494923826
+      ],
+      "available": true
+    },
+    {
+      "cut": "07307",
+      "name": "Sagrada Familia",
+      "province": "073",
+      "region": "07",
+      "label": [
+        -71.53754467135805,
+        -35.13188703161075
+      ],
+      "available": true
+    },
+    {
+      "cut": "07308",
+      "name": "Teno",
+      "province": "073",
+      "region": "07",
+      "label": [
+        -70.88175709998197,
+        -34.91683416136236
+      ],
+      "available": true
+    },
+    {
+      "cut": "07309",
+      "name": "Vichuquén",
+      "province": "073",
+      "region": "07",
+      "label": [
+        -72.03385445117641,
+        -34.83487534210423
+      ],
+      "available": true
+    },
+    {
+      "cut": "07401",
+      "name": "Linares",
+      "province": "074",
+      "region": "07",
+      "label": [
+        -71.28139372772824,
+        -35.990947013072976
+      ],
+      "available": true
+    },
+    {
+      "cut": "07402",
+      "name": "Colbún",
+      "province": "074",
+      "region": "07",
+      "label": [
+        -70.84473382786206,
+        -36.167611611474825
+      ],
+      "available": true
+    },
+    {
+      "cut": "07403",
+      "name": "Longaví",
+      "province": "074",
+      "region": "07",
+      "label": [
+        -71.58339940669839,
+        -36.0358718817051
+      ],
+      "available": true
+    },
+    {
+      "cut": "07404",
+      "name": "Parral",
+      "province": "074",
+      "region": "07",
+      "label": [
+        -71.4149042697762,
+        -36.331448451372886
+      ],
+      "available": true
+    },
+    {
+      "cut": "07405",
+      "name": "Retiro",
+      "province": "074",
+      "region": "07",
+      "label": [
+        -71.92383891284408,
+        -35.93327986694588
+      ],
+      "available": true
+    },
+    {
+      "cut": "07406",
+      "name": "San Javier",
+      "province": "074",
+      "region": "07",
+      "label": [
+        -71.90783244920434,
+        -35.62356999166195
+      ],
+      "available": true
+    },
+    {
+      "cut": "07407",
+      "name": "Villa Alegre",
+      "province": "074",
+      "region": "07",
+      "label": [
+        -71.68331306637212,
+        -35.68203163993556
+      ],
+      "available": true
+    },
+    {
+      "cut": "07408",
+      "name": "Yerbas Buenas",
+      "province": "074",
+      "region": "07",
+      "label": [
+        -71.52112176820246,
+        -35.65846220934354
+      ],
+      "available": true
+    },
+    {
+      "cut": "08101",
+      "name": "Concepción",
+      "province": "081",
+      "region": "08",
+      "label": [
+        -72.96959337017654,
+        -36.81931842891525
+      ],
+      "available": true
+    },
+    {
+      "cut": "08102",
+      "name": "Coronel",
+      "province": "081",
+      "region": "08",
+      "label": [
+        -73.03394853727985,
+        -37.01911310708056
+      ],
+      "available": true
+    },
+    {
+      "cut": "08103",
+      "name": "Chiguayante",
+      "province": "081",
+      "region": "08",
+      "label": [
+        -73.01694445789877,
+        -36.895288039081734
+      ],
+      "available": true
+    },
+    {
+      "cut": "08104",
+      "name": "Florida",
+      "province": "081",
+      "region": "08",
+      "label": [
+        -72.74152182146001,
+        -36.837522618179165
+      ],
+      "available": true
+    },
+    {
+      "cut": "08105",
+      "name": "Hualqui",
+      "province": "081",
+      "region": "08",
+      "label": [
+        -72.87283316561135,
+        -37.047562650378914
+      ],
+      "available": true
+    },
+    {
+      "cut": "08106",
+      "name": "Lota",
+      "province": "081",
+      "region": "08",
+      "label": [
+        -73.10023367686549,
+        -37.112020954607544
+      ],
+      "available": true
+    },
+    {
+      "cut": "08107",
+      "name": "Penco",
+      "province": "081",
+      "region": "08",
+      "label": [
+        -72.95349361183924,
+        -36.73200737563525
+      ],
+      "available": true
+    },
+    {
+      "cut": "08108",
+      "name": "San Pedro de la Paz",
+      "province": "081",
+      "region": "08",
+      "label": [
+        -73.10603556784227,
+        -36.868445329434984
+      ],
+      "available": true
+    },
+    {
+      "cut": "08109",
+      "name": "Santa Juana",
+      "province": "081",
+      "region": "08",
+      "label": [
+        -72.96873643372854,
+        -37.2623662830853
+      ],
+      "available": true
+    },
+    {
+      "cut": "08110",
+      "name": "Talcahuano",
+      "province": "081",
+      "region": "08",
+      "label": [
+        -73.07743821418673,
+        -36.75777641136564
+      ],
+      "available": true
+    },
+    {
+      "cut": "08111",
+      "name": "Tomé",
+      "province": "081",
+      "region": "08",
+      "label": [
+        -72.87556045890248,
+        -36.628202782465344
+      ],
+      "available": true
+    },
+    {
+      "cut": "08112",
+      "name": "Hualpén",
+      "province": "081",
+      "region": "08",
+      "label": [
+        -73.15126358856969,
+        -36.78800510347769
+      ],
+      "available": true
+    },
+    {
+      "cut": "08201",
+      "name": "Lebu",
+      "province": "082",
+      "region": "08",
+      "label": [
+        -73.58787719932184,
+        -37.65268204978441
+      ],
+      "available": true
+    },
+    {
+      "cut": "08202",
+      "name": "Arauco",
+      "province": "082",
+      "region": "08",
+      "label": [
+        -73.55409647821459,
+        -37.30774560325979
+      ],
+      "available": true
+    },
+    {
+      "cut": "08203",
+      "name": "Cañete",
+      "province": "082",
+      "region": "08",
+      "label": [
+        -73.37336311650844,
+        -37.81803187074976
+      ],
+      "available": true
+    },
+    {
+      "cut": "08204",
+      "name": "Contulmo",
+      "province": "082",
+      "region": "08",
+      "label": [
+        -73.20670453204879,
+        -38.14454657598395
+      ],
+      "available": true
+    },
+    {
+      "cut": "08205",
+      "name": "Curanilahue",
+      "province": "082",
+      "region": "08",
+      "label": [
+        -73.26238338782107,
+        -37.47425088102758
+      ],
+      "available": true
+    },
+    {
+      "cut": "08206",
+      "name": "Los Alamos",
+      "province": "082",
+      "region": "08",
+      "label": [
+        -73.40665169161427,
+        -37.62602257176769
+      ],
+      "available": true
+    },
+    {
+      "cut": "08207",
+      "name": "Tirúa",
+      "province": "082",
+      "region": "08",
+      "label": [
+        -73.37504412023294,
+        -38.254179562471606
+      ],
+      "available": true
+    },
+    {
+      "cut": "08301",
+      "name": "Los Angeles",
+      "province": "083",
+      "region": "08",
+      "label": [
+        -72.2752964589566,
+        -37.40825978391729
+      ],
+      "available": true
+    },
+    {
+      "cut": "08302",
+      "name": "Antuco",
+      "province": "083",
+      "region": "08",
+      "label": [
+        -71.365311591243,
+        -37.32153445449039
+      ],
+      "available": true
+    },
+    {
+      "cut": "08303",
+      "name": "Cabrero",
+      "province": "083",
+      "region": "08",
+      "label": [
+        -72.36659036344945,
+        -37.07773109435916
+      ],
+      "available": true
+    },
+    {
+      "cut": "08304",
+      "name": "Laja",
+      "province": "083",
+      "region": "08",
+      "label": [
+        -72.57684506636775,
+        -37.309604353778866
+      ],
+      "available": true
+    },
+    {
+      "cut": "08305",
+      "name": "Mulchén",
+      "province": "083",
+      "region": "08",
+      "label": [
+        -72.29589217740224,
+        -37.73959218848351
+      ],
+      "available": true
+    },
+    {
+      "cut": "08306",
+      "name": "Nacimiento",
+      "province": "083",
+      "region": "08",
+      "label": [
+        -72.82688605961239,
+        -37.470371791256696
+      ],
+      "available": true
+    },
+    {
+      "cut": "08307",
+      "name": "Negrete",
+      "province": "083",
+      "region": "08",
+      "label": [
+        -72.59346520237973,
+        -37.61887076475476
+      ],
+      "available": true
+    },
+    {
+      "cut": "08308",
+      "name": "Quilaco",
+      "province": "083",
+      "region": "08",
+      "label": [
+        -71.52716068788071,
+        -38.115073502131956
+      ],
+      "available": true
+    },
+    {
+      "cut": "08309",
+      "name": "Quilleco",
+      "province": "083",
+      "region": "08",
+      "label": [
+        -71.95002861644257,
+        -37.43868319731487
+      ],
+      "available": true
+    },
+    {
+      "cut": "08310",
+      "name": "San Rosendo",
+      "province": "083",
+      "region": "08",
+      "label": [
+        -72.71301509504048,
+        -37.21988957163044
+      ],
+      "available": true
+    },
+    {
+      "cut": "08311",
+      "name": "Santa Bárbara",
+      "province": "083",
+      "region": "08",
+      "label": [
+        -71.70888182343356,
+        -37.6564953832592
+      ],
+      "available": true
+    },
+    {
+      "cut": "08312",
+      "name": "Tucapel",
+      "province": "083",
+      "region": "08",
+      "label": [
+        -71.76788550741406,
+        -37.22085378805361
+      ],
+      "available": true
+    },
+    {
+      "cut": "08313",
+      "name": "Yumbel",
+      "province": "083",
+      "region": "08",
+      "label": [
+        -72.63139859552719,
+        -37.080330494951525
+      ],
+      "available": true
+    },
+    {
+      "cut": "08314",
+      "name": "Alto Biobío",
+      "province": "083",
+      "region": "08",
+      "label": [
+        -71.38102224414904,
+        -37.83281781090889
+      ],
+      "available": true
+    },
+    {
+      "cut": "09101",
+      "name": "Temuco",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -72.66492865321881,
+        -38.66630991950568
+      ],
+      "available": true
+    },
+    {
+      "cut": "09102",
+      "name": "Carahue",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -73.37909131196709,
+        -38.58492859726162
+      ],
+      "available": true
+    },
+    {
+      "cut": "09103",
+      "name": "Cunco",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -71.98426895230521,
+        -38.964974578153424
+      ],
+      "available": true
+    },
+    {
+      "cut": "09104",
+      "name": "Curarrehue",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -71.60707190035522,
+        -39.44958868797538
+      ],
+      "available": true
+    },
+    {
+      "cut": "09105",
+      "name": "Freire",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -72.44087445266072,
+        -38.97271520980254
+      ],
+      "available": true
+    },
+    {
+      "cut": "09106",
+      "name": "Galvarino",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -72.80985818348775,
+        -38.42692067280367
+      ],
+      "available": true
+    },
+    {
+      "cut": "09107",
+      "name": "Gorbea",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -72.69749343973916,
+        -39.15088021338979
+      ],
+      "available": true
+    },
+    {
+      "cut": "09108",
+      "name": "Lautaro",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -72.44029173013838,
+        -38.564394108934465
+      ],
+      "available": true
+    },
+    {
+      "cut": "09109",
+      "name": "Loncoche",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -72.63971736696806,
+        -39.35172697338404
+      ],
+      "available": true
+    },
+    {
+      "cut": "09110",
+      "name": "Melipeuco",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -71.62931367929636,
+        -38.84485384971015
+      ],
+      "available": true
+    },
+    {
+      "cut": "09111",
+      "name": "Nueva Imperial",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -72.94980008044082,
+        -38.772846335514146
+      ],
+      "available": true
+    },
+    {
+      "cut": "09112",
+      "name": "Padre Las Casas",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -72.51779290659901,
+        -38.79514041459639
+      ],
+      "available": true
+    },
+    {
+      "cut": "09113",
+      "name": "Perquenco",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -72.40481748698163,
+        -38.41317562009558
+      ],
+      "available": true
+    },
+    {
+      "cut": "09114",
+      "name": "Pitrufquén",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -72.92269659631395,
+        -39.083302223905164
+      ],
+      "available": true
+    },
+    {
+      "cut": "09115",
+      "name": "Pucón",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -71.86349891656585,
+        -39.30721595770728
+      ],
+      "available": true
+    },
+    {
+      "cut": "09116",
+      "name": "Saavedra",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -73.30005756444493,
+        -38.85171499571576
+      ],
+      "available": true
+    },
+    {
+      "cut": "09117",
+      "name": "Teodoro Schmidt",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -73.21907164176042,
+        -39.03740328036951
+      ],
+      "available": true
+    },
+    {
+      "cut": "09118",
+      "name": "Toltén",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -73.06307598024057,
+        -39.19662543857477
+      ],
+      "available": true
+    },
+    {
+      "cut": "09119",
+      "name": "Vilcún",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -72.23138186662307,
+        -38.6886008499512
+      ],
+      "available": true
+    },
+    {
+      "cut": "09120",
+      "name": "Villarrica",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -72.20872182171449,
+        -39.32732410866154
+      ],
+      "available": true
+    },
+    {
+      "cut": "09121",
+      "name": "Cholchol",
+      "province": "091",
+      "region": "09",
+      "label": [
+        -72.91588795407013,
+        -38.56494372859597
+      ],
+      "available": true
+    },
+    {
+      "cut": "09201",
+      "name": "Angol",
+      "province": "092",
+      "region": "09",
+      "label": [
+        -72.82864479801657,
+        -37.71706402961235
+      ],
+      "available": true
+    },
+    {
+      "cut": "09202",
+      "name": "Collipulli",
+      "province": "092",
+      "region": "09",
+      "label": [
+        -72.2847457089782,
+        -37.97117888195234
+      ],
+      "available": true
+    },
+    {
+      "cut": "09203",
+      "name": "Curacautín",
+      "province": "092",
+      "region": "09",
+      "label": [
+        -71.81744044529398,
+        -38.39302006725405
+      ],
+      "available": true
+    },
+    {
+      "cut": "09204",
+      "name": "Ercilla",
+      "province": "092",
+      "region": "09",
+      "label": [
+        -72.39205288158455,
+        -38.08556836663583
+      ],
+      "available": true
+    },
+    {
+      "cut": "09205",
+      "name": "Lonquimay",
+      "province": "092",
+      "region": "09",
+      "label": [
+        -71.20894898154774,
+        -38.53437701107106
+      ],
+      "available": true
+    },
+    {
+      "cut": "09206",
+      "name": "Los Sauces",
+      "province": "092",
+      "region": "09",
+      "label": [
+        -72.7998818536364,
+        -37.99994159329469
+      ],
+      "available": true
+    },
+    {
+      "cut": "09207",
+      "name": "Lumaco",
+      "province": "092",
+      "region": "09",
+      "label": [
+        -73.06208897199792,
+        -38.30652446290636
+      ],
+      "available": true
+    },
+    {
+      "cut": "09208",
+      "name": "Purén",
+      "province": "092",
+      "region": "09",
+      "label": [
+        -73.05668891002556,
+        -38.015604430363
+      ],
+      "available": true
+    },
+    {
+      "cut": "09209",
+      "name": "Renaico",
+      "province": "092",
+      "region": "09",
+      "label": [
+        -72.56133353266297,
+        -37.727446133283216
+      ],
+      "available": true
+    },
+    {
+      "cut": "09210",
+      "name": "Traiguén",
+      "province": "092",
+      "region": "09",
+      "label": [
+        -72.66336941651858,
+        -38.24772413546278
+      ],
+      "available": true
+    },
+    {
+      "cut": "09211",
+      "name": "Victoria",
+      "province": "092",
+      "region": "09",
+      "label": [
+        -72.14620478888007,
+        -38.29867334012385
+      ],
+      "available": true
+    },
+    {
+      "cut": "10101",
+      "name": "Puerto Montt",
+      "province": "101",
+      "region": "10",
+      "label": [
+        -72.59077401896815,
+        -41.50075290306284
+      ],
+      "available": true
+    },
+    {
+      "cut": "10102",
+      "name": "Calbuco",
+      "province": "101",
+      "region": "10",
+      "label": [
+        -73.23774813765934,
+        -41.693715922546
+      ],
+      "available": true
+    },
+    {
+      "cut": "10103",
+      "name": "Cochamó",
+      "province": "101",
+      "region": "10",
+      "label": [
+        -72.0956259291478,
+        -41.68533010183808
+      ],
+      "available": true
+    },
+    {
+      "cut": "10104",
+      "name": "Fresia",
+      "province": "101",
+      "region": "10",
+      "label": [
+        -73.54995217271528,
+        -41.174555974346205
+      ],
+      "available": true
+    },
+    {
+      "cut": "10105",
+      "name": "Frutillar",
+      "province": "101",
+      "region": "10",
+      "label": [
+        -73.0953249920939,
+        -41.08663840718759
+      ],
+      "available": true
+    },
+    {
+      "cut": "10106",
+      "name": "Los Muermos",
+      "province": "101",
+      "region": "10",
+      "label": [
+        -73.59097359485375,
+        -41.42656692262348
+      ],
+      "available": true
+    },
+    {
+      "cut": "10107",
+      "name": "Llanquihue",
+      "province": "101",
+      "region": "10",
+      "label": [
+        -73.17098791043402,
+        -41.24061042337992
+      ],
+      "available": true
+    },
+    {
+      "cut": "10108",
+      "name": "Maullín",
+      "province": "101",
+      "region": "10",
+      "label": [
+        -73.40734056424486,
+        -41.61878021418309
+      ],
+      "available": true
+    },
+    {
+      "cut": "10109",
+      "name": "Puerto Varas",
+      "province": "101",
+      "region": "10",
+      "label": [
+        -72.24480633306081,
+        -41.17399162169151
+      ],
+      "available": true
+    },
+    {
+      "cut": "10201",
+      "name": "Castro",
+      "province": "102",
+      "region": "10",
+      "label": [
+        -73.81939631847914,
+        -42.44004181365338
+      ],
+      "available": true
+    },
+    {
+      "cut": "10202",
+      "name": "Ancud",
+      "province": "102",
+      "region": "10",
+      "label": [
+        -73.7349499361869,
+        -42.016190004511984
+      ],
+      "available": true
+    },
+    {
+      "cut": "10203",
+      "name": "Chonchi",
+      "province": "102",
+      "region": "10",
+      "label": [
+        -73.95065019357762,
+        -42.66001889580213
+      ],
+      "available": true
+    },
+    {
+      "cut": "10204",
+      "name": "Curaco de Vélez",
+      "province": "102",
+      "region": "10",
+      "label": [
+        -73.56008042897572,
+        -42.43381647732063
+      ],
+      "available": true
+    },
+    {
+      "cut": "10205",
+      "name": "Dalcahue",
+      "province": "102",
+      "region": "10",
+      "label": [
+        -74.0347084265635,
+        -42.334201584587696
+      ],
+      "available": true
+    },
+    {
+      "cut": "10206",
+      "name": "Puqueldón",
+      "province": "102",
+      "region": "10",
+      "label": [
+        -73.60960703896859,
+        -42.61812307632993
+      ],
+      "available": true
+    },
+    {
+      "cut": "10207",
+      "name": "Queilén",
+      "province": "102",
+      "region": "10",
+      "label": [
+        -73.54592765945615,
+        -42.82650843506709
+      ],
+      "available": true
+    },
+    {
+      "cut": "10208",
+      "name": "Quellón",
+      "province": "102",
+      "region": "10",
+      "label": [
+        -74.00429879300603,
+        -43.092483140487126
+      ],
+      "available": true
+    },
+    {
+      "cut": "10209",
+      "name": "Quemchi",
+      "province": "102",
+      "region": "10",
+      "label": [
+        -73.51094140184865,
+        -42.06623602796429
+      ],
+      "available": true
+    },
+    {
+      "cut": "10210",
+      "name": "Quinchao",
+      "province": "102",
+      "region": "10",
+      "label": [
+        -73.48337354267362,
+        -42.49323910107459
+      ],
+      "available": true
+    },
+    {
+      "cut": "10301",
+      "name": "Osorno",
+      "province": "103",
+      "region": "10",
+      "label": [
+        -72.99988687456425,
+        -40.602427918028866
+      ],
+      "available": true
+    },
+    {
+      "cut": "10302",
+      "name": "Puerto Octay",
+      "province": "103",
+      "region": "10",
+      "label": [
+        -72.61266797815136,
+        -40.95403227985489
+      ],
+      "available": true
+    },
+    {
+      "cut": "10303",
+      "name": "Purranque",
+      "province": "103",
+      "region": "10",
+      "label": [
+        -73.54737939078936,
+        -40.95331984138593
+      ],
+      "available": true
+    },
+    {
+      "cut": "10304",
+      "name": "Puyehue",
+      "province": "103",
+      "region": "10",
+      "label": [
+        -72.27353761582239,
+        -40.77345685838197
+      ],
+      "available": true
+    },
+    {
+      "cut": "10305",
+      "name": "Río Negro",
+      "province": "103",
+      "region": "10",
+      "label": [
+        -73.2828409525704,
+        -40.76864804591981
+      ],
+      "available": true
+    },
+    {
+      "cut": "10306",
+      "name": "San Juan de la Costa",
+      "province": "103",
+      "region": "10",
+      "label": [
+        -73.54797406649168,
+        -40.53079692089166
+      ],
+      "available": true
+    },
+    {
+      "cut": "10307",
+      "name": "San Pablo",
+      "province": "103",
+      "region": "10",
+      "label": [
+        -73.19954482633808,
+        -40.42507518211741
+      ],
+      "available": true
+    },
+    {
+      "cut": "10401",
+      "name": "Chaitén",
+      "province": "104",
+      "region": "10",
+      "label": [
+        -72.61288602951265,
+        -43.396314069843086
+      ],
+      "available": true
+    },
+    {
+      "cut": "10402",
+      "name": "Futaleufú",
+      "province": "104",
+      "region": "10",
+      "label": [
+        -71.9980768790405,
+        -43.221861121572495
+      ],
+      "available": true
+    },
+    {
+      "cut": "10403",
+      "name": "Hualaihué",
+      "province": "104",
+      "region": "10",
+      "label": [
+        -72.23713767641486,
+        -42.486685496525034
+      ],
+      "available": true
+    },
+    {
+      "cut": "10404",
+      "name": "Palena",
+      "province": "104",
+      "region": "10",
+      "label": [
+        -72.02713519626295,
+        -43.69138180247662
+      ],
+      "available": true
+    },
+    {
+      "cut": "11101",
+      "name": "Coyhaique",
+      "province": "111",
+      "region": "11",
+      "label": [
+        -72.05420090373359,
+        -45.78593950325518
+      ],
+      "available": true
+    },
+    {
+      "cut": "11102",
+      "name": "Lago Verde",
+      "province": "111",
+      "region": "11",
+      "label": [
+        -72.04736600607015,
+        -44.507051942197165
+      ],
+      "available": true
+    },
+    {
+      "cut": "11201",
+      "name": "Aysén",
+      "province": "112",
+      "region": "11",
+      "label": [
+        -74.56879858877691,
+        -46.443377660505945
+      ],
+      "available": true
+    },
+    {
+      "cut": "11202",
+      "name": "Cisnes",
+      "province": "112",
+      "region": "11",
+      "label": [
+        -72.44199103955224,
+        -44.07067960534805
+      ],
+      "available": true
+    },
+    {
+      "cut": "11203",
+      "name": "Guaitecas",
+      "province": "112",
+      "region": "11",
+      "label": [
+        -74.06391620357883,
+        -43.854375685690975
+      ],
+      "available": true
+    },
+    {
+      "cut": "11301",
+      "name": "Cochrane",
+      "province": "113",
+      "region": "11",
+      "label": [
+        -72.70508718161813,
+        -47.41913018225578
+      ],
+      "available": true
+    },
+    {
+      "cut": "11302",
+      "name": "O'Higgins",
+      "province": "113",
+      "region": "11",
+      "label": [
+        -72.9360924232265,
+        -48.579600590445516
+      ],
+      "available": true
+    },
+    {
+      "cut": "11303",
+      "name": "Tortel",
+      "province": "113",
+      "region": "11",
+      "label": [
+        -73.69078583914671,
+        -47.30604419728895
+      ],
+      "available": true
+    },
+    {
+      "cut": "11401",
+      "name": "Chile Chico",
+      "province": "114",
+      "region": "11",
+      "label": [
+        -73.1250988031517,
+        -46.80132449863877
+      ],
+      "available": true
+    },
+    {
+      "cut": "11402",
+      "name": "Río Ibáñez",
+      "province": "114",
+      "region": "11",
+      "label": [
+        -72.66118290694139,
+        -46.30997522996796
+      ],
+      "available": true
+    },
+    {
+      "cut": "12101",
+      "name": "Punta Arenas",
+      "province": "121",
+      "region": "12",
+      "label": [
+        -71.33644178749356,
+        -53.49606548677739
+      ],
+      "available": true
+    },
+    {
+      "cut": "12102",
+      "name": "Laguna Blanca",
+      "province": "121",
+      "region": "12",
+      "label": [
+        -71.20262156833812,
+        -52.28358776630813
+      ],
+      "available": true
+    },
+    {
+      "cut": "12103",
+      "name": "Río Verde",
+      "province": "121",
+      "region": "12",
+      "label": [
+        -72.098962347913,
+        -52.892013833005315
+      ],
+      "available": true
+    },
+    {
+      "cut": "12104",
+      "name": "San Gregorio",
+      "province": "121",
+      "region": "12",
+      "label": [
+        -70.58543425113933,
+        -52.333169860901045
+      ],
+      "available": true
+    },
+    {
+      "cut": "12201",
+      "name": "Cabo de Hornos",
+      "province": "122",
+      "region": "12",
+      "label": [
+        -68.99343518911361,
+        -54.78505178447754
+      ],
+      "available": true
+    },
+    {
+      "cut": "12202",
+      "name": "Antártica",
+      "province": "122",
+      "region": "12",
+      "label": null,
+      "available": false
+    },
+    {
+      "cut": "12301",
+      "name": "Porvenir",
+      "province": "123",
+      "region": "12",
+      "label": [
+        -68.95735245400179,
+        -53.355963522912134
+      ],
+      "available": true
+    },
+    {
+      "cut": "12302",
+      "name": "Primavera",
+      "province": "123",
+      "region": "12",
+      "label": [
+        -69.4102570066584,
+        -52.805638548183445
+      ],
+      "available": true
+    },
+    {
+      "cut": "12303",
+      "name": "Timaukel",
+      "province": "123",
+      "region": "12",
+      "label": [
+        -69.22236750442177,
+        -54.0057680039652
+      ],
+      "available": true
+    },
+    {
+      "cut": "12401",
+      "name": "Natales",
+      "province": "124",
+      "region": "12",
+      "label": [
+        -73.43361994949386,
+        -49.40960820033984
+      ],
+      "available": true
+    },
+    {
+      "cut": "12402",
+      "name": "Torres del Paine",
+      "province": "124",
+      "region": "12",
+      "label": [
+        -72.74547574854107,
+        -51.018427558981806
+      ],
+      "available": true
+    },
+    {
+      "cut": "13101",
+      "name": "Santiago",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.6554185234109,
+        -33.45421763307349
+      ],
+      "available": true
+    },
+    {
+      "cut": "13102",
+      "name": "Cerrillos",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.71167008669696,
+        -33.49877136735317
+      ],
+      "available": true
+    },
+    {
+      "cut": "13103",
+      "name": "Cerro Navia",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.73058039303801,
+        -33.42490538373787
+      ],
+      "available": true
+    },
+    {
+      "cut": "13104",
+      "name": "Conchalí",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.67512708426607,
+        -33.3853132776167
+      ],
+      "available": true
+    },
+    {
+      "cut": "13105",
+      "name": "El Bosque",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.6758865666992,
+        -33.562770732856464
+      ],
+      "available": true
+    },
+    {
+      "cut": "13106",
+      "name": "Estación Central",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.6929945334582,
+        -33.46386670975014
+      ],
+      "available": true
+    },
+    {
+      "cut": "13107",
+      "name": "Huechuraba",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.62476101699552,
+        -33.365507945449274
+      ],
+      "available": true
+    },
+    {
+      "cut": "13108",
+      "name": "Independencia",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.66527741010057,
+        -33.41450017188941
+      ],
+      "available": true
+    },
+    {
+      "cut": "13109",
+      "name": "La Cisterna",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.66415037412611,
+        -33.530898459762916
+      ],
+      "available": true
+    },
+    {
+      "cut": "13110",
+      "name": "La Florida",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.58671724214497,
+        -33.53354321440586
+      ],
+      "available": true
+    },
+    {
+      "cut": "13111",
+      "name": "La Granja",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.62254296888064,
+        -33.5293975278906
+      ],
+      "available": true
+    },
+    {
+      "cut": "13112",
+      "name": "La Pintana",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.63740646037786,
+        -33.58296847224535
+      ],
+      "available": true
+    },
+    {
+      "cut": "13113",
+      "name": "La Reina",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.54813749009412,
+        -33.44639798158109
+      ],
+      "available": true
+    },
+    {
+      "cut": "13114",
+      "name": "Las Condes",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.50782475434117,
+        -33.40340084877233
+      ],
+      "available": true
+    },
+    {
+      "cut": "13115",
+      "name": "Lo Barnechea",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.35065343668619,
+        -33.298166883096144
+      ],
+      "available": true
+    },
+    {
+      "cut": "13116",
+      "name": "Lo Espejo",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.68877731299054,
+        -33.517959759079936
+      ],
+      "available": true
+    },
+    {
+      "cut": "13117",
+      "name": "Lo Prado",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.71718154988935,
+        -33.447392160420456
+      ],
+      "available": true
+    },
+    {
+      "cut": "13118",
+      "name": "Macul",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.60073945931731,
+        -33.4904692528291
+      ],
+      "available": true
+    },
+    {
+      "cut": "13119",
+      "name": "Maipú",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.77826481219614,
+        -33.501922363666566
+      ],
+      "available": true
+    },
+    {
+      "cut": "13120",
+      "name": "Ñuñoa",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.6015840923129,
+        -33.45945772234608
+      ],
+      "available": true
+    },
+    {
+      "cut": "13121",
+      "name": "Pedro Aguirre Cerda",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.6774513993452,
+        -33.494352698033964
+      ],
+      "available": true
+    },
+    {
+      "cut": "13122",
+      "name": "Peñalolén",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.55315769998276,
+        -33.48728821324892
+      ],
+      "available": true
+    },
+    {
+      "cut": "13123",
+      "name": "Providencia",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.6143982515709,
+        -33.4303745541001
+      ],
+      "available": true
+    },
+    {
+      "cut": "13124",
+      "name": "Pudahuel",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.89568780985263,
+        -33.42686772194479
+      ],
+      "available": true
+    },
+    {
+      "cut": "13125",
+      "name": "Quilicura",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.73120639321012,
+        -33.35957925821494
+      ],
+      "available": true
+    },
+    {
+      "cut": "13126",
+      "name": "Quinta Normal",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.70409247158278,
+        -33.42438401993563
+      ],
+      "available": true
+    },
+    {
+      "cut": "13127",
+      "name": "Recoleta",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.63700456724268,
+        -33.405949002855415
+      ],
+      "available": true
+    },
+    {
+      "cut": "13128",
+      "name": "Renca",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.75621393204757,
+        -33.39965062793647
+      ],
+      "available": true
+    },
+    {
+      "cut": "13129",
+      "name": "San Joaquín",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.62690593584011,
+        -33.50416593314669
+      ],
+      "available": true
+    },
+    {
+      "cut": "13130",
+      "name": "San Miguel",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.65248975151519,
+        -33.502284393500915
+      ],
+      "available": true
+    },
+    {
+      "cut": "13131",
+      "name": "San Ramón",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.64300280178927,
+        -33.54701548390364
+      ],
+      "available": true
+    },
+    {
+      "cut": "13132",
+      "name": "Vitacura",
+      "province": "131",
+      "region": "13",
+      "label": [
+        -70.57673024595022,
+        -33.376932893361186
+      ],
+      "available": true
+    },
+    {
+      "cut": "13201",
+      "name": "Puente Alto",
+      "province": "132",
+      "region": "13",
+      "label": [
+        -70.53305963013865,
+        -33.58291734512136
+      ],
+      "available": true
+    },
+    {
+      "cut": "13202",
+      "name": "Pirque",
+      "province": "132",
+      "region": "13",
+      "label": [
+        -70.52488235880543,
+        -33.70523721560208
+      ],
+      "available": true
+    },
+    {
+      "cut": "13203",
+      "name": "San José de Maipo",
+      "province": "132",
+      "region": "13",
+      "label": [
+        -70.1444437306876,
+        -33.67628846580964
+      ],
+      "available": true
+    },
+    {
+      "cut": "13301",
+      "name": "Colina",
+      "province": "133",
+      "region": "13",
+      "label": [
+        -70.61878423368627,
+        -33.141232899823656
+      ],
+      "available": true
+    },
+    {
+      "cut": "13302",
+      "name": "Lampa",
+      "province": "133",
+      "region": "13",
+      "label": [
+        -70.8615887240324,
+        -33.30043264466665
+      ],
+      "available": true
+    },
+    {
+      "cut": "13303",
+      "name": "Tiltil",
+      "province": "133",
+      "region": "13",
+      "label": [
+        -70.87890529685626,
+        -33.069177986885144
+      ],
+      "available": true
+    },
+    {
+      "cut": "13401",
+      "name": "San Bernardo",
+      "province": "134",
+      "region": "13",
+      "label": [
+        -70.70782017862567,
+        -33.61902771783266
+      ],
+      "available": true
+    },
+    {
+      "cut": "13402",
+      "name": "Buin",
+      "province": "134",
+      "region": "13",
+      "label": [
+        -70.68515028742677,
+        -33.71218409995053
+      ],
+      "available": true
+    },
+    {
+      "cut": "13403",
+      "name": "Calera de Tango",
+      "province": "134",
+      "region": "13",
+      "label": [
+        -70.78952352205143,
+        -33.620637560624154
+      ],
+      "available": true
+    },
+    {
+      "cut": "13404",
+      "name": "Paine",
+      "province": "134",
+      "region": "13",
+      "label": [
+        -70.88882869365628,
+        -33.890321272598435
+      ],
+      "available": true
+    },
+    {
+      "cut": "13501",
+      "name": "Melipilla",
+      "province": "135",
+      "region": "13",
+      "label": [
+        -71.24183959318792,
+        -33.706349928334646
+      ],
+      "available": true
+    },
+    {
+      "cut": "13502",
+      "name": "Alhué",
+      "province": "135",
+      "region": "13",
+      "label": [
+        -71.05351627032847,
+        -34.04805558532274
+      ],
+      "available": true
+    },
+    {
+      "cut": "13503",
+      "name": "Curacaví",
+      "province": "135",
+      "region": "13",
+      "label": [
+        -71.10164639392592,
+        -33.34077338272427
+      ],
+      "available": true
+    },
+    {
+      "cut": "13504",
+      "name": "María Pinto",
+      "province": "135",
+      "region": "13",
+      "label": [
+        -71.26916081233476,
+        -33.4950035625156
+      ],
+      "available": true
+    },
+    {
+      "cut": "13505",
+      "name": "San Pedro",
+      "province": "135",
+      "region": "13",
+      "label": [
+        -71.47245650964297,
+        -33.91010362241858
+      ],
+      "available": true
+    },
+    {
+      "cut": "13601",
+      "name": "Talagante",
+      "province": "136",
+      "region": "13",
+      "label": [
+        -70.8946368721255,
+        -33.66562057861704
+      ],
+      "available": true
+    },
+    {
+      "cut": "13602",
+      "name": "El Monte",
+      "province": "136",
+      "region": "13",
+      "label": [
+        -71.06256121843782,
+        -33.67862982675996
+      ],
+      "available": true
+    },
+    {
+      "cut": "13603",
+      "name": "Isla de Maipo",
+      "province": "136",
+      "region": "13",
+      "label": [
+        -70.87515085722971,
+        -33.74889077825659
+      ],
+      "available": true
+    },
+    {
+      "cut": "13604",
+      "name": "Padre Hurtado",
+      "province": "136",
+      "region": "13",
+      "label": [
+        -70.89985043796827,
+        -33.55542844666752
+      ],
+      "available": true
+    },
+    {
+      "cut": "13605",
+      "name": "Peñaflor",
+      "province": "136",
+      "region": "13",
+      "label": [
+        -70.86118240499366,
+        -33.605518976337045
+      ],
+      "available": true
+    },
+    {
+      "cut": "14101",
+      "name": "Valdivia",
+      "province": "141",
+      "region": "14",
+      "label": [
+        -73.05348933178703,
+        -39.86132960360571
+      ],
+      "available": true
+    },
+    {
+      "cut": "14102",
+      "name": "Corral",
+      "province": "141",
+      "region": "14",
+      "label": [
+        -73.41635774134568,
+        -40.015949853063816
+      ],
+      "available": true
+    },
+    {
+      "cut": "14103",
+      "name": "Lanco",
+      "province": "141",
+      "region": "14",
+      "label": [
+        -72.59293171808066,
+        -39.52494530285681
+      ],
+      "available": true
+    },
+    {
+      "cut": "14104",
+      "name": "Los Lagos",
+      "province": "141",
+      "region": "14",
+      "label": [
+        -72.61904958152955,
+        -39.84631421720371
+      ],
+      "available": true
+    },
+    {
+      "cut": "14105",
+      "name": "Máfil",
+      "province": "141",
+      "region": "14",
+      "label": [
+        -72.92435852992354,
+        -39.70917309049461
+      ],
+      "available": true
+    },
+    {
+      "cut": "14106",
+      "name": "Mariquina",
+      "province": "141",
+      "region": "14",
+      "label": [
+        -73.00803887372207,
+        -39.48089774249442
+      ],
+      "available": true
+    },
+    {
+      "cut": "14107",
+      "name": "Paillaco",
+      "province": "141",
+      "region": "14",
+      "label": [
+        -72.90508978595562,
+        -40.05776818733663
+      ],
+      "available": true
+    },
+    {
+      "cut": "14108",
+      "name": "Panguipulli",
+      "province": "141",
+      "region": "14",
+      "label": [
+        -71.9455539261536,
+        -39.673823068811004
+      ],
+      "available": true
+    },
+    {
+      "cut": "14201",
+      "name": "La Unión",
+      "province": "142",
+      "region": "14",
+      "label": [
+        -73.31941337682801,
+        -40.204540098421646
+      ],
+      "available": true
+    },
+    {
+      "cut": "14202",
+      "name": "Futrono",
+      "province": "142",
+      "region": "14",
+      "label": [
+        -71.99006854505215,
+        -40.115825126914686
+      ],
+      "available": true
+    },
+    {
+      "cut": "14203",
+      "name": "Lago Ranco",
+      "province": "142",
+      "region": "14",
+      "label": [
+        -72.12898029031383,
+        -40.39699894050432
+      ],
+      "available": true
+    },
+    {
+      "cut": "14204",
+      "name": "Río Bueno",
+      "province": "142",
+      "region": "14",
+      "label": [
+        -72.68978245403937,
+        -40.45073459264136
+      ],
+      "available": true
+    },
+    {
+      "cut": "15101",
+      "name": "Arica",
+      "province": "151",
+      "region": "15",
+      "label": [
+        -69.97115397777615,
+        -18.546861397706508
+      ],
+      "available": true
+    },
+    {
+      "cut": "15102",
+      "name": "Camarones",
+      "province": "151",
+      "region": "15",
+      "label": [
+        -69.53580396568447,
+        -18.87055504564374
+      ],
+      "available": true
+    },
+    {
+      "cut": "15201",
+      "name": "Putre",
+      "province": "152",
+      "region": "15",
+      "label": [
+        -69.3389322159138,
+        -18.427340155751505
+      ],
+      "available": true
+    },
+    {
+      "cut": "15202",
+      "name": "General Lagos",
+      "province": "152",
+      "region": "15",
+      "label": [
+        -69.53790708646794,
+        -17.799467817538627
+      ],
+      "available": true
+    },
+    {
+      "cut": "16101",
+      "name": "Chillán",
+      "province": "161",
+      "region": "16",
+      "label": [
+        -72.03107260082676,
+        -36.656141114891156
+      ],
+      "available": true
+    },
+    {
+      "cut": "16102",
+      "name": "Bulnes",
+      "province": "161",
+      "region": "16",
+      "label": [
+        -72.25537772259368,
+        -36.81108890639622
+      ],
+      "available": true
+    },
+    {
+      "cut": "16103",
+      "name": "Chillán Viejo",
+      "province": "161",
+      "region": "16",
+      "label": [
+        -72.16915481936435,
+        -36.679350436978716
+      ],
+      "available": true
+    },
+    {
+      "cut": "16104",
+      "name": "El Carmen",
+      "province": "161",
+      "region": "16",
+      "label": [
+        -71.75754417333724,
+        -36.91901474352203
+      ],
+      "available": true
+    },
+    {
+      "cut": "16105",
+      "name": "Pemuco",
+      "province": "161",
+      "region": "16",
+      "label": [
+        -72.19219417401207,
+        -36.96607615558685
+      ],
+      "available": true
+    },
+    {
+      "cut": "16106",
+      "name": "Pinto",
+      "province": "161",
+      "region": "16",
+      "label": [
+        -71.46042284425455,
+        -36.92199560033502
+      ],
+      "available": true
+    },
+    {
+      "cut": "16107",
+      "name": "Quillón",
+      "province": "161",
+      "region": "16",
+      "label": [
+        -72.5056218636992,
+        -36.780218448123925
+      ],
+      "available": true
+    },
+    {
+      "cut": "16108",
+      "name": "San Ignacio",
+      "province": "161",
+      "region": "16",
+      "label": [
+        -72.04992991553307,
+        -36.812193095929324
+      ],
+      "available": true
+    },
+    {
+      "cut": "16109",
+      "name": "Yungay",
+      "province": "161",
+      "region": "16",
+      "label": [
+        -72.14719205295502,
+        -37.110399486682454
+      ],
+      "available": true
+    },
+    {
+      "cut": "16201",
+      "name": "Quirihue",
+      "province": "162",
+      "region": "16",
+      "label": [
+        -72.5433875996463,
+        -36.22153214428448
+      ],
+      "available": true
+    },
+    {
+      "cut": "16202",
+      "name": "Cobquecura",
+      "province": "162",
+      "region": "16",
+      "label": [
+        -72.72631164262113,
+        -36.24669072177848
+      ],
+      "available": true
+    },
+    {
+      "cut": "16203",
+      "name": "Coelemu",
+      "province": "162",
+      "region": "16",
+      "label": [
+        -72.73085316493315,
+        -36.543213950985546
+      ],
+      "available": true
+    },
+    {
+      "cut": "16204",
+      "name": "Ninhue",
+      "province": "162",
+      "region": "16",
+      "label": [
+        -72.40274175508115,
+        -36.39363533190281
+      ],
+      "available": true
+    },
+    {
+      "cut": "16205",
+      "name": "Portezuelo",
+      "province": "162",
+      "region": "16",
+      "label": [
+        -72.45982872790086,
+        -36.549113649147024
+      ],
+      "available": true
+    },
+    {
+      "cut": "16206",
+      "name": "Ranquil",
+      "province": "162",
+      "region": "16",
+      "label": [
+        -72.60098025042454,
+        -36.631162768242945
+      ],
+      "available": true
+    },
+    {
+      "cut": "16207",
+      "name": "Treguaco",
+      "province": "162",
+      "region": "16",
+      "label": [
+        -72.61970495476136,
+        -36.46496700948323
+      ],
+      "available": true
+    },
+    {
+      "cut": "16301",
+      "name": "San Carlos",
+      "province": "163",
+      "region": "16",
+      "label": [
+        -71.96207939439577,
+        -36.42118914150521
+      ],
+      "available": true
+    },
+    {
+      "cut": "16302",
+      "name": "Coihueco",
+      "province": "163",
+      "region": "16",
+      "label": [
+        -71.69526386810917,
+        -36.65989945821224
+      ],
+      "available": true
+    },
+    {
+      "cut": "16303",
+      "name": "Ñiquén",
+      "province": "163",
+      "region": "16",
+      "label": [
+        -71.8277348879048,
+        -36.341244974931215
+      ],
+      "available": true
+    },
+    {
+      "cut": "16304",
+      "name": "San Fabián",
+      "province": "163",
+      "region": "16",
+      "label": [
+        -71.20135157399605,
+        -36.58869174989247
+      ],
+      "available": true
+    },
+    {
+      "cut": "16305",
+      "name": "San Nicolás",
+      "province": "163",
+      "region": "16",
+      "label": [
+        -72.23616834883946,
+        -36.4650752054295
+      ],
+      "available": true
+    }
+  ]
+}

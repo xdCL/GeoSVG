@@ -1,0 +1,42 @@
+{
+  "institution": "Biblioteca del Congreso Nacional de Chile",
+  "page": "https://www.bcn.cl/siit/mapas_vectoriales/",
+  "download": "https://obtienearchivo.bcn.cl/obtienearchivo?id=repositorio/10221/10396/5/comunas_final.zip",
+  "layer": "comunas_final.zip / comunas.shp",
+  "version": "Archivo BCN consultado el 2026-10-10",
+  "update": "La página declara ediciones 2014, 2017 y diciembre 2018. XML creado 2019-10-16, últimos procesos de atributos 2019-06-14. No declara actualización única de los límites.",
+  "originalCrs": "WGS_1984_Web_Mercator_Auxiliary_Sphere / EPSG:3857",
+  "targetCrs": "WGS84 / EPSG:4326",
+  "terms": "Uso libre con atribución a la Biblioteca del Congreso Nacional de Chile. Cartografía referencial, sin precisión geodésica.",
+  "sha256": "cca97e9c0d8ec28dbceb17242489a80a9ffc817f7bb926f9f5cde5b61eb130a6",
+  "mapshaperVersion": "0.7.83",
+  "simplifyTargetPercent": 5,
+  "simplifyRetainedPercent": 16.14,
+  "protectedArcs": 1510,
+  "simplificationPasses": 8,
+  "geometryRepairs": [],
+  "transforms": [
+    "Reproyección WGS84",
+    "Mapshaper -clean y JSTS buffer(0) solo para geometrías originales inválidas; incidencias registradas en geometryRepairs",
+    "CUT desde cod_comuna con cinco dígitos; provincia derivada de sus tres primeros dígitos",
+    "Simplificación global con islas y agujeros protegidos como formas individuales; validez OGC y recuentos comprobados después de la reparación",
+    "Topologías nacionales y regionales sin cuantización",
+    "Puntos internos polylabel sobre el mayor polígono de cada comuna"
+  ],
+  "coverage": {
+    "regions": 16,
+    "provinces": 56,
+    "catalogCommunes": 346,
+    "geometryCommunes": 345,
+    "unavailable": [
+      "12202"
+    ]
+  },
+  "limitations": [
+    "No hay polígono de Antártica (12202) en esta capa.",
+    "El registro Zona sin demarcar (CUT 0) no es una comuna; se conserva por separado como referencia y no participa en selecciones.",
+    "Los territorios insulares presentes se mantienen en su posición real; no se utilizan recuadros desplazados. La vista nacional resulta muy extendida.",
+    "Nombres oficiales de presentación tomados de los atributos BCN; Antártica y CUT 12202 verificados en el catálogo público MINSAL.",
+    "La vigencia de los límites no equivale a 2026."
+  ]
+}

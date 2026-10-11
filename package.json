@@ -1,0 +1,57 @@
+{
+  "name": "geosvg",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Editor cartográfico vectorial de Chile, por xdCL",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "typecheck": "tsc -b",
+    "data:import": "node scripts/geodata/import.mjs",
+    "data:validate": "node scripts/geodata/validate.mjs",
+    "check": "npm run data:validate && npm run test && npm run build"
+  },
+  "dependencies": {
+    "@fontsource/fraunces": "^5.2.0",
+    "@fontsource/inter": "^5.2.0",
+    "d3-geo": "^3.1.1",
+    "polygon-clipping": "^0.15.7",
+    "polylabel": "^2.0.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "topojson-client": "^3.1.0",
+    "zod": "^4.1.0",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "@playwright/test": "^1.56.0",
+    "@turf/boolean-valid": "^7.2.0",
+    "@types/d3-geo": "^3.1.0",
+    "@types/geojson": "^7946.0.16",
+    "@types/jsdom": "^30.0.0",
+    "@types/node": "^24.0.0",
+    "@types/polylabel": "^2.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/topojson-client": "^3.1.5",
+    "@types/topojson-specification": "^1.0.5",
+    "@vitejs/plugin-react": "^5.0.0",
+    "fflate": "^0.8.2",
+    "jsdom": "^27.0.0",
+    "jsts": "^2.12.1",
+    "mapshaper": "^0.7.83",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.0",
+    "vitest": "^5.0.3"
+  }
+}

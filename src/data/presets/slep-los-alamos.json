@@ -1,0 +1,7 @@
+{
+  "id": "slep-los-alamos",
+  "name": "Territorio SLEP Los Álamos",
+  "description": "Representación cartográfica de las siete comunas del territorio del Servicio Local de Educación Pública Los Álamos, Región del Maule.",
+  "region": "07",
+  "selected": ["07401", "07402", "07404", "07405", "07403", "07407", "07408"]
+}
