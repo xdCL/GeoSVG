@@ -18,6 +18,8 @@ Una escena es un objeto serializable: dimensiones, paths, límites y etiquetas. 
 
 Las selecciones se identifican por CUT, nunca por nombres. La unión usa `topojson.merge`: elimina arcos interiores compartidos y conserva polígonos desconectados. Polygon-clipping normaliza los anillos que solo se tocan en un vértice, detectados en archipiélagos australes, para evitar anillos autointersectados. No se dibujan puentes ni líneas entre territorios. Las topologías regionales proceden de la misma simplificación nacional; para selecciones nacionales, todas las comunas comparten una única topología. Los cálculos se ejecutan en el Worker; las bibliotecas de importación y validación OGC no se envían al navegador.
 
+El borde adicional de selección usa esa unión para el perímetro territorial, restringida a comunas seleccionadas visibles en el ámbito. Cuando toda la escena está seleccionada, reutiliza el contorno exterior. La alternativa por comuna reutiliza cada path seleccionado. `selectionBorderPaths` define los trazados para ambos renderizadores; se dibujan sobre los límites generales, sin interceptar clics en la vista previa. Color y grosor se actualizan sin recalcular la geometría; activación y destino forman parte de la clave del Worker. Un grosor cero omite el borde.
+
 Las geometrías se reproyectan desde EPSG:3857 a EPSG:4326. La representación usa Mercator y `fitExtent`, con margen y una escala uniforme. No se deforma el mapa para llenar formatos forzados. Mercator conserva ángulos locales, pero exagera áreas hacia latitudes australes; no se deben medir superficies sobre estos SVG.
 
 Los puntos de etiquetas se calculan con Polylabel dentro del mayor polígono de cada comuna. No son centroides externos. En pantalla se resuelven colisiones por cajas de texto aproximadas, priorizando las comunas seleccionadas; el usuario puede desactivar el ocultamiento. No constituye un sistema tipográfico automático avanzado.
@@ -39,6 +41,8 @@ Los esquemas son estrictos: se rechazan claves desconocidas, HEX inválidos, CUT
 `migrateProject` es el punto único de migración. Como solo existe la versión 1, valida esa versión y rechaza versiones futuras. Al introducir una versión nueva debe añadirse una migración explícita y pruebas de fixtures antiguos, sin eliminar la posibilidad de importarlos.
 
 El campo opcional de entrada `map.labelFont` admite `inter`, `fraunces` y `arial`. Al leer proyectos de versión 1 que no lo contienen se asigna Arial, incluyendo los presets personales de la biblioteca; los proyectos nuevos declaran Inter explícitamente.
+
+`map.selectionBorder` contiene activación, HEX, grosor de 0 a 30 y destino `territory` o `communes`. Los archivos de versión 1 sin este campo reciben un borde desactivado, conservando su apariencia y selección; también se recuperan los presets antiguos de la biblioteca.
 
 ## Accesibilidad
 

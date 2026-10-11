@@ -19,6 +19,10 @@ try {
   assert(dataRequests.some(u => u.endsWith('/GeoSVG/data/regions/07.topo.json')));
   assert(!dataRequests.some(u => u.endsWith('/chile.topo.json')), 'La carga regional no debe descargar el país.');
   await page.getByRole('button', { name: 'Diseño', exact: true }).click();
+  await page.getByLabel('Añadir borde a la selección').check();
+  await page.getByRole('textbox', { name: 'HEX Borde de selección', exact: true }).fill('#FF00FF');
+  await page.getByRole('spinbutton', { name: 'Grosor del borde de selección' }).fill('12.5');
+  await page.locator('#preview-borde-seleccion-territorial').waitFor();
   await page.getByText('Nombres y tipografía', { exact: true }).click();
   await page.getByLabel('Nombres de comunas', { exact: true }).selectOption('selected');
   await page.getByLabel('Ocultar nombres superpuestos').uncheck();
@@ -32,6 +36,7 @@ try {
   assert(svg.includes("font-family:'Fraunces'"));
   assert(svg.includes('data:font/woff2;base64,'));
   assert(svg.includes('SIL OPEN FONT LICENSE'));
+  assert(/id="borde-seleccion-territorial"[^>]*stroke="#FF00FF"[^>]*stroke-width="12.5"/.test(svg));
   assert.deepEqual(errors, []);
-  console.log('Build bajo /GeoSVG/ válido: assets, Worker, cartografía regional, preset y siete nombres con Fraunces incluida en el SVG. Sin carga nacional inicial ni errores HTTP/JavaScript.');
+  console.log('Build bajo /GeoSVG/ válido: assets, Worker, cartografía regional, preset, siete nombres con Fraunces incluida y borde territorial de color y grosor propios en el SVG. Sin carga nacional inicial ni errores HTTP/JavaScript.');
 } finally { await browser.close(); }

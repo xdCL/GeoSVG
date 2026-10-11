@@ -4,6 +4,42 @@ import { readFile } from 'node:fs/promises';
 
 async function revealPanel(page: import('@playwright/test').Page, mobile: boolean) { if (mobile) await page.getByRole('button', { name: 'Editar mapa', exact: true }).click(); }
 
+test('borde de selección: perímetro o comunas, color, grosor, SVG, PNG y proyecto', async ({ page, isMobile }, info) => {
+  await page.goto('/'); await page.getByRole('button', { name: 'Preset SLEP Los Álamos' }).click();
+  await expect(page.locator('.map-svg [data-selected="true"]')).toHaveCount(7);
+  await revealPanel(page, isMobile); await page.getByRole('button', { name: 'Diseño', exact: true }).click();
+  await page.getByLabel('Añadir borde a la selección').check();
+  const color = page.getByRole('textbox', { name: 'HEX Borde de selección', exact: true });
+  await color.fill('#FF00FF'); await page.getByRole('spinbutton', { name: 'Grosor del borde de selección' }).fill('12.5');
+  const border = page.locator('.map-svg .selection-border');
+  await expect(border).toHaveCount(1); await expect(border).toHaveAttribute('stroke', '#FF00FF'); await expect(border).toHaveAttribute('stroke-width', '12.5'); await expect(border).toHaveAttribute('pointer-events', 'none');
+  await color.fill('#ZZZZZZ'); await expect(color).toHaveAttribute('aria-invalid', 'true'); await expect(border).toHaveAttribute('stroke', '#FF00FF'); await color.fill('#FF00FF');
+  await page.getByLabel('Aplicar borde a', { exact: true }).selectOption('communes'); await expect(border).toHaveCount(7);
+  await expect(page.locator('#preview-borde-seleccion-07401')).toHaveAttribute('d', (await page.locator('#preview-07401').getAttribute('d'))!);
+  await page.getByLabel('Aplicar borde a', { exact: true }).selectOption('territory'); await expect(border).toHaveCount(1);
+  await color.scrollIntoViewIfNeeded(); await page.screenshot({ path: `docs/screenshots/${info.project.name}-border.png`, fullPage: true });
+  const accessibility = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze(); expect(accessibility.violations).toEqual([]);
+  if (isMobile) await page.keyboard.press('Escape');
+  await page.getByRole('button', { name: 'Exportar mapa' }).click();
+  const svgPromise = page.waitForEvent('download'); await page.getByRole('button', { name: 'Descargar SVG' }).click(); const svgDownload = await svgPromise;
+  const svg = await readFile((await svgDownload.path())!, 'utf8');
+  const exported = await page.evaluate(text => { const xml = new DOMParser().parseFromString(text, 'image/svg+xml'); const border = xml.querySelector('#borde-seleccion-territorial')!; return { count: xml.querySelectorAll('[id^="borde-seleccion-"]').length, color: border.getAttribute('stroke'), width: border.getAttribute('stroke-width'), fill: border.getAttribute('fill') }; }, svg);
+  expect(exported).toEqual({ count: 1, color: '#FF00FF', width: '12.5', fill: 'none' });
+  const pngPromise = page.waitForEvent('download'); await page.getByRole('button', { name: 'Descargar PNG' }).click(); const pngDownload = await pngPromise;
+  const png = await readFile((await pngDownload.path())!);
+  const coloredPixels = await page.evaluate(async data => { const image = new Image(); image.src = `data:image/png;base64,${data}`; await image.decode(); const canvas = document.createElement('canvas'); canvas.width = image.width; canvas.height = image.height; const context = canvas.getContext('2d')!; context.drawImage(image, 0, 0); const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data; let count = 0; for (let i = 0; i < pixels.length; i += 4) if (pixels[i] === 255 && pixels[i + 1] === 0 && pixels[i + 2] === 255 && pixels[i + 3] === 255) count++; return count; }, png.toString('base64'));
+  expect(coloredPixels).toBeGreaterThan(500);
+  if (!isMobile) { await svgDownload.saveAs('docs/examples/sleplosalamos-maule-borde.svg'); await pngDownload.saveAs('docs/examples/sleplosalamos-maule-borde.png'); }
+  await page.getByRole('button', { name: 'Cerrar exportación' }).click(); await revealPanel(page, isMobile);
+  await page.getByRole('button', { name: 'Proyecto', exact: true }).click();
+  const jsonPromise = page.waitForEvent('download'); await page.getByRole('button', { name: 'Exportar proyecto', exact: true }).click(); const jsonDownload = await jsonPromise; const json = await readFile((await jsonDownload.path())!, 'utf8');
+  expect(JSON.parse(json).map.selectionBorder).toEqual({ enabled: true, color: '#FF00FF', width: 12.5, target: 'territory' });
+  await page.getByRole('button', { name: 'Diseño', exact: true }).click(); await page.getByLabel('Añadir borde a la selección').uncheck(); await expect(border).toHaveCount(0);
+  await page.getByRole('button', { name: 'Proyecto', exact: true }).click(); await page.locator('#editor-panel input[type="file"]').setInputFiles({ name: 'borde.json', mimeType: 'application/json', buffer: Buffer.from(json) }); await expect(border).toHaveCount(1);
+  await page.reload(); await expect(border).toHaveAttribute('stroke-width', '12.5'); await expect(border).toHaveAttribute('stroke', '#FF00FF');
+  await page.locator('#preview-07401').focus(); await page.keyboard.press('Enter'); await expect(page.locator('.map-svg [data-selected="true"]')).toHaveCount(6);
+});
+
 async function verifyEmbeddedTypeface(page: import('@playwright/test').Page, svg: string, family: string) {
   const result = await page.evaluate(async ({ svg, family }) => {
     const xml = new DOMParser().parseFromString(svg, 'image/svg+xml');

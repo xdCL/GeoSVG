@@ -10,8 +10,9 @@ Fecha: 10 de octubre de 2026. Entorno: Windows, Node.js 24.14.1, Chrome; móvil 
 | Geometrías | CUT únicos, jerarquía, anillos cerrados, coordenadas finitas en WGS84 y validez OGC JSTS |
 | Archivos regionales | 16 existentes; correspondencia exacta entre geometrías y comunas disponibles del catálogo |
 | Unión | Uniones de las 16 regiones y del preset SLEP válidas; normalización de anillos que se tocan en un vértice |
-| Vitest | **34 pruebas aprobadas**: selección, búsqueda, HEX, persistencia y recuperación de datos anteriores a GeoSVG, JSON, fuentes y compatibilidad de proyectos, grupos, preset, provincias, encuadres, etiquetas, unión y SVG |
-| Playwright | **12 pruebas aprobadas**: seis flujos en escritorio y los mismos seis en móvil emulado; incluye crear, duplicar, renombrar y eliminar paletas, asignar grupos, reutilizar proyectos JSON y tipografías opcionales |
+| Vitest | **40 pruebas aprobadas**: selección, búsqueda, HEX, persistencia y recuperación de datos anteriores a GeoSVG, JSON, fuentes y compatibilidad de proyectos, grupos, preset, provincias, encuadres, etiquetas, unión, bordes de selección y SVG |
+| Playwright | **14 pruebas aprobadas**: siete flujos en escritorio y los mismos siete en móvil emulado; incluye crear, duplicar, renombrar y eliminar paletas, asignar grupos, reutilizar proyectos JSON, tipografías opcionales y bordes configurables |
+| Bordes de selección | Perímetro territorial unido o siete contornos comunales; color HEX y grosor de 12,5 px comprobados en vista previa y SVG, píxeles del color elegido en PNG, persistencia e importación JSON; archivos antiguos conservan el borde desactivado |
 | Tipografías | Inter y Fraunces cargadas desde el WOFF2 incluido en el SVG sin conexión; diferencias de píxeles verificadas frente a la fuente de sustitución y al mapa sin nombres; siete nombres, treinta nombres y ausencia de nombres comprobados |
 | Flujo obligatorio | Preset SLEP de siete comunas → HEX `#E45D47` → SVG XML válido con colores y metadatos verificados |
 | PNG | Archivo PNG válido de 2000 × 2000 px para SVG de 1000 × 1000 a 2×; esquina con alfa 0 |
@@ -21,9 +22,9 @@ Fecha: 10 de octubre de 2026. Entorno: Windows, Node.js 24.14.1, Chrome; móvil 
 | TypeScript y Vite | Compilación correcta, modo estricto |
 | npm audit | 0 vulnerabilidades después de actualizar dependencias |
 
-Los resultados de navegador se regeneran con `npm run test:e2e`. Las capturas comprobadas están en `docs/screenshots/`. Los ejemplos reales descargados durante la prueba integral están en `docs/examples/`: SVG editable y PNG transparente con la selección SLEP en terracota.
+Los resultados de navegador se regeneran con `npm run test:e2e`. Las capturas comprobadas están en `docs/screenshots/`. Los ejemplos reales descargados durante la prueba integral están en `docs/examples/`: SVG editable y PNG transparente con la selección SLEP en terracota, nombres en Fraunces y borde territorial magenta.
 
-Se verificó también el build bajo la ruta de repositorio `/GeoSVG/`, mediante `scripts/verify-build.mjs`: assets, fuentes, Web Worker, capa regional y preset, sin solicitar el archivo nacional en la carga inicial. Para repetirlo en PowerShell:
+Se verificó también el build bajo la ruta de repositorio `/GeoSVG/`, mediante `scripts/verify-build.mjs`: assets, fuentes, Web Worker, capa regional, preset y borde territorial exportado, sin solicitar el archivo nacional en la carga inicial. Para repetirlo en PowerShell:
 
 ```powershell
 $env:VITE_BASE_PATH = '/GeoSVG/'

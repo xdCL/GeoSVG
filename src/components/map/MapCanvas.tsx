@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useEditor } from '../../store/editor';
 import { mapFont } from '../../lib/fonts/catalog';
 import { dashArray } from '../../lib/svg/export';
+import { selectionBorderPaths } from '../../lib/geo/borders';
 import type { MapScene, Navigation } from '../../types';
 
 export function MapCanvas({ scene, loading, error, retry, navigation, setNavigation }: { scene?: MapScene; loading: boolean; error?: string; retry: () => void; navigation: Navigation; setNavigation: (navigation: Navigation) => void }) {
@@ -80,6 +81,7 @@ export function MapCanvas({ scene, loading, error, retry, navigation, setNavigat
                 onClick={() => { if (!drag.current?.moved) toggle(p.cut); }} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(p.cut); } }}><title>{p.name} · CUT {p.cut}{p.selected ? ' · Seleccionada' : ''}</title></path>)}
               <path d={scene.internal} fill="none" stroke={map.colors.internal} strokeWidth={map.internalWidth} strokeDasharray={dash} strokeLinejoin="round" strokeLinecap="round" pointerEvents="none" />
               <path d={scene.external} fill="none" stroke={map.colors.external} strokeWidth={map.externalWidth} strokeDasharray={dash} strokeLinejoin="round" strokeLinecap="round" pointerEvents="none" />
+              {selectionBorderPaths(scene, project).map(p => <path key={p.id} className="selection-border" id={`preview-${p.id}`} d={p.d} fill="none" stroke={map.selectionBorder.color} strokeWidth={map.selectionBorder.width} strokeDasharray={dash} strokeLinejoin="round" strokeLinecap="round" pointerEvents="none" />)}
             </g>
             <g className="map-labels" pointerEvents="none" fill={map.colors.labels} fontFamily={mapFont(map.labelFont).family} fontWeight={400} fontSize={map.labelSize} textAnchor="middle" dominantBaseline="central">{scene.labels.map(l => <text key={l.cut} data-label-cut={l.cut} x={l.x} y={l.y}>{l.name}</text>)}</g>
           </g></g>

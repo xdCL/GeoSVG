@@ -64,6 +64,19 @@ describe('Paletas, grupos y portabilidad', () => {
     const restored = readStorage({ getItem: () => JSON.stringify({ project: legacy, library: { palettes: [], presets: [{ ...slepPreset, project: legacy }] } }) });
     expect(restored.project.map.labelFont).toBe('arial'); expect(restored.library.presets[0].project.map.labelFont).toBe('arial');
   });
+  it('recupera proyectos y presets anteriores con el borde opcional desactivado', () => {
+    const p = freshProject(); p.selected = ['07401'];
+    const { selectionBorder: _border, ...oldMap } = p.map;
+    const legacy = { ...p, map: oldMap };
+    expect(validate(legacy)).toEqual(p);
+    const saved = readStorage({ getItem: key => key === STORAGE_KEY ? JSON.stringify({ project: legacy, library: { palettes: [], presets: [{ id: 'old', name: 'Anterior', description: '', project: legacy }] } }) : null });
+    expect(saved.project).toEqual(p); expect(saved.library.presets[0].project.map.selectionBorder.enabled).toBe(false);
+  });
+  it('guarda el borde de selección y rechaza grosor, color o destino inválidos', () => {
+    const p = freshProject(); p.map.selectionBorder = { enabled: true, color: '#aabbcc', width: 12.5, target: 'communes' };
+    expect(validate(p).map.selectionBorder).toEqual({ ...p.map.selectionBorder, color: '#AABBCC' });
+    for (const patch of [{ width: -1 }, { width: 31 }, { color: 'red' }, { target: 'all' }]) expect(() => validate({ ...p, map: { ...p.map, selectionBorder: { ...p.map.selectionBorder, ...patch } } })).toThrow();
+  });
   it('reasigna comunas sin duplicar pertenencia y permite quitar y ordenar grupos', () => {
     const s = useEditor.getState(); s.addGroup('A', '#0066CC'); s.addGroup('B', '#FFCC00');
     const [a, b] = useEditor.getState().project.groups; s.toggle('07401'); s.assignGroup(a.id); s.assignGroup(b.id);

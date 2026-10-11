@@ -57,6 +57,8 @@ El tema puede ser claro, oscuro o automático. Las fuentes Fraunces e Inter se d
 
 En **Diseño → Nombres y tipografía**, elige **Sin nombres**, **Solo seleccionadas** o **Todas las visibles**. Puedes usar [Inter](https://fonts.google.com/specimen/Inter) o [Fraunces](https://fonts.google.com/specimen/Fraunces), ambas del catálogo Google Fonts; también se conserva Arial para proyectos anteriores. La fuente se aplica a los nombres y a la leyenda, y se guarda en proyectos y presets. Puedes cambiar tamaño, color y ocultamiento de nombres superpuestos. Los proyectos nuevos usan Inter; los archivos antiguos conservan Arial.
 
+En **Diseño → Borde de selección**, activa un contorno adicional con color HEX propio y grosor de **0 a 30 px SVG**. Elige **Territorio seleccionado unido** para remarcar el perímetro del conjunto sin límites compartidos, o **Cada comuna seleccionada** para bordear sus polígonos individualmente. Funciona en los tres modos de mapa y conserva las islas separadas. El borde se guarda en proyectos y presets y aparece en el SVG y el PNG con el mismo color y grosor. Los proyectos anteriores lo recuperan desactivado. Hay un ejemplo con borde magenta de 12,5 px en [SVG](docs/examples/sleplosalamos-maule-borde.svg) y [PNG](docs/examples/sleplosalamos-maule-borde.png).
+
 ## Exportación
 
 Pulsa **Exportar mapa**. Configura ancho, proporción automática, 1:1, 4:5, 16:9, A4 o dimensiones personalizadas. Los formatos ajustan el territorio dentro de márgenes sin estirarlo.

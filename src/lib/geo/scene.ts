@@ -55,7 +55,7 @@ export function buildScene(topology: CommuneTopology, project: Project, fixedDim
   const fitted = project.export.frame === 'selection' ? displayed.filter(f => selected.has(String(f.id))) : displayed;
   if (project.export.frame === 'selection' && !fitted.length) throw new Error('Selecciona comunas dentro del ámbito para ajustar el encuadre a la selección.');
   const [width, height] = fixedDimensions || exportDimensions(project, fitted.length ? fitted : displayed);
-  const blank: MapScene = { width, height, paths: [], external: '', internal: '', silhouette: '', labels: [] };
+  const blank: MapScene = { width, height, paths: [], external: '', internal: '', silhouette: '', selectionBoundary: '', labels: [] };
   if (!displayed.length) return blank;
   const collection = { type: 'FeatureCollection' as const, features: fitted.length ? fitted : displayed };
   const margin = Math.min(project.map.margin, Math.min(width, height) / 3);
@@ -69,6 +69,10 @@ export function buildScene(topology: CommuneTopology, project: Project, fixedDim
   const subset: GeometryCollection<{ cut: string }> = { type: 'GeometryCollection', geometries: objects };
   const union = unionCommunes(topology, displayedCuts);
   const external = path(union) || '';
+  const selectedCuts = new Set([...displayedCuts].filter(cut => selected.has(cut)));
+  const selectionBoundary = project.map.selectionBorder.enabled && project.map.selectionBorder.target === 'territory' && selectedCuts.size
+    ? selectedCuts.size === displayedCuts.size ? external : path(unionCommunes(topology, selectedCuts)) || ''
+    : '';
   const internal = project.map.showInternal && project.map.mode !== 'silhouette' ? path(mesh(topology, subset, (a, b) => a !== b)) || '' : '';
   const paths = displayed.map(f => {
     const cut = String(f.id);
@@ -91,6 +95,6 @@ export function buildScene(topology: CommuneTopology, project: Project, fixedDim
   }
   const bounds = path.bounds({ type: 'FeatureCollection', features: scoped });
   const scopeBounds: [number, number, number, number] = [bounds[0][0], bounds[0][1], bounds[1][0] - bounds[0][0], bounds[1][1] - bounds[0][1]];
-  return { width, height, paths, external, internal, silhouette: project.map.mode === 'silhouette' ? external : '', labels, scopeBounds };
+  return { width, height, paths, external, internal, silhouette: project.map.mode === 'silhouette' ? external : '', selectionBoundary, labels, scopeBounds };
 }
 export function geometryPartCount(geometry: Polygon | MultiPolygon) { return geometry.type === 'Polygon' ? 1 : geometry.coordinates.length; }

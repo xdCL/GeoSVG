@@ -10,6 +10,7 @@ import { svgString } from '../lib/svg/export';
 import { slepPreset } from '../data/presets';
 import { catalog } from '../data/catalog';
 import { normalizeUnion } from '../lib/geo/union.mjs';
+import { selectionBorderPaths } from '../lib/geo/borders';
 
 const topology = JSON.parse(readFileSync('public/data/regions/07.topo.json', 'utf8')) as CommuneTopology;
 const project = () => structuredClone(slepPreset.project);
@@ -45,6 +46,43 @@ describe('Cartografía auténtica y encuadre', () => {
   it('rechaza una leyenda que no cabe y un encuadre vacío', () => { const p = project(); p.export.aspect = 'custom'; p.export.height = 100; p.map.legend = true; expect(() => buildScene(topology, p)).toThrow(); p.map.legend = false; p.selected = []; p.export.frame = 'selection'; expect(() => buildScene(topology, p)).toThrow(); });
 });
 describe('Exportación SVG', () => {
+  it('el borde territorial une solo las comunas seleccionadas sin remarcar límites compartidos', () => {
+    const p = project(); p.map.selectionBorder = { enabled: true, color: '#FF00FF', width: 12.5, target: 'territory' }; p.export.frame = 'selection';
+    const scene = buildScene(topology, p, [1000, 800]);
+    const selected = structuredClone(p); selected.map.mode = 'selected';
+    expect(scene.selectionBoundary).toBe(buildScene(topology, selected, [1000, 800]).external);
+    expect(scene.selectionBoundary).not.toBe(scene.paths.filter(p => p.selected).map(p => p.d).join(''));
+    const xml = new JSDOM(svgString(scene, p), { contentType: 'image/svg+xml' }).window.document;
+    const border = xml.querySelector('#borde-seleccion-territorial')!;
+    expect(border.getAttribute('stroke')).toBe('#FF00FF'); expect(border.getAttribute('stroke-width')).toBe('12.5'); expect(border.getAttribute('fill')).toBe('none');
+    expect(xml.querySelector('#contorno-exterior')?.getAttribute('stroke-width')).toBe(String(p.map.externalWidth));
+    p.selected.push('13101'); expect(buildScene(topology, p, [1000, 800]).selectionBoundary).toBe(scene.selectionBoundary);
+  });
+  it('el borde por comuna conserva los siete contornos editables y su estilo de línea', () => {
+    const p = project(); p.map.selectionBorder = { enabled: true, color: '#123456', width: 30, target: 'communes' }; p.map.lineStyle = 'dashed';
+    const scene = buildScene(topology, p);
+    const xml = new JSDOM(svgString(scene, p), { contentType: 'image/svg+xml' }).window.document;
+    expect(xml.querySelectorAll('[id^="borde-seleccion-"]')).toHaveLength(7);
+    expect(xml.querySelector('#borde-seleccion-07101')).toBeNull();
+    for (const path of scene.paths.filter(p => p.selected)) {
+      const border = xml.querySelector(`#borde-seleccion-${path.cut}`)!;
+      expect(border.getAttribute('d')).toBe(path.d); expect(border.getAttribute('stroke-width')).toBe('30'); expect(border.getAttribute('stroke')).toBe('#123456'); expect(border.getAttribute('stroke-dasharray')).toBe('6 4');
+    }
+  });
+  it('omite bordes desactivados, de grosor cero y selecciones vacías sin producir errores', () => {
+    const p = project(); expect(selectionBorderPaths(buildScene(topology, p), p)).toEqual([]);
+    p.map.selectionBorder.enabled = true; p.map.selectionBorder.width = 0;
+    expect(selectionBorderPaths(buildScene(topology, p), p)).toEqual([]);
+    p.map.selectionBorder.width = 4; p.selected = [];
+    for (const mode of ['context', 'selected', 'silhouette'] as const) { p.map.mode = mode; const scene = buildScene(topology, p); expect(scene.selectionBoundary).toBe(''); expect(selectionBorderPaths(scene, p)).toEqual([]); }
+  });
+  it('conserva islas separadas y el contorno de selección en modo silueta', () => {
+    const p = project(); p.map.selectionBorder.enabled = true; p.selected = ['07401', '07103']; p.map.mode = 'silhouette';
+    const scene = buildScene(topology, p);
+    expect(scene.selectionBoundary).toBe(scene.silhouette); expect(scene.selectionBoundary.match(/M/g)?.length).toBeGreaterThanOrEqual(2); expect(scene.internal).toBe('');
+    const xml = new JSDOM(svgString(scene, p), { contentType: 'image/svg+xml' }).window.document;
+    expect(xml.querySelector('#borde-seleccion-territorial')?.getAttribute('d')).toBe(scene.silhouette);
+  });
   it.each([['inter', 'Inter, sans-serif'], ['fraunces', 'Fraunces, serif']])('conserva %s en los nombres y la leyenda como texto editable', (id, family) => {
     const p = project(); p.map.labels = 'selected'; p.map.hideCollisions = false; p.map.legend = true; p.map.labelFont = id as LabelFont;
     const xml = new JSDOM(svgString(buildScene(topology, p), p), { contentType: 'image/svg+xml' }).window.document;

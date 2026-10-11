@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import type { Library, Project } from '../../types';
+import { defaultSelectionBorder } from '../geo/borders';
 
 const cut = z.string().regex(/^\d{5}$/);
 const hex = z.string().regex(/^#[\da-f]{6}$/i).transform(v => v.toUpperCase());
@@ -18,6 +19,7 @@ export const projectSchema = z.object({
     labels: z.enum(['none', 'selected', 'all']), labelSize: z.number().min(6).max(40),
     labelFont: z.enum(['arial', 'inter', 'fraunces']).default('arial'),
     hideCollisions: z.boolean(), legend: z.boolean(),
+    selectionBorder: z.object({ enabled: z.boolean(), color: hex, width: z.number().min(0).max(30), target: z.enum(['territory', 'communes']) }).strict().default(() => ({ ...defaultSelectionBorder })),
   }).strict(),
   groups: z.array(z.object({ id: z.string().min(1).max(80), name: z.string().min(1).max(80), color: hex, cuts }).strict()).max(30)
     .refine(groups => unique(groups.map(g => g.id)), 'Los grupos deben tener identificadores únicos.')
