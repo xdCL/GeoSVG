@@ -2,6 +2,7 @@ import { z } from 'zod';
 import type { Library, Project } from '../../types';
 import { defaultSelectionBorder } from '../geo/borders';
 import { defaultLabelStyle } from '../fonts/style';
+import { defaultLabelSign } from '../geo/signs';
 
 const cut = z.string().regex(/^\d{5}$/);
 const hex = z.string().regex(/^#[\da-f]{6}$/i).transform(v => v.toUpperCase());
@@ -26,6 +27,11 @@ export const projectSchema = z.object({
       letterSpacing: z.number().min(0).max(8), opacity: z.number().min(0).max(1),
       haloEnabled: z.boolean(), haloColor: hex, haloWidth: z.number().min(0).max(6),
     }).strict().default(() => ({ ...defaultLabelStyle })),
+    labelSign: z.object({
+      enabled: z.boolean(), faceColor: hex, edgeColor: hex, postColor: hex,
+      tilt: z.number().min(-30).max(30), depth: z.number().min(0).max(16),
+      padding: z.number().min(2).max(24), height: z.number().min(0).max(48), opacity: z.number().min(0).max(1),
+    }).strict().default(() => ({ ...defaultLabelSign })),
   }).strict(),
   groups: z.array(z.object({ id: z.string().min(1).max(80), name: z.string().min(1).max(80), color: hex, cuts }).strict()).max(30)
     .refine(groups => unique(groups.map(g => g.id)), 'Los grupos deben tener identificadores únicos.')

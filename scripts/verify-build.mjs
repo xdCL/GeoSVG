@@ -31,7 +31,10 @@ try {
   await page.getByLabel('Peso tipográfico').selectOption('700');
   await page.getByLabel('Cursiva', { exact: true }).check();
   await page.getByLabel('Añadir contorno a los nombres').check();
+  await page.getByLabel('Formato de los nombres', { exact: true }).selectOption('sign');
+  await page.getByRole('textbox', { name: 'HEX Frente del letrero', exact: true }).fill('#F7CC85');
   await page.waitForFunction(() => document.querySelectorAll('.map-labels text').length === 7);
+  await page.locator('.map-sign[data-sign-cut="07402"] [data-face="front"]').waitFor();
   await page.getByRole('button', { name: 'Exportar mapa' }).click();
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Descargar SVG' }).click();
@@ -42,7 +45,8 @@ try {
   assert(svg.includes('SIL OPEN FONT LICENSE'));
   assert(svg.includes('font-weight:700;font-style:italic;'));
   assert(/id="etiqueta-07402"[^>]*fill="#800080"[^>]*font-weight="700"[^>]*font-style="italic"/.test(svg));
+  assert(/id="letrero-07402"[^>]*>.*?data-face="front"[^>]*fill="#F7CC85"/.test(svg));
   assert(/id="borde-seleccion-territorial"[^>]*stroke="#FF00FF"[^>]*stroke-width="12.5"/.test(svg));
   assert.deepEqual(errors, []);
-  console.log('Build bajo /GeoSVG/ válido: assets, Worker, cartografía regional, preset, nombres de color violeta en Fraunces negrita cursiva incrustada, contorno de texto y borde territorial en SVG. Sin errores HTTP/JavaScript.');
+  console.log('Build bajo /GeoSVG/ válido: cartografía regional, borde territorial y letreros isométricos editables con Fraunces incrustada en el SVG. Sin errores HTTP/JavaScript.');
 } finally { await browser.close(); }

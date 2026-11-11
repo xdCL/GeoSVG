@@ -50,6 +50,8 @@ El campo opcional de entrada `map.labelFont` admite `inter`, `fraunces` y `arial
 
 `map.labelStyle` contiene los ajustes tipográficos adicionales. La validación limita pesos a 400/500/700, espaciado a 0–8 px, opacidad a 0–1 y contorno a 0–6 px con HEX válido. Si falta, se aplica el estilo regular original: sin cursiva, subrayado, mayúsculas ni contorno, espaciado cero y opacidad completa. El color existente `map.colors.labels` se conserva y sigue formando parte de las paletas.
 
+`map.labelSign` es opcional en archivos de proyecto anteriores. Su valor inicial conserva el texto plano. Al activarlo, el Worker usa el ancho medido de cada nombre para construir tres caras vectoriales y proyectar el texto sobre el frente. El poste parte del punto de la comuna; el letrero se ajusta al encuadre y las colisiones se calculan con la caja de la placa completa. La vista previa y la exportación consumen esa misma geometría. Las dimensiones invalidan la caché de escena, mientras que los colores y la opacidad se aplican al dibujar.
+
 ## Accesibilidad
 
 El selector de checkboxes es la alternativa principal al mapa. Los polígonos tienen nombres, CUT, estado `aria-pressed`, foco y activación por Enter/espacio. Hay mensajes de carga y error, enlace de salto, reducción de movimiento y contraste de interfaz en ambos temas. Las pruebas axe no sustituyen una auditoría manual completa ni garantizan contraste de paletas arbitrarias elegidas por el usuario.

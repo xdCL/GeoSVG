@@ -4,6 +4,77 @@ import { readFile } from 'node:fs/promises';
 
 async function revealPanel(page: import('@playwright/test').Page, mobile: boolean) { if (mobile) await page.getByRole('button', { name: 'Editar mapa', exact: true }).click(); }
 
+test('letreros isométricos editables, persistentes y exportables', async ({ page, isMobile }) => {
+  await page.goto('/'); await page.getByRole('button', { name: 'Preset SLEP Los Álamos' }).click();
+  await page.getByRole('button', { name: 'Selección', exact: true }).click();
+  await revealPanel(page, isMobile); await page.getByRole('button', { name: 'Diseño', exact: true }).click();
+  await page.getByText('Nombres y tipografía', { exact: true }).click();
+  await page.getByLabel('Nombres de comunas', { exact: true }).selectOption('selected');
+  await page.getByLabel('Ocultar nombres superpuestos').uncheck();
+  await page.getByLabel('Tamaño de etiqueta').fill('17');
+  await page.getByLabel('Fuente de nombres y leyenda').selectOption('fraunces');
+  await page.getByLabel('Peso tipográfico').selectOption('700');
+  const format = page.getByLabel('Formato de los nombres', { exact: true });
+  await format.selectOption('sign');
+  const labels = page.locator('.map-labels'); const sign = labels.locator('[data-sign-cut="07402"]');
+  await expect(labels.locator('.map-sign')).toHaveCount(7);
+  await expect(sign.getByText('Colbún', { exact: true })).toBeAttached();
+  const front = sign.locator('[data-face="front"]');
+  await page.getByLabel('HEX Frente del letrero', { exact: true }).fill('#F7CC85');
+  await page.getByLabel('HEX Relieve del letrero', { exact: true }).fill('#6F4529');
+  await page.getByLabel('HEX Poste del letrero', { exact: true }).fill('#294E46');
+  await page.getByLabel('Altura del letrero').fill('0');
+  await page.getByLabel('Profundidad del letrero').fill('0');
+  await expect(sign.locator('[data-sign-post]')).toHaveCount(0);
+  await expect(sign.locator('polygon')).toHaveCount(1);
+  await page.getByLabel('Inclinación del letrero').fill('-30');
+  await page.getByLabel('Profundidad del letrero').fill('8');
+  await page.getByLabel('Margen interno del letrero').fill('10');
+  await page.getByLabel('Opacidad del letrero').fill('80');
+  await expect(sign.locator('[data-sign-board]')).toHaveAttribute('opacity', '0.8');
+  await page.getByLabel('Opacidad del letrero').fill('100');
+  await page.getByLabel('Altura del letrero').fill('16');
+  await expect(sign.locator('[data-sign-post] line')).toHaveAttribute('stroke', '#294E46');
+  await expect(sign.locator('text')).toHaveAttribute('transform', /^matrix\(0\.866 0\.5 /);
+  await expect(front).toHaveAttribute('fill', '#F7CC85');
+  const points = await front.getAttribute('points');
+  if (isMobile) await page.keyboard.press('Escape');
+  await page.getByRole('button', { name: 'Exportar mapa' }).click();
+  const svgEvent = page.waitForEvent('download'); await page.getByRole('button', { name: 'Descargar SVG' }).click(); const svgDownload = await svgEvent;
+  const svg = await readFile((await svgDownload.path())!, 'utf8');
+  const exported = await page.evaluate(source => {
+    const xml = new DOMParser().parseFromString(source, 'image/svg+xml');
+    const sign = xml.querySelector('#letrero-07402');
+    return { count: xml.querySelectorAll('[data-sign-cut]').length, name: sign?.querySelector('text')?.textContent,
+      points: sign?.querySelector('[data-face="front"]')?.getAttribute('points'), color: sign?.querySelector('[data-face="front"]')?.getAttribute('fill') };
+  }, svg);
+  expect(exported).toEqual({ count: 7, name: 'Colbún', points, color: '#F7CC85' });
+  const pngEvent = page.waitForEvent('download'); await page.getByRole('button', { name: 'Descargar PNG' }).click(); const pngDownload = await pngEvent;
+  const png = await readFile((await pngDownload.path())!);
+  const signPixels = await page.evaluate(async data => {
+    const image = new Image(); image.src = `data:image/png;base64,${data}`; await image.decode();
+    const canvas = document.createElement('canvas'); canvas.width = image.width; canvas.height = image.height;
+    const ctx = canvas.getContext('2d')!; ctx.drawImage(image, 0, 0);
+    const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let count = 0;
+    for (let i = 0; i < pixels.length; i += 4) if (pixels[i] === 247 && pixels[i + 1] === 204 && pixels[i + 2] === 133 && pixels[i + 3] === 255) count++;
+    return count;
+  }, png.toString('base64'));
+  expect(signPixels).toBeGreaterThan(100);
+  if (!isMobile) {
+    await svgDownload.saveAs('docs/examples/sleplosalamos-maule-letreros.svg');
+    await pngDownload.saveAs('docs/examples/sleplosalamos-maule-letreros.png');
+  }
+  await page.reload();
+  await expect(front).toHaveAttribute('points', points!);
+  await expect(front).toHaveAttribute('fill', '#F7CC85');
+  await revealPanel(page, isMobile); await page.getByRole('button', { name: 'Diseño', exact: true }).click();
+  await page.getByText('Nombres y tipografía', { exact: true }).click();
+  await format.selectOption('text');
+  await expect(labels.locator('.map-sign')).toHaveCount(0);
+  await expect(labels.locator('text')).toHaveCount(7);
+});
+
 test('borde de selección: perímetro o comunas, color, grosor, SVG, PNG y proyecto', async ({ page, isMobile }, info) => {
   await page.goto('/'); await page.getByRole('button', { name: 'Preset SLEP Los Álamos' }).click();
   await expect(page.locator('.map-svg [data-selected="true"]')).toHaveCount(7);

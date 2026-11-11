@@ -2,6 +2,7 @@ import { builtInPalettes } from '../lib/colors/palettes';
 import type { Project } from '../types';
 import { defaultSelectionBorder } from '../lib/geo/borders';
 import { defaultLabelStyle } from '../lib/fonts/style';
+import { defaultLabelSign } from '../lib/geo/signs';
 
 export const defaultProject: Project = {
   version: 1, scope: { region: '07', province: '' }, selected: [], groups: [], theme: 'auto',
@@ -11,6 +12,7 @@ export const defaultProject: Project = {
     showInternal: true, margin: 36, labels: 'none', labelSize: 12, labelFont: 'inter', hideCollisions: true, legend: false,
     selectionBorder: { ...defaultSelectionBorder },
     labelStyle: { ...defaultLabelStyle },
+    labelSign: { ...defaultLabelSign },
   },
   export: { width: 1000, height: 800, aspect: 'auto', scale: 2, frame: 'scope', filename: 'comunas' },
 };

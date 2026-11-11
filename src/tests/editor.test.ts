@@ -85,6 +85,16 @@ describe('Paletas, grupos y portabilidad', () => {
     const saved = readStorage({ getItem: key => key === STORAGE_KEY ? JSON.stringify({ project: legacy, library: { palettes: [], presets: [{ id: 'old', name: 'Anterior', description: '', project: legacy }] } }) : null });
     expect(saved.project).toEqual(p); expect(saved.library.presets[0].project.map.labelStyle).toEqual(p.map.labelStyle);
   });
+  it('mantiene texto plano al importar proyectos antiguos y valida el estilo de los letreros', () => {
+    const project = freshProject();
+    const { labelSign, ...oldMap } = project.map;
+    expect(validate({ ...project, map: oldMap }).map.labelSign).toEqual(labelSign);
+    project.map.labelSign = { ...labelSign, enabled: true, tilt: -30, faceColor: '#f7cc85', height: 0 };
+    expect(validate(project).map.labelSign).toMatchObject({ enabled: true, tilt: -30, faceColor: '#F7CC85', height: 0 });
+    for (const patch of [{ tilt: 31 }, { depth: -1 }, { padding: 1 }, { height: 49 }, { opacity: 1.1 }, { faceColor: 'url(https://example.com)' }]) {
+      expect(() => validate({ ...project, map: { ...project.map, labelSign: { ...project.map.labelSign, ...patch } } })).toThrow();
+    }
+  });
   it('valida todos los estilos del texto y sus límites sin aceptar CSS externo', () => {
     const p = freshProject(); p.map.labelSize = 80;
     p.map.labelStyle = { weight: 700, italic: true, underline: true, uppercase: true, letterSpacing: 8, opacity: 0.5, haloEnabled: true, haloColor: '#aabbcc', haloWidth: 6 };

@@ -11,6 +11,7 @@ import { slepPreset } from '../data/presets';
 import { catalog } from '../data/catalog';
 import { normalizeUnion } from '../lib/geo/union.mjs';
 import { selectionBorderPaths } from '../lib/geo/borders';
+import { labelSignGeometry } from '../lib/geo/signs';
 
 const topology = JSON.parse(readFileSync('public/data/regions/07.topo.json', 'utf8')) as CommuneTopology;
 const project = () => structuredClone(slepPreset.project);
@@ -45,6 +46,43 @@ describe('Cartografía auténtica y encuadre', () => {
   it('el color de grupo tiene prioridad y no modifica los datos', () => { const p = project(); p.groups = [{ id: 'g', name: 'A', color: '#FFCC00', cuts: ['07401'] }]; expect(colorFor('07401', p)).toBe('#FFCC00'); expect(topology.objects.communes.geometries.find(g => g.id === '07401')?.properties).toEqual({ cut: '07401' }); });
   it('rechaza una leyenda que no cabe y un encuadre vacío', () => { const p = project(); p.export.aspect = 'custom'; p.export.height = 100; p.map.legend = true; expect(() => buildScene(topology, p)).toThrow(); p.map.legend = false; p.selected = []; p.export.frame = 'selection'; expect(() => buildScene(topology, p)).toThrow(); });
 });
+describe('Letreros isométricos', () => {
+  it('encuadra un letrero ancho al borde del mapa y permite ocultar el poste y el relieve', () => {
+    const { map } = project();
+    Object.assign(map.labelSign, { tilt: -30, padding: 18, depth: 0, height: 0 });
+    const sign = labelSignGeometry(540, map, [-4, -12, 74, 40]);
+    expect(sign.faces.map(f => f.face)).toEqual(['front']);
+    expect(sign.stem).toBeUndefined();
+    const [left, top, right, bottom] = sign.bounds;
+    expect(left).toBeGreaterThanOrEqual(-4.001); expect(top).toBeGreaterThanOrEqual(-12.001);
+    expect(right).toBeLessThanOrEqual(74.001); expect(bottom).toBeLessThanOrEqual(40.001);
+    expect(sign.transform).not.toMatch(/NaN|Infinity/);
+  });
+  it('oculta placas superpuestas y mantiene los puntos de anclaje de las comunas', () => {
+    const p = project(); p.map.labels = 'selected'; p.map.labelSign.enabled = true; p.map.labelSize = 25;
+    const filtered = buildScene(topology, p, [260, 220]);
+    p.map.hideCollisions = false;
+    const complete = buildScene(topology, p, [260, 220]);
+    expect(complete.labels).toHaveLength(7);
+    expect(filtered.labels.length).toBeGreaterThan(0); expect(filtered.labels.length).toBeLessThan(7);
+    for (const label of filtered.labels) expect([label.x, label.y]).toEqual(complete.paths.find(path => path.cut === label.cut)?.label);
+  });
+  it('exporta un letrero con tres caras, poste y nombre editable en su plano', () => {
+    const p = project(); p.map.labels = 'selected'; p.map.hideCollisions = false; p.map.labelStyle.uppercase = true;
+    Object.assign(p.map.labelSign, { enabled: true, tilt: -30, faceColor: '#F7CC85', edgeColor: '#6F4529', postColor: '#294E46', opacity: 0.8 });
+    const scene = buildScene(topology, p);
+    const xml = new JSDOM(svgString(scene, p), { contentType: 'image/svg+xml' }).window.document;
+    const sign = xml.querySelector('#letrero-07402')!;
+    const text = sign.querySelector('text')!;
+    expect(text.textContent).toBe('COLBÚN'); expect(text.getAttribute('transform')).toMatch(/^matrix\(0\.866 0\.5 /);
+    expect(sign.querySelectorAll('polygon')).toHaveLength(3);
+    expect(sign.querySelector('[data-face="front"]')?.getAttribute('fill')).toBe('#F7CC85');
+    expect(sign.querySelector('[data-face="side"]')?.getAttribute('fill')).toBe('#6F4529');
+    expect(sign.querySelector('line')?.getAttribute('stroke')).toBe('#294E46');
+    expect(sign.querySelector('[data-sign-board]')?.getAttribute('opacity')).toBe('0.8');
+  });
+});
+
 describe('Exportación SVG', () => {
   it('conserva color, negrita, cursiva, subrayado, espaciado, opacidad y contorno en nombres editables', () => {
     const p = project(); p.map.labels = 'selected'; p.map.hideCollisions = false; p.map.colors.labels = '#FF00FF'; p.map.labelSize = 28;

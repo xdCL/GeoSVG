@@ -20,6 +20,19 @@ export interface LabelStyle {
   weight: 400 | 500 | 700; italic: boolean; underline: boolean; uppercase: boolean;
   letterSpacing: number; opacity: number; haloEnabled: boolean; haloColor: string; haloWidth: number;
 }
+export interface LabelSignStyle {
+  enabled: boolean; faceColor: string; edgeColor: string; postColor: string;
+  tilt: number; depth: number; padding: number; height: number; opacity: number;
+}
+export type SignFace = 'front' | 'top' | 'side';
+export type LabelBounds = [left: number, top: number, right: number, bottom: number];
+export interface LabelSignGeometry {
+  transform: string;
+  faces: { face: SignFace; points: string }[];
+  stem?: [number, number];
+  bounds: LabelBounds;
+}
+export interface MapLabel { cut: string; name: string; x: number; y: number; sign?: LabelSignGeometry }
 export interface MapOptions {
   mode: MapMode; colors: Colors; transparent: boolean; opacity: number; backgroundOpacity: number;
   internalWidth: number; externalWidth: number; lineStyle: 'solid' | 'dashed' | 'dotted';
@@ -27,6 +40,7 @@ export interface MapOptions {
   labelSize: number; labelFont: LabelFont; hideCollisions: boolean; legend: boolean;
   selectionBorder: SelectionBorder;
   labelStyle: LabelStyle;
+  labelSign: LabelSignStyle;
 }
 export interface ExportOptions {
   width: number; height: number; aspect: 'auto' | 'square' | 'portrait' | 'wide' | 'a4p' | 'a4l' | 'custom';
@@ -42,6 +56,6 @@ export interface Navigation { zoom: number; x: number; y: number }
 export interface MapPath { cut: string; name: string; d: string; fill: string; selected: boolean; label?: [number, number] }
 export interface MapScene {
   width: number; height: number; paths: MapPath[]; external: string; internal: string;
-  silhouette: string; selectionBoundary: string; labels: { cut: string; name: string; x: number; y: number }[];
+  silhouette: string; selectionBoundary: string; labels: MapLabel[];
   scopeBounds?: [number, number, number, number];
 }

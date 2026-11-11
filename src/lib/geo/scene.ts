@@ -6,6 +6,7 @@ import type { GeometryCollection, MultiPolygon as TopoMultiPolygon, Polygon as T
 import { communeByCut } from '../../data/catalog';
 import type { AreaGeometry, CommuneFeature, CommuneTopology, MapScene, Project } from '../../types';
 import { labelText } from '../fonts/style';
+import { labelSignGeometry } from './signs';
 
 export function d3Geometry(geometry: AreaGeometry): AreaGeometry {
   if (geoArea(geometry) <= 2 * Math.PI) return geometry;
@@ -92,10 +93,13 @@ export function buildScene(topology: CommuneTopology, project: Project, fixedDim
     const w = labelWidths?.[p.cut] ?? length * project.map.labelSize * 0.56 + Math.max(0, length - 1) * style.letterSpacing;
     const h = project.map.labelSize * (style.underline ? 1.4 : 1.2);
     const padding = 2 + (style.haloEnabled ? style.haloWidth / 2 : 0);
-    const box: [number, number, number, number] = [x - w / 2 - padding, y - h / 2 - padding, x + w / 2 + padding, y + h / 2 + padding];
+    const sign = project.map.labelSign.enabled ? labelSignGeometry(w, project.map, [4 - x, 4 - y, width - 4 - x, height - legendSpace - 4 - y]) : undefined;
+    const box: [number, number, number, number] = sign
+      ? [x + sign.bounds[0] - 2, y + sign.bounds[1] - 2, x + sign.bounds[2] + 2, y + sign.bounds[3] + 2]
+      : [x - w / 2 - padding, y - h / 2 - padding, x + w / 2 + padding, y + h / 2 + padding];
     if (project.map.hideCollisions && boxes.some(b => box[0] < b[2] && box[2] > b[0] && box[1] < b[3] && box[3] > b[1])) continue;
     boxes.push(box);
-    labels.push({ cut: p.cut, name: p.name, x, y });
+    labels.push({ cut: p.cut, name: p.name, x, y, sign });
   }
   const bounds = path.bounds({ type: 'FeatureCollection', features: scoped });
   const scopeBounds: [number, number, number, number] = [bounds[0][0], bounds[0][1], bounds[1][0] - bounds[0][0], bounds[1][1] - bounds[0][1]];

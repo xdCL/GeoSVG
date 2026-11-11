@@ -7,6 +7,7 @@ import { loadEmbeddedFont } from '../fonts/embedded';
 import type { EmbeddedFont } from '../fonts/embedded';
 import { selectionBorderPaths } from '../geo/borders';
 import { labelAppearance, labelText } from '../fonts/style';
+import { signFaceColor } from '../geo/signs';
 
 export const escapeXml = (text: string) => text.replace(/[<>&"']/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&apos;' }[c]!));
 export const dashArray = (project: Project) => project.map.lineStyle === 'dashed' ? '6 4' : project.map.lineStyle === 'dotted' ? '1 4' : undefined;
@@ -27,7 +28,16 @@ export function svgString(scene: MapScene, project: Project, navigation?: Naviga
   const boundaries = `${scene.internal ? `<path id="limites-comunales" d="${scene.internal}" fill="none" stroke="${map.colors.internal}" stroke-width="${map.internalWidth}" ${stroke}/>` : ''}<path id="contorno-exterior" d="${scene.external}" fill="none" stroke="${map.colors.external}" stroke-width="${map.externalWidth}" ${stroke}/>`;
   const selectionBorder = selectionBorderPaths(scene, project).map(p => `<path id="${p.id}" d="${p.d}" fill="none" stroke="${map.selectionBorder.color}" stroke-width="${map.selectionBorder.width}" ${stroke}/>`).join('');
   const textAttributes = Object.entries(labelAppearance(project)).map(([key, value]) => `${key.replace(/[A-Z]/g, c => `-${c.toLowerCase()}`)}="${escapeXml(String(value))}"`).join(' ');
-  const labels = scene.labels.map(l => `<text id="etiqueta-${l.cut}" x="${l.x}" y="${l.y}" ${textAttributes} text-anchor="middle" dominant-baseline="central">${escapeXml(labelText(l.name, map.labelStyle))}</text>`).join('');
+  const labels = scene.labels.map(l => {
+    const style = map.labelSign;
+    const sign = style.enabled ? l.sign : undefined;
+    const position = sign ? `transform="${sign.transform}"` : `x="${l.x}" y="${l.y}"`;
+    const text = `<text id="etiqueta-${l.cut}" ${position} ${textAttributes} text-anchor="middle" dominant-baseline="central">${escapeXml(labelText(l.name, map.labelStyle))}</text>`;
+    if (!sign) return text;
+    const post = sign.stem ? `<g data-sign-post="" fill="${style.postColor}"><line x2="${sign.stem[0]}" y2="${sign.stem[1]}" stroke="${style.postColor}" stroke-width="2.1" stroke-linecap="round"/><circle r="2.35"/></g>` : '';
+    const faces = sign.faces.map(({ face, points }) => `<polygon data-face="${face}" points="${points}" fill="${signFaceColor(face, style)}"${face === 'front' ? ` stroke="${style.edgeColor}"` : ''} stroke-width="0.75" stroke-linejoin="round"/>`).join('');
+    return `<g id="letrero-${l.cut}" data-sign-cut="${l.cut}" transform="translate(${l.x} ${l.y})"><g data-sign-board="" opacity="${style.opacity}">${post}${faces}</g>${text}</g>`;
+  }).join('');
   const entries = [...project.groups.filter(g => scene.paths.some(p => g.cuts.includes(p.cut))).map(g => ({ name: g.name, color: g.color })), { name: 'Comunas destacadas', color: map.colors.selected }, ...(map.mode === 'context' ? [{ name: 'Resto del territorio', color: map.colors.unselected }] : [])];
   const legend = map.legend ? `<g id="leyenda" font-family="${font.family}" font-weight="${map.labelStyle.weight}" font-style="${map.labelStyle.italic ? 'italic' : 'normal'}" font-size="12" fill="${map.colors.labels}">${entries.map((e, i) => `<rect x="${map.margin}" y="${scene.height - 22 - i * 18}" width="10" height="10" fill="${e.color}"/><text x="${map.margin + 17}" y="${scene.height - 13 - i * 18}">${escapeXml(e.name)}</text>`).join('')}</g>` : '';
   return `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="${scene.width}" height="${scene.height}" viewBox="0 0 ${scene.width} ${scene.height}" role="img" aria-labelledby="map-title map-desc"><title id="map-title">${escapeXml(scopeName(project.scope))} — GeoSVG</title><desc id="map-desc">${scene.paths.length} comunas representadas. Fuente: Biblioteca del Congreso Nacional de Chile. Cartografía referencial.</desc><metadata>${escapeXml(JSON.stringify(metadata))}</metadata><defs>${fontStyle}<clipPath id="encuadre"><rect width="${scene.width}" height="${scene.height}"/></clipPath></defs>${background}<g clip-path="url(#encuadre)"><g${transform}><g id="territorio" opacity="${map.opacity}">${shapes}${boundaries}${selectionBorder}</g><g id="etiquetas">${labels}</g></g></g>${legend}</svg>`;

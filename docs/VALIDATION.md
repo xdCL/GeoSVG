@@ -1,6 +1,6 @@
 # Validación de la entrega
 
-Fecha: 10 de octubre de 2026. Entorno: Windows, Node.js 24.14.1, Chrome; móvil emulado con perfil iPhone 13 en Chromium.
+Fecha: 10 de noviembre de 2026. Entorno: Windows, Node.js 24.14.1, Chrome; móvil emulado con perfil iPhone 13 en Chromium.
 
 ## Comprobaciones ejecutadas
 
@@ -10,11 +10,12 @@ Fecha: 10 de octubre de 2026. Entorno: Windows, Node.js 24.14.1, Chrome; móvil 
 | Geometrías | CUT únicos, jerarquía, anillos cerrados, coordenadas finitas en WGS84 y validez OGC JSTS |
 | Archivos regionales | 16 existentes; correspondencia exacta entre geometrías y comunas disponibles del catálogo |
 | Unión | Uniones de las 16 regiones y del preset SLEP válidas; normalización de anillos que se tocan en un vértice |
-| Vitest | **43 pruebas aprobadas**: selección, búsqueda, HEX, persistencia y recuperación de datos anteriores a GeoSVG, JSON, fuentes y compatibilidad de proyectos, grupos, preset, provincias, encuadres, etiquetas, unión, bordes de selección, estilos tipográficos y SVG |
-| Playwright | **16 pruebas aprobadas**: ocho flujos en escritorio y los mismos ocho en móvil emulado; incluye crear, duplicar, renombrar y eliminar paletas, asignar grupos, reutilizar proyectos JSON, tipografías opcionales, estilos completos de texto y bordes configurables |
+| Vitest | **47 pruebas aprobadas**: incluye geometría, encuadre, solapamientos y compatibilidad de proyectos con letreros isométricos |
+| Playwright | **18 pruebas aprobadas**: nueve flujos en escritorio y los mismos nueve en móvil emulado, incluyendo edición, persistencia y exportación de letreros isométricos |
 | Bordes de selección | Perímetro territorial unido o siete contornos comunales; color HEX y grosor de 12,5 px comprobados en vista previa y SVG, píxeles del color elegido en PNG, persistencia e importación JSON; archivos antiguos conservan el borde desactivado |
 | Tipografías | Inter y Fraunces cargadas desde el WOFF2 incluido en el SVG sin conexión; diferencias de píxeles verificadas frente a la fuente de sustitución y al mapa sin nombres; siete nombres, treinta nombres y ausencia de nombres comprobados |
 | Estilo de nombres | Las doce combinaciones de familia, peso 400/500/700 y cursiva comprobadas sin conexión; diez variantes adicionales usan WOFF2 distintos; color violeta, subrayado, mayúsculas, espaciado y contorno blanco conservados en SVG, color presente en PNG, opacidad y estilo recuperados desde JSON y al recargar |
+| Letreros isométricos | Inclinación, profundidad, margen, poste y opacidad configurables; siete nombres editables y placas con los mismos puntos que la vista previa en SVG, color verificado en PNG y recuperación del estilo al recargar |
 | Flujo obligatorio | Preset SLEP de siete comunas → HEX `#E45D47` → SVG XML válido con colores y metadatos verificados |
 | PNG | Archivo PNG válido de 2000 × 2000 px para SVG de 1000 × 1000 a 2×; esquina con alfa 0 |
 | Navegación | Clic, activación por teclado, conservación del foco, zoom y exportación independiente de navegación |

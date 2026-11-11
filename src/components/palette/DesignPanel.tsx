@@ -8,6 +8,7 @@ import { palettesFileSchema, readJsonFile } from '../../lib/validation/project';
 import type { ColorKey, LabelFont, LabelStyle, Palette, SelectionBorder } from '../../types';
 import { mapFont, mapFonts } from '../../lib/fonts/catalog';
 import { labelText } from '../../lib/fonts/style';
+import { LabelSignControls } from './LabelSignControls';
 
 export function DesignPanel({ notify }: { notify: Notify }) {
   const { project, library, map, palette, savePalette, deletePalette } = useEditor();
@@ -43,6 +44,7 @@ export function DesignPanel({ notify }: { notify: Notify }) {
       </>}
     </details>
     <details><summary>Nombres y tipografía</summary><label className="field">Nombres de comunas<select aria-label="Nombres de comunas" value={project.map.labels} onChange={e => map({ labels: e.target.value as 'none' | 'selected' | 'all' })}><option value="none">Sin nombres</option><option value="selected">Solo seleccionadas</option><option value="all">Todas las visibles</option></select></label>
+      <LabelSignControls style={project.map.labelSign} onChange={labelSign => map({ labelSign })} />
       <label className="field">Fuente de nombres y leyenda<select aria-label="Fuente de nombres y leyenda" value={project.map.labelFont} onChange={e => map({ labelFont: e.target.value as LabelFont })}>{mapFonts.map(font => <option key={font.id} value={font.id}>{font.description}</option>)}</select></label>
       <ColorField label="Color de nombres y leyenda" value={project.map.colors.labels} onChange={labels => map({ colors: { ...project.map.colors, labels } })} />
       <label className="field">Peso tipográfico<select aria-label="Peso tipográfico" value={textStyle.weight} onChange={e => updateText({ weight: Number(e.target.value) as LabelStyle['weight'] })}><option value={400}>Regular</option><option value={500}>Medio</option><option value={700}>Negrita</option></select></label>
