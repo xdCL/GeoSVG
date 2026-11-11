@@ -1,5 +1,7 @@
 # GeoSVG
 
+**[← Volver al inicio · xdCL](https://xdcl.github.io/)**
+
 Editor cartográfico vectorial de Chile, abierto y desarrollado por **xdCL**. Selecciona comunas, diseña paletas HEX, crea grupos y exporta mapas SVG editables o PNG, completamente desde el navegador.
 
 Repositorio: [xdCL/GeoSVG](https://github.com/xdCL/GeoSVG). URL de publicación: [GeoSVG en GitHub Pages](https://xdcl.github.io/GeoSVG/).
