@@ -5,8 +5,13 @@ import { readFile } from 'node:fs/promises';
 async function revealPanel(page: import('@playwright/test').Page, mobile: boolean) { if (mobile) await page.getByRole('button', { name: 'Editar mapa', exact: true }).click(); }
 
 test('letreros isométricos editables, persistentes y exportables', async ({ page, isMobile }) => {
-  await page.goto('/'); await page.getByRole('button', { name: 'Preset SLEP Los Álamos' }).click();
+  await page.goto('/');
+  // Espera al primer mapa, incluso si Vite recarga al optimizar el Worker en un arranque en frío.
+  await expect(page.locator('.map-svg path[data-cut="07402"]')).toBeAttached();
+  await page.getByRole('button', { name: 'Preset SLEP Los Álamos' }).click();
+  await expect(page.locator('.map-svg [data-selected="true"]')).toHaveCount(7);
   await page.getByRole('button', { name: 'Selección', exact: true }).click();
+  await expect(page.locator('.map-svg path[role="button"]')).toHaveCount(7);
   await revealPanel(page, isMobile); await page.getByRole('button', { name: 'Diseño', exact: true }).click();
   await page.getByText('Nombres y tipografía', { exact: true }).click();
   await page.getByLabel('Nombres de comunas', { exact: true }).selectOption('selected');
