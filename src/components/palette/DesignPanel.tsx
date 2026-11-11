@@ -8,6 +8,7 @@ import { palettesFileSchema, readJsonFile } from '../../lib/validation/project';
 import type { ColorKey, Palette, SelectionBorder } from '../../types';
 import { TypographyControls } from './TypographyControls';
 import { LabelSignControls } from './LabelSignControls';
+import { GradientControls } from './GradientControls';
 
 export function DesignPanel({ notify }: { notify: Notify }) {
   const { project, library, map, palette, savePalette, deletePalette } = useEditor();
@@ -22,6 +23,7 @@ export function DesignPanel({ notify }: { notify: Notify }) {
     <div className="panel-heading"><span className="eyebrow">02 / DISEÑO</span><h2>Color y detalle</h2><p>Colores exactos. Un mapa a tu manera.</p></div>
     <div className="palette-grid">{builtInPalettes.map(p => <button key={p.id} onClick={() => { palette(p); setActive(''); }}><span className="swatches">{Object.values(p.colors).slice(0, 4).map((c, i) => <i key={i} style={{ background: c }} />)}</span>{p.name}</button>)}</div>
     {(Object.keys(colorLabels) as ColorKey[]).filter(key => key !== 'labels').map(key => <ColorField key={key} label={colorLabels[key]} value={project.map.colors[key]} onChange={value => map({ colors: { ...project.map.colors, [key]: value } })} />)}
+    <GradientControls value={project.map.selectionGradient} onChange={selectionGradient => map({ selectionGradient })} />
     <Toggle label="Fondo transparente" checked={project.map.transparent} onChange={transparent => map({ transparent })} />
     <NumberField label="Opacidad del territorio" value={Math.round(project.map.opacity * 100)} unit="%" onChange={v => map({ opacity: v / 100 })} />
     {!project.map.transparent && <NumberField label="Opacidad del fondo" value={Math.round(project.map.backgroundOpacity * 100)} unit="%" onChange={v => map({ backgroundOpacity: v / 100 })} />}
@@ -44,6 +46,7 @@ export function DesignPanel({ notify }: { notify: Notify }) {
       <LabelSignControls style={project.map.labelSign} onChange={labelSign => map({ labelSign })} />
       <TypographyControls map={project.map} onChange={map} />
       <Toggle label="Ocultar nombres superpuestos" checked={project.map.hideCollisions} onChange={hideCollisions => map({ hideCollisions })} />
+      <p className="source-note">Los rótulos se separan antes de ocultar los que no caben.</p>
       <Toggle label="Incluir leyenda" checked={project.map.legend} onChange={legend => map({ legend })} />
     </details>
     <details><summary>Mis paletas</summary><label className="field">Paletas guardadas<select value={active} onChange={e => { setActive(e.target.value); const p = library.palettes.find(p => p.id === e.target.value); if (p) { palette(p); setName(p.name); } }}><option value="">Nueva paleta</option>{library.palettes.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select></label>

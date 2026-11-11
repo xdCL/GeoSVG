@@ -1,9 +1,9 @@
 import type { LabelFont, LabelStyle, MapOptions } from '../../types';
 import { mapFont, mapFonts } from '../../lib/fonts/catalog';
-import { labelText } from '../../lib/fonts/style';
+import { labelLines } from '../../lib/fonts/style';
 import { ColorField, NumberField, Toggle } from '../controls/Fields';
 
-export function TypographyControls({ map, onChange, individual = false, sample = 'Linares · Yerbas Buenas' }: {
+export function TypographyControls({ map, onChange, individual = false, sample = 'Yerbas Buenas' }: {
   map: MapOptions; onChange: (patch: Partial<MapOptions>) => void; individual?: boolean; sample?: string;
 }) {
   const style = map.labelStyle;
@@ -14,7 +14,8 @@ export function TypographyControls({ map, onChange, individual = false, sample =
     <ColorField label={individual ? 'Color del nombre' : 'Color de nombres y leyenda'} value={map.colors.labels} onChange={labels => onChange({ colors: { ...map.colors, labels } })} />
     <label className="field">Peso tipográfico<select aria-label="Peso tipográfico" value={style.weight} onChange={e => update({ weight: Number(e.target.value) as LabelStyle['weight'] })}><option value={400}>Regular</option><option value={500}>Medio</option><option value={700}>Negrita</option></select></label>
     <div className="text-style-toggles"><Toggle label="Cursiva" checked={style.italic} onChange={italic => update({ italic })} /><Toggle label="Subrayado" checked={style.underline} onChange={underline => update({ underline })} /><Toggle label="Mayúsculas" checked={style.uppercase} onChange={uppercase => update({ uppercase })} /></div>
-    <p className="font-sample" style={{ fontFamily: mapFont(map.labelFont).family, fontWeight: style.weight, fontStyle: style.italic ? 'italic' : 'normal', textDecoration: style.underline ? 'underline' : 'none', letterSpacing: style.letterSpacing, color: map.colors.labels }}>{labelText(sample, style)}</p>
+    <label className="field">Distribución del nombre<select aria-label="Distribución del nombre" value={style.wrap} onChange={e => update({ wrap: e.target.value as LabelStyle['wrap'] })}><option value="auto">Automática</option><option value="single">Una línea</option><option value="two-lines">Dos líneas</option></select></label>
+    <p className="font-sample" style={{ fontFamily: mapFont(map.labelFont).family, fontWeight: style.weight, fontStyle: style.italic ? 'italic' : 'normal', textDecoration: style.underline ? 'underline' : 'none', letterSpacing: style.letterSpacing, color: map.colors.labels, whiteSpace: 'pre-line' }}>{labelLines(sample, style).join('\n')}</p>
     <NumberField label="Tamaño de etiqueta" unit="px SVG" value={map.labelSize} min={6} max={80} onChange={labelSize => onChange({ labelSize })} />
     <NumberField label="Separación entre letras" unit="px SVG" value={style.letterSpacing} min={0} max={8} step={0.25} onChange={letterSpacing => update({ letterSpacing })} />
     <NumberField label="Opacidad de los nombres" unit="%" value={Math.round(style.opacity * 100)} onChange={value => update({ opacity: value / 100 })} />

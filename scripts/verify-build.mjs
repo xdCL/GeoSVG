@@ -33,6 +33,8 @@ try {
   await page.getByLabel('Añadir contorno a los nombres').check();
   await page.getByLabel('Formato de los nombres', { exact: true }).selectOption('sign');
   await page.getByRole('textbox', { name: 'HEX Frente del letrero', exact: true }).fill('#F7CC85');
+  await page.getByLabel('Aplicar degradado a las seleccionadas').check();
+  await page.getByLabel('Alcance del degradado', { exact: true }).selectOption('selection');
   await page.waitForFunction(() => document.querySelectorAll('.map-labels text').length === 7);
   await page.locator('.map-sign[data-sign-cut="07402"] [data-face="front"]').waitFor();
   await page.getByRole('button', { name: 'Capas', exact: true }).click();
@@ -63,11 +65,17 @@ try {
   assert(svg.includes('SIL OPEN FONT LICENSE'));
   assert(svg.includes('font-weight:700;font-style:italic;'));
   assert(/id="etiqueta-07402"[^>]*fill="#800080"[^>]*font-family="Inter, sans-serif"[^>]*font-weight="500"[^>]*font-style="normal"/.test(svg));
-  assert(svg.includes('Colbún personalizado'));
-  assert(/id="comuna-07402"[^>]*fill="#D34D68"/.test(svg));
+  assert(/id="comuna-07402"[^>]*fill="url\(#gradiente-07402\)"/.test(svg));
   assert(/id="borde-capa-07402"[^>]*stroke="#273B71"/.test(svg));
   assert(/id="letrero-07402"[^>]*>.*?data-face="front"[^>]*fill="#F7CC85"/.test(svg));
   assert(/id="borde-seleccion-territorial"[^>]*stroke="#FF00FF"[^>]*stroke-width="12.5"/.test(svg));
+  const regression = await page.evaluate(source => {
+    const xml = new DOMParser().parseFromString(source, 'image/svg+xml');
+    return { lines: [...xml.querySelectorAll('#etiqueta-07408 tspan')].map(line => line.textContent.trim()), alias: xml.querySelector('#etiqueta-07402')?.textContent,
+      base: xml.querySelector('#gradiente-07402 stop[offset="55%"]')?.getAttribute('stop-color'),
+      units: xml.querySelector('#gradiente-07402')?.getAttribute('gradientUnits') };
+  }, svg);
+  assert.deepEqual(regression, { lines: ['Yerbas', 'Buenas'], alias: 'Colbún personalizado', base: '#D34D68', units: 'userSpaceOnUse' });
   assert.deepEqual(errors, []);
-  console.log('Build bajo /GeoSVG/ válido: capas por comuna, color y borde propios, alias y letreros con Inter y Fraunces incrustadas. Sin errores HTTP/JavaScript.');
+  console.log('Build bajo /GeoSVG/ válido: Yerbas Buenas en dos líneas, degradados vectoriales y capas con fuentes mixtas. Sin errores HTTP/JavaScript.');
 } finally { await browser.close(); }

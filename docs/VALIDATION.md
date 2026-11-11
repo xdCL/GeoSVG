@@ -10,13 +10,15 @@ Fecha: 10 de noviembre de 2026. Entorno: Windows, Node.js 24.14.1, Chrome; móvi
 | Geometrías | CUT únicos, jerarquía, anillos cerrados, coordenadas finitas en WGS84 y validez OGC JSTS |
 | Archivos regionales | 16 existentes; correspondencia exacta entre geometrías y comunas disponibles del catálogo |
 | Unión | Uniones de las 16 regiones y del preset SLEP válidas; normalización de anillos que se tocan en un vértice |
-| Vitest | **52 pruebas aprobadas**: incluye prioridad y herencia por capa, recuperación de proyectos anteriores, rótulos personalizados, caché de geometría y SVG |
-| Playwright | **20 pruebas aprobadas**: diez flujos en escritorio y los mismos diez en móvil emulado, incluyendo capas, colores individuales y rótulos con fuentes mixtas |
+| Vitest | **59 pruebas aprobadas**: incluye nombres en dos líneas, regresión de Yerbas Buenas, encuadre de rótulos y degradados por comuna o territorio |
+| Playwright | **22 pruebas aprobadas**: once flujos en escritorio y los mismos once en móvil emulado, incluyendo saltos manuales, siete letreros visibles y degradados exportados |
 | Bordes de selección | Perímetro territorial unido o siete contornos comunales; color HEX y grosor de 12,5 px comprobados en vista previa y SVG, píxeles del color elegido en PNG, persistencia e importación JSON; archivos antiguos conservan el borde desactivado |
 | Tipografías | Inter y Fraunces cargadas desde el WOFF2 incluido en el SVG sin conexión; diferencias de píxeles verificadas frente a la fuente de sustitución y al mapa sin nombres; siete nombres, treinta nombres y ausencia de nombres comprobados |
 | Estilo de nombres | Las doce combinaciones de familia, peso 400/500/700 y cursiva comprobadas sin conexión; diez variantes adicionales usan WOFF2 distintos; color violeta, subrayado, mayúsculas, espaciado y contorno blanco conservados en SVG, color presente en PNG, opacidad y estilo recuperados desde JSON y al recargar |
 | Letreros isométricos | Inclinación, profundidad, margen, poste y opacidad configurables; siete nombres editables y placas con los mismos puntos que la vista previa en SVG, color verificado en PNG y recuperación del estilo al recargar |
 | Capas individuales | Búsqueda, colores, opacidad y borde por CUT; rótulo propio con letrero; Inter y Fraunces incrustadas y decodificadas sin conexión; exportación PNG; importación JSON y recarga; color colectivo y restablecimiento individual sin cambiar selección |
+| Yerbas Buenas | Dos líneas tanto en texto como en letrero con las siete comunas del preset visibles; texto contenido dentro de la placa; salto manual persistente y exportado como `tspan` editables |
+| Degradados | Siete comunas con el mismo HEX base, efecto activable, intensidad y dirección persistentes; SVG con siete `linearGradient` continuos; tonos de luz comprobados en PNG; colores de capas conservados; soporte de silueta y migración desactivada |
 | Flujo obligatorio | Preset SLEP de siete comunas → HEX `#E45D47` → SVG XML válido con colores y metadatos verificados |
 | PNG | Archivo PNG válido de 2000 × 2000 px para SVG de 1000 × 1000 a 2×; esquina con alfa 0 |
 | Navegación | Clic, activación por teclado, conservación del foco, zoom y exportación independiente de navegación |

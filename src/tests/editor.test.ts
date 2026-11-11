@@ -97,7 +97,7 @@ describe('Paletas, grupos y portabilidad', () => {
   });
   it('valida todos los estilos del texto y sus límites sin aceptar CSS externo', () => {
     const p = freshProject(); p.map.labelSize = 80;
-    p.map.labelStyle = { weight: 700, italic: true, underline: true, uppercase: true, letterSpacing: 8, opacity: 0.5, haloEnabled: true, haloColor: '#aabbcc', haloWidth: 6 };
+    p.map.labelStyle = { weight: 700, italic: true, underline: true, uppercase: true, wrap: 'auto', letterSpacing: 8, opacity: 0.5, haloEnabled: true, haloColor: '#aabbcc', haloWidth: 6 };
     expect(validate(p).map.labelStyle).toEqual({ ...p.map.labelStyle, haloColor: '#AABBCC' });
     for (const patch of [{ weight: 900 }, { letterSpacing: -1 }, { letterSpacing: 9 }, { opacity: 1.1 }, { haloWidth: 7 }, { haloColor: 'url(https://example.com)' }, { italic: 'true' }]) expect(() => validate({ ...p, map: { ...p.map, labelStyle: { ...p.map.labelStyle, ...patch } } })).toThrow();
   });

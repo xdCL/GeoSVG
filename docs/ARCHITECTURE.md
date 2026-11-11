@@ -56,6 +56,10 @@ El campo opcional de entrada `map.labelFont` admite `inter`, `fraunces` y `arial
 
 La caché de escena incluye los ajustes de capa que modifican métricas y geometría de los rótulos. Color, opacidad y borde se aplican al dibujar. Los rótulos se miden con sus fuentes y estilos efectivos; al exportar se reúnen las variantes utilizadas por los nombres y la leyenda, se deduplican y se incrustan como reglas `@font-face` separadas con sus licencias. La silueta mantiene su unión de relleno único.
 
+`labelLines` resuelve saltos manuales y el reparto equilibrado en dos líneas. El Worker mide el ancho máximo de las líneas; la altura del bloque interviene en las placas y las colisiones. `placeLabel` prueba posiciones cercanas al punto antes de ocultar un rótulo. Los postes conservan el punto original y los textos desplazados usan una línea de enlace. Los dos renderizadores generan `tspan` con las mismas posiciones y mantienen texto editable.
+
+`map.selectionGradient` se recupera desactivado en proyectos anteriores. El efecto conserva el color base de cada comuna, deriva luz y sombra y genera `linearGradient` nativos. El alcance individual usa `objectBoundingBox`; el continuo usa los límites proyectados de la selección y `userSpaceOnUse`. El SVG de vista previa y el exportador comparten las definiciones. La intensidad y la dirección son cambios visuales; solo el alcance continuo requiere límites adicionales de geometría.
+
 ## Accesibilidad
 
 El selector de checkboxes es la alternativa principal al mapa. Los polígonos tienen nombres, CUT, estado `aria-pressed`, foco y activación por Enter/espacio. Hay mensajes de carga y error, enlace de salto, reducción de movimiento y contraste de interfaz en ambos temas. Las pruebas axe no sustituyen una auditoría manual completa ni garantizan contraste de paletas arbitrarias elegidas por el usuario.

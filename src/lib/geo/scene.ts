@@ -5,9 +5,8 @@ import type { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
 import type { GeometryCollection, MultiPolygon as TopoMultiPolygon, Polygon as TopoPolygon } from 'topojson-specification';
 import { communeByCut } from '../../data/catalog';
 import type { AreaGeometry, CommuneFeature, CommuneTopology, MapScene, Project } from '../../types';
-import { labelText } from '../fonts/style';
-import { labelSignGeometry } from './signs';
 import { labelName, labelVisible, layerFor, projectForLabel } from './layers';
+import { placeLabel } from './label-placement';
 
 export function d3Geometry(geometry: AreaGeometry): AreaGeometry {
   if (geoArea(geometry) <= 2 * Math.PI) return geometry;
@@ -73,6 +72,9 @@ export function buildScene(topology: CommuneTopology, project: Project, fixedDim
   const union = unionCommunes(topology, displayedCuts);
   const external = path(union) || '';
   const selectedCuts = new Set([...displayedCuts].filter(cut => selected.has(cut)));
+  const selectionBounds = project.map.selectionGradient.enabled && project.map.selectionGradient.scope === 'selection' && selectedCuts.size
+    ? path.bounds({ type: 'FeatureCollection', features: displayed.filter(f => selectedCuts.has(String(f.id))) }).flat() as [number, number, number, number]
+    : undefined;
   const selectionBoundary = project.map.selectionBorder.enabled && project.map.selectionBorder.target === 'territory' && selectedCuts.size
     ? selectedCuts.size === displayedCuts.size ? external : path(unionCommunes(topology, selectedCuts)) || ''
     : '';
@@ -90,22 +92,14 @@ export function buildScene(topology: CommuneTopology, project: Project, fixedDim
     const [x, y] = p.label;
     if (x < margin || y < margin || x > width - margin || y > height - margin) continue;
     const { map } = projectForLabel(p.cut, project);
-    const style = map.labelStyle;
     const name = labelName(p.cut, p.name, project);
-    const length = [...labelText(name, style)].length;
-    const w = labelWidths?.[p.cut] ?? length * map.labelSize * 0.56 + Math.max(0, length - 1) * style.letterSpacing;
-    const h = map.labelSize * (style.underline ? 1.4 : 1.2);
-    const padding = 2 + (style.haloEnabled ? style.haloWidth / 2 : 0);
-    const sign = map.labelSign.enabled ? labelSignGeometry(w, map, [4 - x, 4 - y, width - 4 - x, height - legendSpace - 4 - y]) : undefined;
-    const box: [number, number, number, number] = sign
-      ? [x + sign.bounds[0] - 2, y + sign.bounds[1] - 2, x + sign.bounds[2] + 2, y + sign.bounds[3] + 2]
-      : [x - w / 2 - padding, y - h / 2 - padding, x + w / 2 + padding, y + h / 2 + padding];
-    if (project.map.hideCollisions && boxes.some(b => box[0] < b[2] && box[2] > b[0] && box[1] < b[3] && box[3] > b[1])) continue;
-    boxes.push(box);
-    labels.push({ cut: p.cut, name, x, y, sign });
+    const placed = placeLabel(p.cut, name, [x, y], map, [4, 4, width - 4, height - legendSpace - 4], labelWidths?.[p.cut], boxes, project.map.hideCollisions);
+    if (!placed) continue;
+    boxes.push(placed.box);
+    labels.push(placed.label);
   }
   const bounds = path.bounds({ type: 'FeatureCollection', features: scoped });
   const scopeBounds: [number, number, number, number] = [bounds[0][0], bounds[0][1], bounds[1][0] - bounds[0][0], bounds[1][1] - bounds[0][1]];
-  return { width, height, paths, external, internal, silhouette: project.map.mode === 'silhouette' ? external : '', selectionBoundary, labels, scopeBounds };
+  return { width, height, paths, external, internal, silhouette: project.map.mode === 'silhouette' ? external : '', selectionBoundary, labels, scopeBounds, selectionBounds };
 }
 export function geometryPartCount(geometry: Polygon | MultiPolygon) { return geometry.type === 'Polygon' ? 1 : geometry.coordinates.length; }

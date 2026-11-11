@@ -5,6 +5,8 @@ import { dashArray, lineDash } from '../../lib/svg/export';
 import { layerBorders, layerFor } from '../../lib/geo/layers';
 import { selectionBorderPaths } from '../../lib/geo/borders';
 import { MapLabels } from './MapLabels';
+import { MapGradients } from './MapGradients';
+import { gradientPaint } from '../../lib/colors/gradients';
 import type { MapScene, Navigation } from '../../types';
 
 export function MapCanvas({ scene, loading, error, retry, navigation, setNavigation }: { scene?: MapScene; loading: boolean; error?: string; retry: () => void; navigation: Navigation; setNavigation: (navigation: Navigation) => void }) {
@@ -73,12 +75,12 @@ export function MapCanvas({ scene, loading, error, retry, navigation, setNavigat
           onPointerMove={e => { const d = drag.current; if (!d || d.id !== e.pointerId) return; const p = coordinates(e.clientX, e.clientY); if (Math.hypot(p.x - d.x, p.y - d.y) > 3) { d.moved = true; setPanning(true); svgRef.current?.setPointerCapture(e.pointerId); setNavigation({ ...d.origin, x: d.origin.x + p.x - d.x, y: d.origin.y + p.y - d.y }); } }}
           onPointerUp={e => { const d = drag.current; if (d?.moved) e.preventDefault(); setPanning(false); setTimeout(() => { drag.current = null; }, 0); }} onPointerCancel={() => { drag.current = null; setPanning(false); }}>
           <title>Mapa de comunas de Chile</title><desc>Selecciona polígonos con clic, Enter o espacio. Arrastra para desplazar. La exportación conserva su propio encuadre.</desc>
-          <defs><clipPath id="preview-clip"><rect width={scene.width} height={scene.height} /></clipPath></defs>
+          <defs><clipPath id="preview-clip"><rect width={scene.width} height={scene.height} /></clipPath><MapGradients scene={scene} project={project} /></defs>
           {!map.transparent && <rect width={scene.width} height={scene.height} fill={map.colors.background} opacity={map.backgroundOpacity} />}
           <g clipPath="url(#preview-clip)"><g transform={`translate(${navigation.x} ${navigation.y}) scale(${navigation.zoom})`}>
             <g opacity={map.opacity}>
-              {scene.silhouette && <path d={scene.silhouette} fill={map.colors.selected} fillRule="evenodd" pointerEvents="none" />}
-              {scene.paths.map(p => <path key={p.cut} id={`preview-${p.cut}`} data-cut={p.cut} data-selected={p.selected} d={p.d} fill={scene.silhouette ? 'transparent' : p.fill} opacity={layerFor(p.cut, project)?.opacity ?? 1} fillRule="evenodd" tabIndex={0} role="button" aria-label={`${p.name}, CUT ${p.cut}`} aria-pressed={p.selected}
+              {scene.silhouette && <path d={scene.silhouette} fill={gradientPaint('silueta', true, map.colors.selected, project, 'preview-')} fillRule="evenodd" pointerEvents="none" />}
+              {scene.paths.map(p => <path key={p.cut} id={`preview-${p.cut}`} data-cut={p.cut} data-selected={p.selected} d={p.d} fill={scene.silhouette ? 'transparent' : gradientPaint(p.cut, p.selected, p.fill, project, 'preview-')} opacity={layerFor(p.cut, project)?.opacity ?? 1} fillRule="evenodd" tabIndex={0} role="button" aria-label={`${p.name}, CUT ${p.cut}`} aria-pressed={p.selected}
                 onMouseEnter={() => setHovered(`${p.name} · ${p.cut}`)} onMouseLeave={() => setHovered('')} onFocus={() => setHovered(`${p.name} · ${p.cut}`)} onBlur={() => setHovered('')}
                 onClick={() => { if (!drag.current?.moved) toggle(p.cut); }} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(p.cut); } }}><title>{p.name} · CUT {p.cut}{p.selected ? ' · Seleccionada' : ''}</title></path>)}
               <path d={scene.internal} fill="none" stroke={map.colors.internal} strokeWidth={map.internalWidth} strokeDasharray={dash} strokeLinejoin="round" strokeLinecap="round" pointerEvents="none" />

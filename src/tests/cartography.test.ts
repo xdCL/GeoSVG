@@ -86,7 +86,7 @@ describe('Letreros isométricos', () => {
 describe('Exportación SVG', () => {
   it('conserva color, negrita, cursiva, subrayado, espaciado, opacidad y contorno en nombres editables', () => {
     const p = project(); p.map.labels = 'selected'; p.map.hideCollisions = false; p.map.colors.labels = '#FF00FF'; p.map.labelSize = 28;
-    p.map.labelStyle = { weight: 700, italic: true, underline: true, uppercase: true, letterSpacing: 1.5, opacity: 0.65, haloEnabled: true, haloColor: '#FFFFFF', haloWidth: 3 };
+    p.map.labelStyle = { weight: 700, italic: true, underline: true, uppercase: true, wrap: 'auto', letterSpacing: 1.5, opacity: 0.65, haloEnabled: true, haloColor: '#FFFFFF', haloWidth: 3 };
     const xml = new JSDOM(svgString(buildScene(topology, p), p), { contentType: 'image/svg+xml' }).window.document;
     const text = xml.querySelector('#etiqueta-07402')!;
     expect(text.textContent).toBe('COLBÚN'); expect(xml.querySelectorAll('#etiquetas text')).toHaveLength(7);

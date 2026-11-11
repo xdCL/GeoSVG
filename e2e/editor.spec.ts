@@ -4,6 +4,77 @@ import { readFile } from 'node:fs/promises';
 
 async function revealPanel(page: import('@playwright/test').Page, mobile: boolean) { if (mobile) await page.getByRole('button', { name: 'Editar mapa', exact: true }).click(); }
 
+test('Yerbas Buenas en dos líneas y degradado conservando un mismo color base', async ({ page, isMobile }) => {
+  page.setDefaultTimeout(15000);
+  await page.goto('/'); await expect(page.locator('.map-svg path[data-cut="07408"]')).toBeAttached();
+  await page.getByRole('button', { name: 'Preset SLEP Los Álamos' }).click();
+  await expect(page.locator('.map-svg [data-selected="true"]')).toHaveCount(7);
+  await page.getByRole('button', { name: 'Selección', exact: true }).click(); await expect(page.locator('.map-svg path[role="button"]')).toHaveCount(7);
+  await revealPanel(page, isMobile); await page.getByRole('button', { name: 'Diseño', exact: true }).click();
+  await page.getByText('Nombres y tipografía', { exact: true }).click();
+  await page.getByLabel('Nombres de comunas', { exact: true }).selectOption('selected');
+  await page.getByLabel('Tamaño de etiqueta').fill('18');
+  const yerbas = page.locator('.map-labels text[data-label-cut="07408"]');
+  await expect(yerbas.locator('tspan')).toHaveCount(2);
+  expect((await yerbas.locator('tspan').allTextContents()).map(text => text.trim())).toEqual(['Yerbas', 'Buenas']);
+  await expect(page.locator('.map-labels text')).toHaveCount(7);
+  await page.getByLabel('Formato de los nombres', { exact: true }).selectOption('sign');
+  await expect(page.locator('.map-sign')).toHaveCount(7); await expect(yerbas.locator('tspan')).toHaveCount(2);
+  await page.evaluate(() => document.fonts.ready);
+  const fits = await page.locator('.map-sign[data-sign-cut="07408"]').evaluate(sign => {
+    const text = sign.querySelector('text')!.getBoundingClientRect(), front = sign.querySelector('[data-face="front"]')!.getBoundingClientRect();
+    return text.left >= front.left - 1 && text.right <= front.right + 1 && text.top >= front.top - 1 && text.bottom <= front.bottom + 1;
+  });
+  expect(fits).toBe(true);
+  await page.getByRole('button', { name: 'Capas', exact: true }).click();
+  await page.getByRole('button', { name: 'Editar capa de Yerbas Buenas', exact: true }).click();
+  await page.getByText('Nombre y letrero de esta comuna', { exact: true }).click();
+  await page.getByLabel('Texto del nombre', { exact: true }).fill('Yerbas\nBuenas');
+  await page.getByLabel('Distribución del nombre', { exact: true }).selectOption('single');
+  await expect(yerbas.locator('tspan')).toHaveCount(2);
+  await page.getByRole('button', { name: 'Diseño', exact: true }).click();
+  await page.getByLabel('Aplicar degradado a las seleccionadas').check();
+  await page.getByLabel('Intensidad del degradado').fill('60');
+  await page.getByLabel('Dirección del degradado').fill('125');
+  await page.getByLabel('Alcance del degradado', { exact: true }).selectOption('selection');
+  await expect(page.locator('.map-svg linearGradient')).toHaveCount(7);
+  await expect(page.locator('.map-svg linearGradient').first()).toHaveAttribute('gradientUnits', 'userSpaceOnUse');
+  await expect(page.getByLabel('HEX Comunas destacadas', { exact: true })).toHaveValue('#0066CC');
+  await page.getByLabel('Aplicar degradado a las seleccionadas').uncheck(); await expect(page.locator('#preview-07408')).toHaveAttribute('fill', '#0066CC');
+  await page.getByLabel('Aplicar degradado a las seleccionadas').check(); await expect(page.locator('#preview-07408')).toHaveAttribute('fill', 'url(#preview-gradiente-07408)');
+  if (isMobile) await page.keyboard.press('Escape');
+  await page.getByRole('button', { name: 'Exportar mapa' }).click();
+  const svgEvent = page.waitForEvent('download'); await page.getByRole('button', { name: 'Descargar SVG' }).click(); const svgDownload = await svgEvent;
+  const svg = await readFile((await svgDownload.path())!, 'utf8');
+  const result = await page.evaluate(source => {
+    const xml = new DOMParser().parseFromString(source, 'image/svg+xml');
+    return { gradients: xml.querySelectorAll('linearGradient').length,
+      lines: [...xml.querySelectorAll('#etiqueta-07408 tspan')].map(line => line.textContent?.trim()),
+      stops: [...xml.querySelectorAll('linearGradient')].map(gradient => gradient.querySelector('stop[offset="55%"]')?.getAttribute('stop-color')),
+      sign: xml.querySelectorAll('#letrero-07408 polygon').length };
+  }, svg);
+  expect(result).toEqual({ gradients: 7, lines: ['Yerbas', 'Buenas'], stops: Array(7).fill('#0066CC'), sign: 3 });
+  const pngEvent = page.waitForEvent('download'); await page.getByRole('button', { name: 'Descargar PNG' }).click(); const pngDownload = await pngEvent;
+  const png = await readFile((await pngDownload.path())!);
+  const litPixels = await page.evaluate(async data => {
+    const image = new Image(); image.src = `data:image/png;base64,${data}`; await image.decode();
+    const canvas = document.createElement('canvas'); canvas.width = image.width; canvas.height = image.height;
+    const ctx = canvas.getContext('2d')!; ctx.drawImage(image, 0, 0); const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let count = 0;
+    for (let i = 0; i < pixels.length; i += 4) if (pixels[i] > 10 && pixels[i + 2] > pixels[i] + 50 && pixels[i + 2] > pixels[i + 1] + 30 && pixels[i + 3] === 255) count++;
+    return count;
+  }, png.toString('base64'));
+  expect(litPixels).toBeGreaterThan(1000);
+  if (!isMobile) { await svgDownload.saveAs('docs/examples/maule-degradado-letreros.svg'); await pngDownload.saveAs('docs/examples/maule-degradado-letreros.png'); }
+  await page.getByRole('button', { name: 'Cerrar exportación' }).click(); await revealPanel(page, isMobile);
+  await page.getByRole('button', { name: 'Proyecto', exact: true }).click();
+  const jsonEvent = page.waitForEvent('download'); await page.getByRole('button', { name: 'Exportar proyecto', exact: true }).click(); const jsonDownload = await jsonEvent;
+  const json = JSON.parse(await readFile((await jsonDownload.path())!, 'utf8'));
+  expect(json.map.selectionGradient).toEqual({ enabled: true, intensity: 0.6, angle: 125, scope: 'selection' });
+  expect(json.layers['07408'].label.text).toBe('Yerbas\nBuenas');
+  await page.reload(); await expect(yerbas.locator('tspan')).toHaveCount(2); await expect(page.locator('.map-svg linearGradient')).toHaveCount(7);
+});
+
 test('capas individuales con colores, rótulos, fuentes mixtas y proyecto portable', async ({ page, isMobile }) => {
   page.setDefaultTimeout(15000);
   await page.goto('/'); await expect(page.locator('.map-svg path[data-cut="07402"]')).toBeAttached();

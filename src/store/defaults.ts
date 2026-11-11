@@ -3,6 +3,7 @@ import type { Project } from '../types';
 import { defaultSelectionBorder } from '../lib/geo/borders';
 import { defaultLabelStyle } from '../lib/fonts/style';
 import { defaultLabelSign } from '../lib/geo/signs';
+import { defaultSelectionGradient } from '../lib/colors/gradients';
 
 export const defaultProject: Project = {
   version: 1, scope: { region: '07', province: '' }, selected: [], groups: [], layers: {}, theme: 'auto',
@@ -13,6 +14,7 @@ export const defaultProject: Project = {
     selectionBorder: { ...defaultSelectionBorder },
     labelStyle: { ...defaultLabelStyle },
     labelSign: { ...defaultLabelSign },
+    selectionGradient: { ...defaultSelectionGradient },
   },
   export: { width: 1000, height: 800, aspect: 'auto', scale: 2, frame: 'scope', filename: 'comunas' },
 };

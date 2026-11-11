@@ -14,11 +14,11 @@ function fitOffset(start: number, end: number, min: number, max: number) {
   return low <= high ? Math.max(low, Math.min(0, high)) : (low + high) / 2;
 }
 
-export function labelSignGeometry(textWidth: number, map: MapOptions, limits: LabelBounds): LabelSignGeometry {
+export function labelSignGeometry(textWidth: number, map: MapOptions, limits: LabelBounds, lineCount = 1, offset: [number, number] = [0, 0]): LabelSignGeometry {
   const sign = map.labelSign;
   const halo = map.labelStyle.haloEnabled ? map.labelStyle.haloWidth : 0;
   const halfWidth = (Math.max(textWidth, map.labelSize) + 2 * sign.padding + halo + (map.labelStyle.italic ? map.labelSize * 0.15 : 0)) / 2;
-  const halfHeight = (map.labelSize * (map.labelStyle.underline ? 1.4 : 1.2) + 2 * Math.max(2, sign.padding * 0.55) + halo) / 2;
+  const halfHeight = (map.labelSize * ((map.labelStyle.underline ? 1.4 : 1.2) + (lineCount - 1) * 1.2) + 2 * Math.max(2, sign.padding * 0.55) + halo) / 2;
   const radians = sign.tilt * Math.PI / 180;
   const scale = Math.cos(radians), slope = -Math.sin(radians);
   const backX = -Math.sign(sign.tilt || 1) * sign.depth * Math.sqrt(3) / 2, backY = -sign.depth / 2;
@@ -29,8 +29,8 @@ export function labelSignGeometry(textWidth: number, map: MapOptions, limits: La
   const lift = sign.height ? -sign.height - h - Math.abs(slope) * w : 0;
   const bounds: LabelBounds = [-w * scale + Math.min(dx, 0) - 0.5, lift - h - Math.abs(slope) * w + dy - 0.5,
     w * scale + Math.max(dx, 0) + 0.5, lift + h + Math.abs(slope) * w + 0.5];
-  const x = fitOffset(bounds[0], bounds[2], limits[0], limits[2]);
-  const y = fitOffset(bounds[1], bounds[3], limits[1], limits[3]);
+  const x = offset[0] + fitOffset(bounds[0] + offset[0], bounds[2] + offset[0], limits[0], limits[2]);
+  const y = offset[1] + fitOffset(bounds[1] + offset[1], bounds[3] + offset[1], limits[1], limits[3]);
   const front = (u: number, v: number): Point => [x + scale * u, y + lift + slope * u + v];
   const back = ([u, v]: Point): Point => [u + dx, v + dy];
   const a = front(-w, -h), b = front(w, -h), c = front(w, h), d = front(-w, h);

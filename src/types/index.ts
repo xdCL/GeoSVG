@@ -18,6 +18,7 @@ export interface Scope { region: string; province: string }
 export interface SelectionBorder { enabled: boolean; color: string; width: number; target: 'territory' | 'communes' }
 export interface LabelStyle {
   weight: 400 | 500 | 700; italic: boolean; underline: boolean; uppercase: boolean;
+  wrap: 'auto' | 'single' | 'two-lines';
   letterSpacing: number; opacity: number; haloEnabled: boolean; haloColor: string; haloWidth: number;
 }
 export interface LabelSignStyle {
@@ -40,7 +41,8 @@ export interface LabelSignGeometry {
   stem?: [number, number];
   bounds: LabelBounds;
 }
-export interface MapLabel { cut: string; name: string; x: number; y: number; sign?: LabelSignGeometry }
+export interface MapLabel { cut: string; name: string; lines: string[]; x: number; y: number; sign?: LabelSignGeometry; leader?: [number, number, number, number] }
+export interface SelectionGradient { enabled: boolean; intensity: number; angle: number; scope: 'commune' | 'selection' }
 export interface MapOptions {
   mode: MapMode; colors: Colors; transparent: boolean; opacity: number; backgroundOpacity: number;
   internalWidth: number; externalWidth: number; lineStyle: 'solid' | 'dashed' | 'dotted';
@@ -49,6 +51,7 @@ export interface MapOptions {
   selectionBorder: SelectionBorder;
   labelStyle: LabelStyle;
   labelSign: LabelSignStyle;
+  selectionGradient: SelectionGradient;
 }
 export interface ExportOptions {
   width: number; height: number; aspect: 'auto' | 'square' | 'portrait' | 'wide' | 'a4p' | 'a4l' | 'custom';
@@ -67,4 +70,5 @@ export interface MapScene {
   width: number; height: number; paths: MapPath[]; external: string; internal: string;
   silhouette: string; selectionBoundary: string; labels: MapLabel[];
   scopeBounds?: [number, number, number, number];
+  selectionBounds?: LabelBounds;
 }

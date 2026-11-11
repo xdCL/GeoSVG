@@ -71,7 +71,8 @@ export function LayersPanel() {
             </>}
             <details><summary>Nombre y letrero de esta comuna</summary>
               <label className="field">Visibilidad del nombre<select aria-label="Visibilidad del nombre" value={own.label?.visible === undefined ? 'inherit' : own.label.visible ? 'show' : 'hide'} onChange={e => setLabel({ visible: e.target.value === 'inherit' ? undefined : e.target.value === 'show' })}><option value="inherit">Según el diseño general</option><option value="show">Mostrar este nombre</option><option value="hide">Ocultar este nombre</option></select></label>
-              <label className="field">Texto del nombre<input value={own.label?.text ?? commune.name} maxLength={100} onChange={e => setLabel({ text: e.target.value })} /></label>
+              <label className="field">Texto del nombre<textarea aria-label="Texto del nombre" rows={2} value={own.label?.text ?? commune.name} maxLength={100} onChange={e => setLabel({ text: e.target.value })} /></label>
+              <p className="source-note">Puedes usar Enter para separar el nombre en dos líneas.</p>
               <LabelSignControls style={local.labelSign} onChange={labelSign => updateLabelMap({ labelSign })} />
               <TypographyControls map={local} onChange={updateLabelMap} individual sample={own.label?.text || commune.name} />
               <button className="text-button" disabled={!own.label} onClick={() => layer(cut, { label: undefined })}>Restablecer nombre y letrero</button>

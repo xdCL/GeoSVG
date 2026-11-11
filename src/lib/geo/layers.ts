@@ -27,9 +27,9 @@ export function layerLabelGeometry(project: Project) {
     const label = layerFor(cut, project)?.label;
     if (!label) return [cut];
     const map = projectForLabel(cut, project).map;
-    const { weight, italic, underline, uppercase, letterSpacing, haloEnabled, haloWidth } = map.labelStyle;
+    const { weight, italic, underline, uppercase, wrap, letterSpacing, haloEnabled, haloWidth } = map.labelStyle;
     const sign = map.labelSign;
-    return [cut, label.visible, label.text, map.labelSize, map.labelFont, weight, italic, underline, uppercase, letterSpacing,
+    return [cut, label.visible, label.text, map.labelSize, map.labelFont, weight, italic, underline, uppercase, wrap, letterSpacing,
       haloEnabled, haloWidth, sign.enabled && [sign.tilt, sign.depth, sign.padding, sign.height]];
   });
 }

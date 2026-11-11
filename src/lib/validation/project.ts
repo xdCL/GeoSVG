@@ -3,6 +3,7 @@ import type { Library, Project } from '../../types';
 import { defaultSelectionBorder } from '../geo/borders';
 import { defaultLabelStyle } from '../fonts/style';
 import { defaultLabelSign } from '../geo/signs';
+import { defaultSelectionGradient } from '../colors/gradients';
 
 const cut = z.string().regex(/^\d{5}$/);
 const hex = z.string().regex(/^#[\da-f]{6}$/i).transform(v => v.toUpperCase());
@@ -11,6 +12,7 @@ const unique = (values: string[]) => new Set(values).size === values.length;
 const cuts = z.array(cut).max(346).refine(unique, 'Hay códigos CUT duplicados.');
 const labelStyleFields = {
   weight: z.union([z.literal(400), z.literal(500), z.literal(700)]), italic: z.boolean(), underline: z.boolean(), uppercase: z.boolean(),
+  wrap: z.enum(['auto', 'single', 'two-lines']),
   letterSpacing: z.number().min(0).max(8), opacity: z.number().min(0).max(1),
   haloEnabled: z.boolean(), haloColor: hex, haloWidth: z.number().min(0).max(6),
 };
@@ -41,8 +43,9 @@ export const projectSchema = z.object({
     labelFont: z.enum(['arial', 'inter', 'fraunces']).default('arial'),
     hideCollisions: z.boolean(), legend: z.boolean(),
     selectionBorder: z.object({ enabled: z.boolean(), color: hex, width: z.number().min(0).max(30), target: z.enum(['territory', 'communes']) }).strict().default(() => ({ ...defaultSelectionBorder })),
-    labelStyle: z.object(labelStyleFields).strict().default(() => ({ ...defaultLabelStyle })),
+    labelStyle: z.object(labelStyleFields).extend({ wrap: labelStyleFields.wrap.default('auto') }).strict().default(() => ({ ...defaultLabelStyle })),
     labelSign: z.object(signFields).strict().default(() => ({ ...defaultLabelSign })),
+    selectionGradient: z.object({ enabled: z.boolean(), intensity: z.number().min(0).max(1), angle: z.number().min(-180).max(180), scope: z.enum(['commune', 'selection']) }).strict().default(() => ({ ...defaultSelectionGradient })),
   }).strict(),
   groups: z.array(z.object({ id: z.string().min(1).max(80), name: z.string().min(1).max(80), color: hex, cuts }).strict()).max(30)
     .refine(groups => unique(groups.map(g => g.id)), 'Los grupos deben tener identificadores únicos.')
