@@ -52,6 +52,10 @@ El campo opcional de entrada `map.labelFont` admite `inter`, `fraunces` y `arial
 
 `map.labelSign` es opcional en archivos de proyecto anteriores. Su valor inicial conserva el texto plano. Al activarlo, el Worker usa el ancho medido de cada nombre para construir tres caras vectoriales y proyectar el texto sobre el frente. El poste parte del punto de la comuna; el letrero se ajusta al encuadre y las colisiones se calculan con la caja de la placa completa. La vista previa y la exportación consumen esa misma geometría. Las dimensiones invalidan la caché de escena, mientras que los colores y la opacidad se aplican al dibujar.
 
+`project.layers` es un registro opcional de entrada por CUT, vacío para proyectos anteriores. Solo las comunas seleccionadas aplican sus ajustes; al deseleccionar se guardan para una futura selección. Los valores opcionales incluyen relleno, opacidad multiplicada por la del territorio, borde adicional, visibilidad y alias del rótulo, y ajustes parciales de tipografía y letrero. `projectForLabel` resuelve la herencia y se comparte entre Worker, vista previa y SVG. El alias cambia el rótulo; los polígonos conservan nombre oficial y CUT.
+
+La caché de escena incluye los ajustes de capa que modifican métricas y geometría de los rótulos. Color, opacidad y borde se aplican al dibujar. Los rótulos se miden con sus fuentes y estilos efectivos; al exportar se reúnen las variantes utilizadas por los nombres y la leyenda, se deduplican y se incrustan como reglas `@font-face` separadas con sus licencias. La silueta mantiene su unión de relleno único.
+
 ## Accesibilidad
 
 El selector de checkboxes es la alternativa principal al mapa. Los polígonos tienen nombres, CUT, estado `aria-pressed`, foco y activación por Enter/espacio. Hay mensajes de carga y error, enlace de salto, reducción de movimiento y contraste de interfaz en ambos temas. Las pruebas axe no sustituyen una auditoría manual completa ni garantizan contraste de paletas arbitrarias elegidas por el usuario.

@@ -5,7 +5,7 @@ import { defaultLabelStyle } from '../lib/fonts/style';
 import { defaultLabelSign } from '../lib/geo/signs';
 
 export const defaultProject: Project = {
-  version: 1, scope: { region: '07', province: '' }, selected: [], groups: [], theme: 'auto',
+  version: 1, scope: { region: '07', province: '' }, selected: [], groups: [], layers: {}, theme: 'auto',
   map: {
     mode: 'context', colors: { ...builtInPalettes[0].colors }, transparent: true, opacity: 1,
     backgroundOpacity: 1, internalWidth: 1, externalWidth: 1.5, lineStyle: 'solid',

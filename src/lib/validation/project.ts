@@ -9,10 +9,29 @@ const hex = z.string().regex(/^#[\da-f]{6}$/i).transform(v => v.toUpperCase());
 const colors = z.object({ selected: hex, unselected: hex, internal: hex, external: hex, background: hex, labels: hex, secondary: hex }).strict();
 const unique = (values: string[]) => new Set(values).size === values.length;
 const cuts = z.array(cut).max(346).refine(unique, 'Hay códigos CUT duplicados.');
+const labelStyleFields = {
+  weight: z.union([z.literal(400), z.literal(500), z.literal(700)]), italic: z.boolean(), underline: z.boolean(), uppercase: z.boolean(),
+  letterSpacing: z.number().min(0).max(8), opacity: z.number().min(0).max(1),
+  haloEnabled: z.boolean(), haloColor: hex, haloWidth: z.number().min(0).max(6),
+};
+const signFields = {
+  enabled: z.boolean(), faceColor: hex, edgeColor: hex, postColor: hex,
+  tilt: z.number().min(-30).max(30), depth: z.number().min(0).max(16),
+  padding: z.number().min(2).max(24), height: z.number().min(0).max(48), opacity: z.number().min(0).max(1),
+};
+const layerSchema = z.object({
+  fill: hex.optional(), opacity: z.number().min(0).max(1).optional(),
+  border: z.object({ color: hex, width: z.number().min(0).max(30), lineStyle: z.enum(['solid', 'dashed', 'dotted']) }).strict().optional(),
+  label: z.object({ visible: z.boolean().optional(), text: z.string().max(100).optional(), color: hex.optional(),
+    size: z.number().min(6).max(80).optional(), font: z.enum(['arial', 'inter', 'fraunces']).optional(),
+    style: z.object(labelStyleFields).partial().strict().optional(), sign: z.object(signFields).partial().strict().optional(),
+  }).strict().optional(),
+}).strict();
 export const projectSchema = z.object({
   version: z.literal(1),
   scope: z.object({ region: z.string().regex(/^(\d{2})?$/), province: z.string().regex(/^(\d{3})?$/) }).strict(),
   selected: cuts,
+  layers: z.record(cut, layerSchema).refine(v => Object.keys(v).length <= 346).default(() => ({})),
   map: z.object({
     mode: z.enum(['context', 'selected', 'silhouette']), colors, transparent: z.boolean(),
     opacity: z.number().min(0).max(1), backgroundOpacity: z.number().min(0).max(1),
@@ -22,16 +41,8 @@ export const projectSchema = z.object({
     labelFont: z.enum(['arial', 'inter', 'fraunces']).default('arial'),
     hideCollisions: z.boolean(), legend: z.boolean(),
     selectionBorder: z.object({ enabled: z.boolean(), color: hex, width: z.number().min(0).max(30), target: z.enum(['territory', 'communes']) }).strict().default(() => ({ ...defaultSelectionBorder })),
-    labelStyle: z.object({
-      weight: z.union([z.literal(400), z.literal(500), z.literal(700)]), italic: z.boolean(), underline: z.boolean(), uppercase: z.boolean(),
-      letterSpacing: z.number().min(0).max(8), opacity: z.number().min(0).max(1),
-      haloEnabled: z.boolean(), haloColor: hex, haloWidth: z.number().min(0).max(6),
-    }).strict().default(() => ({ ...defaultLabelStyle })),
-    labelSign: z.object({
-      enabled: z.boolean(), faceColor: hex, edgeColor: hex, postColor: hex,
-      tilt: z.number().min(-30).max(30), depth: z.number().min(0).max(16),
-      padding: z.number().min(2).max(24), height: z.number().min(0).max(48), opacity: z.number().min(0).max(1),
-    }).strict().default(() => ({ ...defaultLabelSign })),
+    labelStyle: z.object(labelStyleFields).strict().default(() => ({ ...defaultLabelStyle })),
+    labelSign: z.object(signFields).strict().default(() => ({ ...defaultLabelSign })),
   }).strict(),
   groups: z.array(z.object({ id: z.string().min(1).max(80), name: z.string().min(1).max(80), color: hex, cuts }).strict()).max(30)
     .refine(groups => unique(groups.map(g => g.id)), 'Los grupos deben tener identificadores únicos.')
@@ -53,7 +64,7 @@ const librarySchema = z.object({ palettes: z.array(paletteSchema).max(100), pres
 export function migrateProject(input: unknown): Project { return projectSchema.parse(input); }
 export function parseProject(input: unknown, knownCuts: Set<string>, regions: Set<string>, provinces: Map<string, string>): Project {
   const project = migrateProject(input);
-  if ([...project.selected, ...project.groups.flatMap(g => g.cuts)].some(c => !knownCuts.has(c))) throw new Error('El proyecto contiene comunas que no existen en el catálogo.');
+  if ([...project.selected, ...project.groups.flatMap(g => g.cuts), ...Object.keys(project.layers)].some(c => !knownCuts.has(c))) throw new Error('El proyecto contiene comunas que no existen en el catálogo.');
   if (project.scope.region && !regions.has(project.scope.region)) throw new Error('La región no existe.');
   if (project.scope.province && provinces.get(project.scope.province) !== project.scope.region) throw new Error('La provincia no corresponde a la región.');
   return project;

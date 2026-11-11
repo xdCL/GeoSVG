@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useEditor } from '../../store/editor';
 import { mapFont } from '../../lib/fonts/catalog';
-import { dashArray } from '../../lib/svg/export';
+import { dashArray, lineDash } from '../../lib/svg/export';
+import { layerBorders, layerFor } from '../../lib/geo/layers';
 import { selectionBorderPaths } from '../../lib/geo/borders';
 import { MapLabels } from './MapLabels';
 import type { MapScene, Navigation } from '../../types';
@@ -77,12 +78,13 @@ export function MapCanvas({ scene, loading, error, retry, navigation, setNavigat
           <g clipPath="url(#preview-clip)"><g transform={`translate(${navigation.x} ${navigation.y}) scale(${navigation.zoom})`}>
             <g opacity={map.opacity}>
               {scene.silhouette && <path d={scene.silhouette} fill={map.colors.selected} fillRule="evenodd" pointerEvents="none" />}
-              {scene.paths.map(p => <path key={p.cut} id={`preview-${p.cut}`} data-cut={p.cut} data-selected={p.selected} d={p.d} fill={scene.silhouette ? 'transparent' : p.fill} fillRule="evenodd" tabIndex={0} role="button" aria-label={`${p.name}, CUT ${p.cut}`} aria-pressed={p.selected}
+              {scene.paths.map(p => <path key={p.cut} id={`preview-${p.cut}`} data-cut={p.cut} data-selected={p.selected} d={p.d} fill={scene.silhouette ? 'transparent' : p.fill} opacity={layerFor(p.cut, project)?.opacity ?? 1} fillRule="evenodd" tabIndex={0} role="button" aria-label={`${p.name}, CUT ${p.cut}`} aria-pressed={p.selected}
                 onMouseEnter={() => setHovered(`${p.name} · ${p.cut}`)} onMouseLeave={() => setHovered('')} onFocus={() => setHovered(`${p.name} · ${p.cut}`)} onBlur={() => setHovered('')}
                 onClick={() => { if (!drag.current?.moved) toggle(p.cut); }} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(p.cut); } }}><title>{p.name} · CUT {p.cut}{p.selected ? ' · Seleccionada' : ''}</title></path>)}
               <path d={scene.internal} fill="none" stroke={map.colors.internal} strokeWidth={map.internalWidth} strokeDasharray={dash} strokeLinejoin="round" strokeLinecap="round" pointerEvents="none" />
               <path d={scene.external} fill="none" stroke={map.colors.external} strokeWidth={map.externalWidth} strokeDasharray={dash} strokeLinejoin="round" strokeLinecap="round" pointerEvents="none" />
               {selectionBorderPaths(scene, project).map(p => <path key={p.id} className="selection-border" id={`preview-${p.id}`} d={p.d} fill="none" stroke={map.selectionBorder.color} strokeWidth={map.selectionBorder.width} strokeDasharray={dash} strokeLinejoin="round" strokeLinecap="round" pointerEvents="none" />)}
+              {layerBorders(scene, project).map(border => <path key={border.cut} id={`preview-borde-capa-${border.cut}`} className="layer-border" d={border.d} fill="none" stroke={border.color} strokeWidth={border.width} strokeDasharray={lineDash(border.lineStyle)} strokeLinejoin="round" strokeLinecap="round" opacity={layerFor(border.cut, project)?.opacity ?? 1} pointerEvents="none" />)}
             </g>
             <MapLabels labels={scene.labels} project={project} />
           </g></g>

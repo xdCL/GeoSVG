@@ -10,12 +10,13 @@ Fecha: 10 de noviembre de 2026. Entorno: Windows, Node.js 24.14.1, Chrome; móvi
 | Geometrías | CUT únicos, jerarquía, anillos cerrados, coordenadas finitas en WGS84 y validez OGC JSTS |
 | Archivos regionales | 16 existentes; correspondencia exacta entre geometrías y comunas disponibles del catálogo |
 | Unión | Uniones de las 16 regiones y del preset SLEP válidas; normalización de anillos que se tocan en un vértice |
-| Vitest | **47 pruebas aprobadas**: incluye geometría, encuadre, solapamientos y compatibilidad de proyectos con letreros isométricos |
-| Playwright | **18 pruebas aprobadas**: nueve flujos en escritorio y los mismos nueve en móvil emulado, incluyendo edición, persistencia y exportación de letreros isométricos |
+| Vitest | **52 pruebas aprobadas**: incluye prioridad y herencia por capa, recuperación de proyectos anteriores, rótulos personalizados, caché de geometría y SVG |
+| Playwright | **20 pruebas aprobadas**: diez flujos en escritorio y los mismos diez en móvil emulado, incluyendo capas, colores individuales y rótulos con fuentes mixtas |
 | Bordes de selección | Perímetro territorial unido o siete contornos comunales; color HEX y grosor de 12,5 px comprobados en vista previa y SVG, píxeles del color elegido en PNG, persistencia e importación JSON; archivos antiguos conservan el borde desactivado |
 | Tipografías | Inter y Fraunces cargadas desde el WOFF2 incluido en el SVG sin conexión; diferencias de píxeles verificadas frente a la fuente de sustitución y al mapa sin nombres; siete nombres, treinta nombres y ausencia de nombres comprobados |
 | Estilo de nombres | Las doce combinaciones de familia, peso 400/500/700 y cursiva comprobadas sin conexión; diez variantes adicionales usan WOFF2 distintos; color violeta, subrayado, mayúsculas, espaciado y contorno blanco conservados en SVG, color presente en PNG, opacidad y estilo recuperados desde JSON y al recargar |
 | Letreros isométricos | Inclinación, profundidad, margen, poste y opacidad configurables; siete nombres editables y placas con los mismos puntos que la vista previa en SVG, color verificado en PNG y recuperación del estilo al recargar |
+| Capas individuales | Búsqueda, colores, opacidad y borde por CUT; rótulo propio con letrero; Inter y Fraunces incrustadas y decodificadas sin conexión; exportación PNG; importación JSON y recarga; color colectivo y restablecimiento individual sin cambiar selección |
 | Flujo obligatorio | Preset SLEP de siete comunas → HEX `#E45D47` → SVG XML válido con colores y metadatos verificados |
 | PNG | Archivo PNG válido de 2000 × 2000 px para SVG de 1000 × 1000 a 2×; esquina con alfa 0 |
 | Navegación | Clic, activación por teclado, conservación del foco, zoom y exportación independiente de navegación |

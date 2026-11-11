@@ -4,6 +4,85 @@ import { readFile } from 'node:fs/promises';
 
 async function revealPanel(page: import('@playwright/test').Page, mobile: boolean) { if (mobile) await page.getByRole('button', { name: 'Editar mapa', exact: true }).click(); }
 
+test('capas individuales con colores, rótulos, fuentes mixtas y proyecto portable', async ({ page, isMobile }) => {
+  page.setDefaultTimeout(15000);
+  await page.goto('/'); await expect(page.locator('.map-svg path[data-cut="07402"]')).toBeAttached();
+  await page.getByRole('button', { name: 'Preset SLEP Los Álamos' }).click();
+  await expect(page.locator('.map-svg [data-selected="true"]')).toHaveCount(7);
+  await revealPanel(page, isMobile); await page.getByRole('button', { name: 'Capas', exact: true }).click();
+  await expect(page.locator('.layer-card')).toHaveCount(7);
+  const search = page.getByLabel('Buscar capa por nombre o CUT');
+  await search.fill('colbun'); await expect(page.locator('.layer-card')).toHaveCount(1);
+  await page.getByRole('button', { name: 'Editar capa de Colbún', exact: true }).click();
+  await page.getByLabel('Usar color propio').check();
+  await page.getByLabel('HEX Color de esta comuna', { exact: true }).fill('#D34D68');
+  await page.getByLabel('Usar opacidad propia').check(); await page.getByLabel('Opacidad de esta comuna').fill('60');
+  await page.getByLabel('Añadir borde a esta comuna').check();
+  await page.getByLabel('HEX Borde de esta comuna', { exact: true }).fill('#273B71'); await page.getByLabel('Grosor del borde de esta comuna').fill('5');
+  await page.getByLabel('Estilo del borde de esta comuna').selectOption('dashed');
+  await expect(page.locator('#preview-07402')).toHaveAttribute('fill', '#D34D68');
+  await expect(page.locator('#preview-07402')).toHaveAttribute('opacity', '0.6');
+  await expect(page.locator('#preview-07401')).toHaveAttribute('fill', '#0066CC');
+  await page.getByText('Nombre y letrero de esta comuna', { exact: true }).click();
+  await page.getByLabel('Visibilidad del nombre', { exact: true }).selectOption('show');
+  await page.getByLabel('Texto del nombre', { exact: true }).fill('Colbún norte');
+  await page.getByLabel('Fuente del nombre', { exact: true }).selectOption('fraunces');
+  await page.getByLabel('Peso tipográfico').selectOption('700'); await page.getByLabel('Tamaño de etiqueta').fill('18');
+  await page.getByLabel('Formato de los nombres', { exact: true }).selectOption('sign');
+  await page.getByLabel('HEX Frente del letrero', { exact: true }).fill('#FFCF70');
+  await expect(page.locator('.map-sign[data-sign-cut="07402"] text')).toHaveText('Colbún norte');
+  await search.fill('linares'); await page.getByRole('button', { name: 'Editar capa de Linares', exact: true }).click();
+  await page.getByLabel('Usar color propio').check(); await page.getByLabel('HEX Color de esta comuna', { exact: true }).fill('#239B83');
+  await page.getByText('Nombre y letrero de esta comuna', { exact: true }).click();
+  await page.getByLabel('Visibilidad del nombre', { exact: true }).selectOption('show');
+  await page.getByLabel('Texto del nombre', { exact: true }).fill('Linares centro');
+  await page.getByLabel('Fuente del nombre', { exact: true }).selectOption('inter');
+  await page.getByLabel('Peso tipográfico').selectOption('500');
+  await expect(page.locator('.map-labels text')).toHaveCount(2);
+  if (isMobile) await page.keyboard.press('Escape');
+  await page.getByRole('button', { name: 'Exportar mapa' }).click();
+  const svgEvent = page.waitForEvent('download'); await page.getByRole('button', { name: 'Descargar SVG' }).click(); const svgDownload = await svgEvent;
+  const svg = await readFile((await svgDownload.path())!, 'utf8');
+  await page.context().setOffline(true);
+  try {
+    const result = await page.evaluate(async source => {
+      const xml = new DOMParser().parseFromString(source, 'image/svg+xml');
+      const css = xml.querySelector('#map-font')!.textContent!;
+      const faces = [...css.matchAll(/@font-face\{font-family:'([^']+)';src:url\('([^']+)'\) format\('woff2'\);font-weight:(\d+);font-style:([^;]+);\}/g)];
+      const loaded = await Promise.all(faces.map(async (face, i) => (await new FontFace(`LayerProof${i}`, `url(${face[2]})`, { weight: face[3], style: face[4] }).load()).status));
+      return { fonts: faces.map(face => face[1]).sort(), loaded,
+        fill: xml.querySelector('#comuna-07402')?.getAttribute('fill'), opacity: xml.querySelector('#comuna-07402')?.getAttribute('opacity'),
+        border: xml.querySelector('#borde-capa-07402')?.getAttribute('stroke-dasharray'), name: xml.querySelector('#etiqueta-07402')?.textContent,
+        other: xml.querySelector('#comuna-07401')?.getAttribute('fill'), sign: xml.querySelector('#letrero-07402 [data-face="front"]')?.getAttribute('fill') };
+    }, svg);
+    expect(result).toEqual({ fonts: ['Fraunces', 'Inter'], loaded: ['loaded', 'loaded'], fill: '#D34D68', opacity: '0.6', border: '6 4', name: 'Colbún norte', other: '#239B83', sign: '#FFCF70' });
+  } finally { await page.context().setOffline(false); }
+  const pngEvent = page.waitForEvent('download'); await page.getByRole('button', { name: 'Descargar PNG' }).click(); const pngDownload = await pngEvent;
+  const png = await readFile((await pngDownload.path())!); expect(png.subarray(1, 4).toString()).toBe('PNG');
+  if (!isMobile) { await svgDownload.saveAs('docs/examples/maule-capas.svg'); await pngDownload.saveAs('docs/examples/maule-capas.png'); }
+  await page.getByRole('button', { name: 'Cerrar exportación' }).click(); await revealPanel(page, isMobile);
+  await page.getByRole('button', { name: 'Proyecto', exact: true }).click();
+  const jsonEvent = page.waitForEvent('download'); await page.getByRole('button', { name: 'Exportar proyecto', exact: true }).click(); const jsonDownload = await jsonEvent;
+  const json = await readFile((await jsonDownload.path())!, 'utf8');
+  expect(JSON.parse(json).layers['07402']).toMatchObject({ fill: '#D34D68', opacity: 0.6, label: { text: 'Colbún norte', font: 'fraunces' } });
+  await page.getByRole('button', { name: /^Territorio SLEP Los Álamos/ }).click();
+  await page.locator('#editor-panel input[type="file"]').setInputFiles({ name: 'capas.json', mimeType: 'application/json', buffer: Buffer.from(json) });
+  await page.reload();
+  await expect(page.locator('#preview-07402')).toHaveAttribute('fill', '#D34D68');
+  await expect(page.locator('.map-labels text[data-label-cut="07402"]')).toHaveText('Colbún norte');
+  await expect(page.locator('.map-svg [data-selected="true"]')).toHaveCount(7);
+  await revealPanel(page, isMobile); await page.getByRole('button', { name: 'Capas', exact: true }).click();
+  await page.getByText('Color de todas las seleccionadas', { exact: true }).click();
+  await page.getByLabel('HEX Color para todas las capas', { exact: true }).fill('#338866'); await page.getByRole('button', { name: 'Aplicar color a todas las capas' }).click();
+  await expect(page.locator('.map-svg path[role="button"][fill="#338866"]')).toHaveCount(7);
+  await page.getByRole('button', { name: 'Editar capa de Colbún', exact: true }).click();
+  await page.getByRole('button', { name: 'Restablecer esta capa', exact: true }).click();
+  await expect(page.locator('#preview-07402')).toHaveAttribute('fill', '#0066CC');
+  await expect(page.locator('.map-labels text[data-label-cut="07402"]')).toHaveCount(0);
+  await expect(page.locator('#preview-07401')).toHaveAttribute('fill', '#338866');
+  const accessibility = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze(); expect(accessibility.violations).toEqual([]);
+});
+
 test('letreros isométricos editables, persistentes y exportables', async ({ page, isMobile }) => {
   await page.goto('/');
   // Espera al primer mapa, incluso si Vite recarga al optimizar el Worker en un arranque en frío.

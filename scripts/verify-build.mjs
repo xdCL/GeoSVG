@@ -35,18 +35,39 @@ try {
   await page.getByRole('textbox', { name: 'HEX Frente del letrero', exact: true }).fill('#F7CC85');
   await page.waitForFunction(() => document.querySelectorAll('.map-labels text').length === 7);
   await page.locator('.map-sign[data-sign-cut="07402"] [data-face="front"]').waitFor();
+  await page.getByRole('button', { name: 'Capas', exact: true }).click();
+  assert.equal(await page.locator('.layer-card').count(), 7);
+  await page.getByRole('button', { name: 'Editar capa de Colbún', exact: true }).click();
+  await page.getByLabel('Usar color propio').check();
+  await page.getByLabel('HEX Color de esta comuna', { exact: true }).fill('#D34D68');
+  await page.getByLabel('Añadir borde a esta comuna').check();
+  await page.getByLabel('HEX Borde de esta comuna', { exact: true }).fill('#273B71');
+  await page.getByText('Nombre y letrero de esta comuna', { exact: true }).click();
+  await page.getByLabel('Texto del nombre', { exact: true }).fill('Colbún personalizado');
+  await page.getByLabel('Fuente del nombre', { exact: true }).selectOption('inter');
+  await page.getByLabel('Peso tipográfico').selectOption('500');
+  await page.getByLabel('Cursiva', { exact: true }).uncheck();
+  await page.waitForFunction(() => document.querySelector('.map-labels text[data-label-cut="07402"]')?.textContent === 'Colbún personalizado');
+  if (process.argv[3]) {
+    await page.getByRole('button', { name: 'Editar capa de Colbún', exact: true }).click();
+    await page.screenshot({ path: process.argv[3], fullPage: true });
+  }
   await page.getByRole('button', { name: 'Exportar mapa' }).click();
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Descargar SVG' }).click();
   const download = await downloadPromise;
   const svg = await readFile(await download.path(), 'utf8');
   assert(svg.includes("font-family:'Fraunces'"));
+  assert(svg.includes("font-family:'Inter'"));
   assert(svg.includes('data:font/woff2;base64,'));
   assert(svg.includes('SIL OPEN FONT LICENSE'));
   assert(svg.includes('font-weight:700;font-style:italic;'));
-  assert(/id="etiqueta-07402"[^>]*fill="#800080"[^>]*font-weight="700"[^>]*font-style="italic"/.test(svg));
+  assert(/id="etiqueta-07402"[^>]*fill="#800080"[^>]*font-family="Inter, sans-serif"[^>]*font-weight="500"[^>]*font-style="normal"/.test(svg));
+  assert(svg.includes('Colbún personalizado'));
+  assert(/id="comuna-07402"[^>]*fill="#D34D68"/.test(svg));
+  assert(/id="borde-capa-07402"[^>]*stroke="#273B71"/.test(svg));
   assert(/id="letrero-07402"[^>]*>.*?data-face="front"[^>]*fill="#F7CC85"/.test(svg));
   assert(/id="borde-seleccion-territorial"[^>]*stroke="#FF00FF"[^>]*stroke-width="12.5"/.test(svg));
   assert.deepEqual(errors, []);
-  console.log('Build bajo /GeoSVG/ válido: cartografía regional, borde territorial y letreros isométricos editables con Fraunces incrustada en el SVG. Sin errores HTTP/JavaScript.');
+  console.log('Build bajo /GeoSVG/ válido: capas por comuna, color y borde propios, alias y letreros con Inter y Fraunces incrustadas. Sin errores HTTP/JavaScript.');
 } finally { await browser.close(); }

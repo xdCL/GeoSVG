@@ -24,6 +24,14 @@ export interface LabelSignStyle {
   enabled: boolean; faceColor: string; edgeColor: string; postColor: string;
   tilt: number; depth: number; padding: number; height: number; opacity: number;
 }
+export interface CommuneLayerStyle {
+  fill?: string; opacity?: number;
+  border?: { color: string; width: number; lineStyle: MapOptions['lineStyle'] };
+  label?: {
+    visible?: boolean; text?: string; color?: string; size?: number; font?: LabelFont;
+    style?: Partial<LabelStyle>; sign?: Partial<LabelSignStyle>;
+  };
+}
 export type SignFace = 'front' | 'top' | 'side';
 export type LabelBounds = [left: number, top: number, right: number, bottom: number];
 export interface LabelSignGeometry {
@@ -48,6 +56,7 @@ export interface ExportOptions {
 }
 export interface Project {
   version: 1; scope: Scope; selected: string[]; map: MapOptions; groups: ColorGroup[];
+  layers: Record<string, CommuneLayerStyle>;
   export: ExportOptions; theme: 'light' | 'dark' | 'auto';
 }
 export interface Preset { id: string; name: string; description: string; project: Project }

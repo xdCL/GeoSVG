@@ -1,15 +1,17 @@
 import type { MapLabel, Project } from '../../types';
 import { labelAppearance, labelText } from '../../lib/fonts/style';
 import { signFaceColor } from '../../lib/geo/signs';
+import { projectForLabel } from '../../lib/geo/layers';
 
 export function MapLabels({ labels, project }: { labels: MapLabel[]; project: Project }) {
-  const { map } = project;
   const appearance = labelAppearance(project);
-  const style = map.labelSign;
   return <g className="map-labels" pointerEvents="none" fontFamily={appearance.fontFamily} textAnchor="middle" dominantBaseline="central">
     {labels.map(label => {
+      const local = projectForLabel(label.cut, project);
+      const style = local.map.labelSign;
+      const appearance = labelAppearance(local);
       const sign = style.enabled ? label.sign : undefined;
-      const name = labelText(label.name, map.labelStyle);
+      const name = labelText(label.name, local.map.labelStyle);
       if (!sign) return <text key={label.cut} data-label-cut={label.cut} x={label.x} y={label.y} {...appearance}>{name}</text>;
       return <g key={label.cut} className="map-sign" data-sign-cut={label.cut} transform={`translate(${label.x} ${label.y})`}>
         <g data-sign-board="" opacity={style.opacity}>

@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { catalog, knownCuts } from '../data/catalog';
 import { freshProject } from './defaults';
 import { parseProject, safeLibrary } from '../lib/validation/project';
-import type { Library, MapOptions, Palette, Preset, Project, Scope, ExportOptions } from '../types';
+import type { Library, MapOptions, Palette, Preset, Project, Scope, ExportOptions, CommuneLayerStyle } from '../types';
 
 export const STORAGE_KEY = 'geosvg:v1';
 const LEGACY_STORAGE_KEY = 'comunas-svg:v1';
@@ -25,6 +25,8 @@ interface EditorState {
   addGroup: (name: string, color: string) => void; updateGroup: (id: string, patch: { name?: string; color?: string }) => void;
   assignGroup: (id: string) => void; removeGroup: (id: string) => void; ungroup: () => void; moveGroup: (id: string, delta: number) => void;
   reset: () => void;
+  layer: (cut: string, patch: Partial<CommuneLayerStyle>) => void; resetLayer: (cut: string) => void;
+  colorLayers: (color: string) => void;
 }
 function initialState() { try { return readStorage(typeof window !== 'undefined' ? window.localStorage : undefined); } catch { return readStorage(); } }
 const initial = initialState();
@@ -54,6 +56,16 @@ export const useEditor = create<EditorState>((set) => ({
   ungroup: () => set(s => ({ project: { ...s.project, groups: s.project.groups.map(g => ({ ...g, cuts: g.cuts.filter(c => !s.project.selected.includes(c)) })) } })),
   moveGroup: (id, delta) => set(s => { const groups = [...s.project.groups]; const i = groups.findIndex(g => g.id === id); const j = i + delta; if (i >= 0 && j >= 0 && j < groups.length) [groups[i], groups[j]] = [groups[j], groups[i]]; return { project: { ...s.project, groups } }; }),
   reset: () => set({ project: freshProject(), library: { palettes: [], presets: [] } }),
+  layer: (cut, patch) => set(s => {
+    if (!knownCuts.has(cut) || !s.project.selected.includes(cut)) return s;
+    const value = Object.fromEntries(Object.entries({ ...s.project.layers[cut], ...patch }).filter(([, v]) => v !== undefined));
+    const layers = { ...s.project.layers };
+    if (Object.keys(value).length) layers[cut] = value; else delete layers[cut];
+    return { project: { ...s.project, layers } };
+  }),
+  resetLayer: cut => set(s => { const layers = { ...s.project.layers }; delete layers[cut]; return { project: { ...s.project, layers } }; }),
+  colorLayers: fill => set(s => ({ project: { ...s.project, layers: { ...s.project.layers,
+    ...Object.fromEntries(s.project.selected.map(cut => [cut, { ...s.project.layers[cut], fill }])) } } })),
 }));
 if (typeof window !== 'undefined') useEditor.subscribe(state => {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ project: state.project, library: state.library })); }
